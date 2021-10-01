@@ -5,10 +5,10 @@
 <img src="https://img.shields.io/badge/Study%20Status-Started-blue.svg" alt="Study Status: Started">
 
 - Analytics use case(s): **Characterization, Population-Level Estimation**
-- Study type: **Methods research**
+- Study type: **Methods Research**
 - Tags: **Mental Health, Health Equity, Claims, Depression, Bipolar Disorder, Suicide**
 - Study lead: **Jacob S. Zelko**
-- Study lead forums tag: **(TheCedarPrince)[https://forums.ohdsi.org/u/thecedarprince/summary]**
+- Study lead forums tag: **[TheCedarPrince](https://forums.ohdsi.org/u/thecedarprince/summary)**
 - Study start date: **September 16th, 2021**
 - Study end date: **N/A**
 - Protocol: **N/A**
