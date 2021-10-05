@@ -5,8 +5,8 @@ library("rjson")
 # TODO's for a First Pass #
 ###########################
 #
-# 1. Look up vocabulary concept codes 
-# 
+# 1. Look up vocabulary concept codes
+#
 # EXAMPLE:
 #    url <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/4273391/"
 #    result <- GET(url)
@@ -59,10 +59,29 @@ suicidality_code <- 4273391
 # Using JSON and sending it as an expression
 # See: http://webapidoc.ohdsi.org/index.html#-896907989
 bipolar_cohort <- fromJSON(file = "data/exp_raw/concept_sets/bipolar_disorder_atlas_concept_set.json")
+# idk why it's not working for me, but the path below works
+# ../MentalHealthEquity/R/data/exp_raw/concept_sets/bipolar_disorder_atlas_concept_set.json'
 url <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/resolveConceptSetExpression/"
 result <- POST(url, body = bipolar_cohort, encode = "json")
 
 # This gets you the information about a specific concept
-# See: http://webapidoc.ohdsi.org/index.html#-504206733 
+# See: http://webapidoc.ohdsi.org/index.html#-504206733
 url <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/4273391/"
 result <- GET(url)
+
+# This function takes in the concept ID for depression, bipolar, or suicidality and returns the
+get_cohort <- function(id, descendants){
+    if (descendants == TRUE) {
+        url = paste0('http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/', id, '/descendants/')
+        result <- GET(url)
+        return(result)
+    } else {
+        url = paste0('http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/', id)
+        result <- GET(url)
+        return(result)
+    }
+}
+
+a <- get_cohort(4273391, descendants = T);
+str(content(a))
+
