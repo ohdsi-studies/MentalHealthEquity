@@ -52,21 +52,21 @@ library("rjson")
 # result <- GET(url)
 
 # TODO: Get the descendants and mapped table codes for these concepts
-bipolar_id <- 436665
-depression_id<- 440383
-suicidality_id <- 4273391
+# bipolar_id <- 436665
+# depression_id<- 440383
+# suicidality_id <- 4273391
 
 # Using JSON and sending it as an expression
 # See: http://webapidoc.ohdsi.org/index.html#-896907989
-bipolar_cohort <- fromJSON(file = "data/exp_raw/concept_sets/bipolar_disorder_atlas_concept_set.json")
+# bipolar_cohort <- fromJSON(file = "data/exp_raw/concept_sets/bipolar_disorder_atlas_concept_set.json")
 
-url <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/resolveConceptSetExpression/"
-result <- POST(url, body = bipolar_cohort, encode = "json")
+# url <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/resolveConceptSetExpression/"
+# result <- POST(url, body = bipolar_cohort, encode = "json")
 
 # This gets you the information about a specific concept
 # See: http://webapidoc.ohdsi.org/index.html#-504206733
-url <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/440383/"
-result <- GET(url)
+# url <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/440383/"
+# result <- GET(url)
 
 
 
@@ -196,21 +196,3 @@ write.csv(get_concept_set(depression_cohort), file = paste0(base_filename, 'depr
 
 write.csv(get_concept_set(suicidality_cohort), file = paste0(base_filename, 'suicidality_concept_set.csv'))
 
-
-
-##### POTENTIAL ROADBLOCKS #####
-
-##SOLVED## are the queries case sensitive? I think the true/false syntax is not working for me. R uses all upper for T/F bools, but the example query is all in lowercase
-
-
-
-### Extra notes and random code chunks ###
-
-# for (i in 1:length(cd_suic)){
-#     print(cd_suic[[i]][1])
-# }
-
-# write(jsonlite::toJSON(data, pretty = T, auto_unbox = T), file = "../MentalHealthEquity/R/data/exp_raw/concept_sets/test.json")
-
-# idk why it's not working for me, but the path below works
-# ../MentalHealthEquity/R/data/exp_raw/concept_sets/bipolar_disorder_atlas_concept_set.json'
