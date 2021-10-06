@@ -87,9 +87,9 @@ get_json <- function(concept_set){
             items = list(
                 list(
                     concept = concept_set,
-                    isExcluded = 'false',
-                    includeDescendants = 'true',
-                    includeMapped = 'true')
+                    isExcluded = FALSE,
+                    includeDescendants = TRUE,
+                    includeMapped = TRUE)
             )
         ),
         pretty = T, auto_unbox = T)
@@ -100,25 +100,27 @@ get_json <- function(concept_set){
 
 write_json_file <- function(concept_set){
     if (concept_set$CONCEPT_ID == 436665){
-        condition = 'bipolar_disorder'
+        condition <- 'bipolar_disorder'
     } else if (concept_set$CONCEPT_ID == 440383){
-        condition == 'depression'
+        condition <- 'depression'
     } else if (concept_set$CONCEPT_ID == 4273391){
-        condition = 'suicidality'
+        condition <- 'suicidality'
+    } else {
+        condition <- 'INVALID'
     }
     jsontext <- jsonlite::toJSON(
         list(
             items = list(
                 list(
                     concept = concept_set,
-                    isExcluded = 'false',
-                    includeDescendants = 'true',
-                    includeMapped = 'true')
+                    isExcluded = FALSE,
+                    includeDescendants = TRUE,
+                    includeMapped = TRUE)
             )
         ),
         pretty = T, auto_unbox = T)
-    filename = paste0(condition, '_concept_set.json')
-    path = '../MentalHealthEquity/R/data/exp_raw/concept_sets/'
+    filename <- paste0(condition, '_concept_set.json')
+    path <- '../MentalHealthEquity/R/data/exp_raw/concept_sets/'
     return(
         write(jsontext, paste0(path, filename)))
 }
@@ -146,8 +148,59 @@ write_json_file(depression_concept)
 write_json_file(suicidality_concept)
 
 
+#### Getting all the relevant concept IDs related to each condition ####
+# this function will take in the condition:
+# bipolar_disorder, depression, or suicidality
+# it will return the response object and retrieve all of the concept IDs
+
+get_cohort <- function(condition){
+    condition <- substitute(condition)
+    filename <-  paste0("../MentalHealthEquity/R/data/exp_raw/concept_sets/", condition, "_concept_set.json")
+    condition_json <-  fromJSON(file = filename)
+    concept_set_url <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/resolveConceptSetExpression/"
+    cohort <-  POST(concept_set_url, body = condition_json, encode = "json")
+    return(cohort)
+}
 
 
+## Looping through the concept IDs and getting the json and writing it to a csv
+# this function takes in a cohort from the get_cohort function
+# and it returns the dataframe all the concept sets in the condition code
+
+get_concept_set <- function(cohort){
+    cohort_list <- list()
+    for (i in 1:length(content(cohort))){
+        concept_id = content(cohort)[i]
+        url_base <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/"
+        url <- paste0(url_base, concept_id, '/')
+        result <- GET(url)
+        df <- data.frame(content(result))
+        cohort_list[[i]] <- df
+    }
+    concept_set_df <- do.call(rbind, cohort_list)
+    return(concept_set_df)
+}
+
+
+#### Getting the cohorts ####
+bipolar_cohort <- get_cohort(bipolar_disorder)
+depression_cohort <- get_cohort(depression)
+suicidality_cohort <- get_cohort(suicidality)
+
+#### Writing the cohorts to csv files ####
+base_filename = "../MentalHealthEquity/R/data/exp_raw/concept_sets/"
+
+write.csv(get_concept_set(bipolar_cohort), file = paste0(base_filename, 'bipolar_disorder_concept_set.csv'))
+
+write.csv(get_concept_set(depression_cohort), file = paste0(base_filename, 'depression_concept_set.csv'))
+
+write.csv(get_concept_set(suicidality_cohort), file = paste0(base_filename, 'suicidality_concept_set.csv'))
+
+
+
+##### POTENTIAL ROADBLOCKS #####
+
+##SOLVED## are the queries case sensitive? I think the true/false syntax is not working for me. R uses all upper for T/F bools, but the example query is all in lowercase
 
 
 
