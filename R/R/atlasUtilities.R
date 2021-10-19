@@ -1,26 +1,44 @@
-library('httr')
-library('rjson')
+library("httr")
+library("rjson")
 
 #' Takes a valid OMOP Concept ID and returns a list of concept fields
 #'
 #' @param id Integer representing an OMOP Concept ID
 #'
-#' @return list Fields related to the concept 
+#' @return Properly formatted json text related to the concept ID.
+#' The json text is used for OHDSI Atlas queries
 #'
 #' @examples
-#' get_concept(436665)
+#' ## Retrieves the json text for the concept ID 436665 (bipolar disorder)
+#' bipolar_id <- 436665
+#' get_concept(bipolar_id)
+#' # {
+#' # "items": [
+#' #   {
+#' #     "concept": {
+#' #       "CONCEPT_ID": 436665,
+#' #       "CONCEPT_NAME": "Bipolar disorder",
+#' #       "STANDARD_CONCEPT": "S",
+#' #       "STANDARD_CONCEPT_CAPTION": "Standard",
+#' #       "INVALID_REASON": "V",
+#' #       "INVALID_REASON_CAPTION": "Valid",
+#' #       "CONCEPT_CODE": "13746004",
+#' #       "DOMAIN_ID": "Condition",
+#' #       "VOCABULARY_ID": "SNOMED",
+#' #       "CONCEPT_CLASS_ID": "Clinical Finding"
+#' #     },
+#' #     "isExcluded": false,
+#' #     "includeDescendants": true,
+#' #     "includeMapped": true
+#' #   }
+#' # ]
+#' # }
 #'
 #' @export
-get_concept <- function(id) {
+get_concept_atlas <- function(id) {
   url <- paste0("http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/", id)
-  result <- GET(url)
-  return(httr::content(result, "parsed"))
-}
-
-## This function takes in the concept set, and it returns the JSON file with the proper querying format
-## the proper format is given above but also in the bipolar_disorder_concept_set.json
-
-get_json <- function(concept_set) {
+  result <- httr::GET(url)
+  concept_set <- httr::content(result, type = "application/json")
   jsontext <- jsonlite::toJSON(
     list(
       items = list(
@@ -37,32 +55,34 @@ get_json <- function(concept_set) {
   return(jsontext)
 }
 
-#### Getting all the relevant concept IDs related to each condition ####
-# this function will take in the condition:
-# bipolar_disorder, depression, or suicidality
-# it will return the response object and retrieve all of the concept IDs
-
-get_cohort <- function(condition) {
-  condition <- substitute(condition)
-  filename <- paste0("../data/exp_raw/concept_sets/", condition, "_concept_set.json")
-  condition_json <- fromJSON(file = filename)
+#' Getting all the relevant concept IDs related to each condition.
+#' Takes a json filename corresponding to the condition and returns the condition concept set
+#'
+#' @param filename JSON filename corresponding to the condition
+#' (i.e bipolar disorder, depression, suicidality)
+#'
+#' @return DataFrame with descriptions of the related concept IDs
+#' @export
+#'
+#' @examples ## Retrieving the dataframe of related concepts associated with bipolar disorder
+#' filename <- "../data/exp_raw/concept_sets/bipolar_concept.json"
+#' get_concept_cohort(filename)
+#'
+#' # | CONCEPT_ID | CONCEPT_NAME         | ... | VOCABULARY_ID    | CONCEPT_CLASS_ID  |
+#' # | ---------- | -------------------- | --- | ---------------- | ----------------- |
+#' # | 432876     | Bipolar I disorder   | ... | SNOMED           | Clinical Finding  |
+#' # | 3220652    | Bipolar 1 disorder   | ... | Nebraska Lexicon | Clinical Finding  |
+#'
+get_concept_cohort <- function(filename) {
+  json_file <- rjson::fromJSON(file = filename)
   concept_set_url <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/resolveConceptSetExpression/"
-  cohort <- POST(concept_set_url, body = condition_json, encode = "json")
-  return(cohort)
-}
-
-## Looping through the concept IDs and getting the json and writing it to a csv
-# this function takes in a cohort from the get_cohort function
-# and it returns the dataframe all the concept sets in the condition code
-
-get_concept_set <- function(cohort) {
+  cohort <- httr::POST(concept_set_url, body = json_file, encode = "json")
   cohort_list <- list()
-  for (i in 1:length(content(cohort))) {
-    concept_id <- content(cohort)[i]
-    url_base <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/"
-    url <- paste0(url_base, concept_id, "/")
-    result <- GET(url)
-    df <- data.frame(content(result))
+  for (i in 1:length(httr::content(cohort, type = "application/json"))) {
+    concept_id <- httr::content(cohort, type = "application/json")[i]
+    url <- paste0("http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/", concept_id)
+    result <- httr::GET(url)
+    df <- data.frame(httr::content(result, type = "application/json"))
     cohort_list[[i]] <- df
   }
   concept_set_df <- do.call(rbind, cohort_list)
