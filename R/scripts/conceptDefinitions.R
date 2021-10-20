@@ -2,6 +2,7 @@ library("MentalHealthEquity")
 
 # source("atlasUtilities.R")
 # source("writeUtilities.R")
+# devtools::load_all()
 
 #### Getting the concept sets using concept ID and writing to json file####
 bipolar_id <- 436665
@@ -18,7 +19,6 @@ condition_json <- lapply(ids, FUN = get_concept_atlas)
 mapply(FUN = write, condition_json, condition_paths)
 
 
-### THEORETICAL LOGIC BEHIND THIS ### unsure
 # concept_sets should return a list of dataframes.
 # Each dataframe corresponds to the condition (bipolar, depression, suicidality)
 # mapply should be able to write each dataframe to its own separate path
@@ -27,4 +27,6 @@ mapply(FUN = write, condition_json, condition_paths)
 
 concept_paths <- paste0(base_filename, names, "_concept_set.csv")
 concept_sets <- lapply(condition_paths, FUN = get_concept_cohort)
-mapply(FUN = write, concept_sets, concept_paths)
+for (i in 1:length(concept_paths)) {
+  write.csv(concept_sets[[i]], concept_paths[[i]])
+}

@@ -33,10 +33,9 @@ library("rjson")
 #' #   }
 #' # ]
 #' # }
-#'
 #' @export
 get_concept_atlas <- function(id) {
-  url <- paste0("http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/", id)
+  url <- paste0("https://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/", id)
   result <- httr::GET(url)
   concept_set <- httr::content(result, type = "application/json")
   jsontext <- jsonlite::toJSON(
@@ -72,10 +71,9 @@ get_concept_atlas <- function(id) {
 #' # | ---------- | -------------------- | --- | ---------------- | ----------------- |
 #' # | 432876     | Bipolar I disorder   | ... | SNOMED           | Clinical Finding  |
 #' # | 3220652    | Bipolar 1 disorder   | ... | Nebraska Lexicon | Clinical Finding  |
-#'
 get_concept_cohort <- function(filename) {
   json_file <- rjson::fromJSON(file = filename)
-  concept_set_url <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/resolveConceptSetExpression/"
+  concept_set_url <- "https://atlas-demo.ohdsi.org/WebAPI/vocabulary/resolveConceptSetExpression/"
   cohort <- httr::POST(concept_set_url, body = json_file, encode = "json")
   cohort_list <- list()
   for (i in 1:length(httr::content(cohort, type = "application/json"))) {
