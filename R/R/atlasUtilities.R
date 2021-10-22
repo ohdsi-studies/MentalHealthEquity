@@ -34,7 +34,7 @@ library("rjson")
 #' # ]
 #' # }
 #' @export
-get_concept_atlas <- function(id) {
+get_atlas_concept <- function(id) {
   url <- paste0("https://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/", id)
   result <- httr::GET(url)
   concept_set <- httr::content(result, type = "application/json")
@@ -65,13 +65,13 @@ get_concept_atlas <- function(id) {
 #'
 #' @examples ## Retrieving the dataframe of related concepts associated with bipolar disorder
 #' filename <- "../data/exp_raw/concept_sets/bipolar_concept.json"
-#' get_concept_cohort(filename)
+#' get_atlas_concept_set(filename)
 #'
 #' # | CONCEPT_ID | CONCEPT_NAME         | ... | VOCABULARY_ID    | CONCEPT_CLASS_ID  |
 #' # | ---------- | -------------------- | --- | ---------------- | ----------------- |
 #' # | 432876     | Bipolar I disorder   | ... | SNOMED           | Clinical Finding  |
 #' # | 3220652    | Bipolar 1 disorder   | ... | Nebraska Lexicon | Clinical Finding  |
-get_concept_cohort <- function(filename) {
+get_atlas_concept_set <- function(filename) {
   json_file <- rjson::fromJSON(file = filename)
   concept_set_url <- "https://atlas-demo.ohdsi.org/WebAPI/vocabulary/resolveConceptSetExpression/"
   cohort <- httr::POST(concept_set_url, body = json_file, encode = "json")
