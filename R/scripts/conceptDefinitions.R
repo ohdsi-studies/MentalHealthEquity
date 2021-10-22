@@ -1,10 +1,10 @@
+# TODO: I cannot get the library to load properly and I still need to source the files to get proper functions needed in the renv environment
 library("MentalHealthEquity")
 
-# source("atlasUtilities.R")
-# source("writeUtilities.R")
-# devtools::load_all()
+source("R/atlasUtilities.R")
+source("R/writeUtilities.R")
 
-#### Getting the concept sets using concept ID and writing to json file####
+# Getting concept sets for condition using concept ID and writing to json file
 bipolar_id <- 436665
 depression_id <- 440383
 suicidality_id <- 4273391
@@ -12,21 +12,20 @@ suicidality_id <- 4273391
 ids <- c(bipolar_id, depression_id, suicidality_id)
 names <- c("bipolar", "depression", "suicidality")
 
-base_filename <- "../data/exp_raw/concept_sets/"
+base_filename <- "data/exp_raw/concept_sets/"
+
+# Output condition concept set JSON file paths
 condition_paths <- paste0(base_filename, names, "_concept.json")
 
-condition_json <- lapply(ids, FUN = get_concept_atlas)
+# Output condition concept set CSV file paths
+concept_paths <- paste0(base_filename, names, "_concept_set.csv")
+concept_sets <- lapply(condition_paths, FUN = get_atlas_concept_set)
+
+# Write condition concept set JSON representation to files
+condition_json <- lapply(ids, FUN = get_atlas_concept)
 mapply(FUN = write, condition_json, condition_paths)
 
-
-# concept_sets should return a list of dataframes.
-# Each dataframe corresponds to the condition (bipolar, depression, suicidality)
-# mapply should be able to write each dataframe to its own separate path
-# condition_paths is for the input json file name
-# concept_paths is the output file name for the dataframe csv
-
-concept_paths <- paste0(base_filename, names, "_concept_set.csv")
-concept_sets <- lapply(condition_paths, FUN = get_concept_cohort)
+# Write concepts from concept set to CSV
 for (i in 1:length(concept_paths)) {
   write.csv(concept_sets[[i]], concept_paths[[i]])
 }
