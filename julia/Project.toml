@@ -1,5 +1,6 @@
 name = "MentalHealthEquity"
 authors = ["Jacob Zelko", "Malina Hy"]
+uuid = "bafe38b8-8ee2-44b0-a3d8-30a645dc1bdc"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
