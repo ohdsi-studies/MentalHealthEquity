@@ -1,8 +1,9 @@
 name = "MentalHealthEquity"
-authors = ["Jacob Zelko", "Malina Hy"]
 uuid = "bafe38b8-8ee2-44b0-a3d8-30a645dc1bdc"
+authors = ["Jacob Zelko", "Malina Hy"]
 
 [deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 DrWatson = "634d3b9d-ee7a-5ddf-bec9-22491ea816e1"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
