@@ -1,5 +1,4 @@
 library("httr")
-library("rjson")
 
 #' Get Concept ID Details
 #'
@@ -83,7 +82,7 @@ get_atlas_concept <- function(id) {
 #' # | 3220652    | Bipolar 1 disorder   | ... | Nebraska Lexicon | Clinical Finding  |
 #'}
 get_atlas_concept_set <- function(filename) {
-  json_file <- rjson::fromJSON(file = filename)
+  json_file <- jsonlite::fromJSON(txt = filename)
   concept_set_url <- "https://atlas-demo.ohdsi.org/WebAPI/vocabulary/resolveConceptSetExpression/"
   cohort <- httr::POST(concept_set_url, body = json_file, encode = "json")
   if (cohort$status_code != 200) {

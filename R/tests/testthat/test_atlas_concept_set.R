@@ -1,5 +1,4 @@
 library(httr)
-library(rjson)
 library(jsonlite)
 
 check_api <- function(resp) {
@@ -16,7 +15,7 @@ test_that("Atlas API and Concept Set", {
   filename <- tempfile("suicidality", fileext = ".json")
   write(get_atlas_concept(4273391), file = filename)
   expect_true(file.exists(filename))
-  json_file <- rjson::fromJSON(file = filename)
+  json_file <- jsonlite::fromJSON(txt = filename)
   concept_set_url <- "https://atlas-demo.ohdsi.org/WebAPI/vocabulary/resolveConceptSetExpression/"
   cohort <- httr::POST(concept_set_url, body = json_file, encode = "json")
   check_api(cohort)

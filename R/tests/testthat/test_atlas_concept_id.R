@@ -1,5 +1,4 @@
 library(httr)
-library(rjson)
 library(jsonlite)
 
 check_api <- function(resp) {
