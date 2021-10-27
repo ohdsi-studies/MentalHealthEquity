@@ -2,8 +2,7 @@
 % Please edit documentation in R/atlasUtilities.R
 \name{get_atlas_concept_set}
 \alias{get_atlas_concept_set}
-\title{Getting all the relevant concept IDs related to each condition.
-Takes a json filename corresponding to the condition and returns the condition concept set}
+\title{Get the Concept Set with related Concept IDs details}
 \usage{
 get_atlas_concept_set(filename)
 }
@@ -20,11 +19,13 @@ Takes a json filename corresponding to the condition and returns the condition c
 }
 \examples{
 ## Retrieving the dataframe of related concepts associated with bipolar disorder
-filename <- "../data/exp_raw/concept_sets/bipolar_concept.json"
+\dontrun{
+filename <- "data/exp_raw/concept_sets/bipolar_concept.json"
 get_atlas_concept_set(filename)
 
 # | CONCEPT_ID | CONCEPT_NAME         | ... | VOCABULARY_ID    | CONCEPT_CLASS_ID  |
 # | ---------- | -------------------- | --- | ---------------- | ----------------- |
 # | 432876     | Bipolar I disorder   | ... | SNOMED           | Clinical Finding  |
 # | 3220652    | Bipolar 1 disorder   | ... | Nebraska Lexicon | Clinical Finding  |
+}
 }

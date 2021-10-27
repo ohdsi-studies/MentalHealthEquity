@@ -2,7 +2,6 @@
 library("MentalHealthEquity")
 
 source("R/atlasUtilities.R")
-source("R/writeUtilities.R")
 
 # Getting concept sets for condition using concept ID and writing to json file
 bipolar_id <- 436665
@@ -17,15 +16,17 @@ base_filename <- "data/exp_raw/concept_sets/"
 # Output condition concept set JSON file paths
 condition_paths <- paste0(base_filename, names, "_concept.json")
 
-# Output condition concept set CSV file paths
-concept_paths <- paste0(base_filename, names, "_concept_set.csv")
-concept_sets <- lapply(condition_paths, FUN = get_atlas_concept_set)
-
 # Write condition concept set JSON representation to files
 condition_json <- lapply(ids, FUN = get_atlas_concept)
 mapply(FUN = write, condition_json, condition_paths)
+
+# Output condition concept set CSV file paths
+concept_paths <- paste0(base_filename, names, "_concept_set.csv")
+concept_sets <- lapply(condition_paths, FUN = get_atlas_concept_set)
 
 # Write concepts from concept set to CSV
 for (i in 1:length(concept_paths)) {
   write.csv(concept_sets[[i]], concept_paths[[i]])
 }
+
+

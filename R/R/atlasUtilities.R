@@ -1,6 +1,8 @@
 library("httr")
 library("rjson")
 
+#' Get Concept ID Details
+#'
 #' Takes a valid OMOP Concept ID and returns a list of concept fields
 #'
 #' @param id Integer representing an OMOP Concept ID
@@ -11,7 +13,7 @@ library("rjson")
 #' @examples
 #' ## Retrieves the json text for the concept ID 436665 (bipolar disorder)
 #' bipolar_id <- 436665
-#' get_concept(bipolar_id)
+#' get_atlas_concept(bipolar_id)
 #' # {
 #' # "items": [
 #' #   {
@@ -37,6 +39,11 @@ library("rjson")
 get_atlas_concept <- function(id) {
   url <- paste0("https://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/", id)
   result <- httr::GET(url)
+  if (httr::http_type(result) != "application/json") {
+    stop("Atlas WebAPI did not return json", call. = FALSE)
+  } else if (httr::status_code(result) == 500) {
+    stop("Atlas WebAPI is unavailable")
+  }
   concept_set <- httr::content(result, type = "application/json")
   jsontext <- jsonlite::toJSON(
     list(
@@ -54,6 +61,8 @@ get_atlas_concept <- function(id) {
   return(jsontext)
 }
 
+#' Get the Concept Set with related Concept IDs details
+#'
 #' Getting all the relevant concept IDs related to each condition.
 #' Takes a json filename corresponding to the condition and returns the condition concept set
 #'
@@ -64,21 +73,26 @@ get_atlas_concept <- function(id) {
 #' @export
 #'
 #' @examples ## Retrieving the dataframe of related concepts associated with bipolar disorder
-#' filename <- "../data/exp_raw/concept_sets/bipolar_concept.json"
+#' \dontrun{
+#' filename <- "data/exp_raw/concept_sets/bipolar_concept.json"
 #' get_atlas_concept_set(filename)
 #'
 #' # | CONCEPT_ID | CONCEPT_NAME         | ... | VOCABULARY_ID    | CONCEPT_CLASS_ID  |
 #' # | ---------- | -------------------- | --- | ---------------- | ----------------- |
 #' # | 432876     | Bipolar I disorder   | ... | SNOMED           | Clinical Finding  |
 #' # | 3220652    | Bipolar 1 disorder   | ... | Nebraska Lexicon | Clinical Finding  |
+#'}
 get_atlas_concept_set <- function(filename) {
   json_file <- rjson::fromJSON(file = filename)
   concept_set_url <- "https://atlas-demo.ohdsi.org/WebAPI/vocabulary/resolveConceptSetExpression/"
   cohort <- httr::POST(concept_set_url, body = json_file, encode = "json")
+  if (cohort$status_code != 200) {
+    stop("Atlas WebAPI unavailable or invalid JSON input")
+  }
   cohort_list <- list()
   for (i in 1:length(httr::content(cohort, type = "application/json"))) {
     concept_id <- httr::content(cohort, type = "application/json")[i]
-    url <- paste0("http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/", concept_id)
+    url <- paste0("https://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/", concept_id)
     result <- httr::GET(url)
     df <- data.frame(httr::content(result, type = "application/json"))
     cohort_list[[i]] <- df

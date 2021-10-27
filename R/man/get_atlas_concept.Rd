@@ -2,7 +2,7 @@
 % Please edit documentation in R/atlasUtilities.R
 \name{get_atlas_concept}
 \alias{get_atlas_concept}
-\title{Takes a valid OMOP Concept ID and returns a list of concept fields}
+\title{Get Concept ID Details}
 \usage{
 get_atlas_concept(id)
 }
@@ -19,7 +19,7 @@ Takes a valid OMOP Concept ID and returns a list of concept fields
 \examples{
 ## Retrieves the json text for the concept ID 436665 (bipolar disorder)
 bipolar_id <- 436665
-get_concept(bipolar_id)
+get_atlas_concept(bipolar_id)
 # {
 # "items": [
 #   {
