@@ -1,0 +1,5 @@
+[deps]
+HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
+ReferenceTests = "324d217c-45ce-50fc-942e-d289b448e8cf"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
