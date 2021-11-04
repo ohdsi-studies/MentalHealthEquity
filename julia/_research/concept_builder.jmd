@@ -40,8 +40,9 @@ headers = [
     "CONCEPT_CLASS_ID",
 ]
 for condition in keys(conditions)
+    contents = read(datadir("exp_raw", "queries", "$(condition)_concept.json"), String)
     concept_list =
-        get_atlas_concept_set(datadir("exp_raw", "queries", "$(condition)_concept.json"))
+        get_atlas_concept_set(contents)
     df = DataFrame()
     for concept_id in concept_list
         concept = get_atlas_concept(concept_id) |> JSON3.read
