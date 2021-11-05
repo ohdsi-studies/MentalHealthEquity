@@ -1,0 +1,222 @@
+---
+title: "Characterize a Given OMOP CDM Database"
+output: pdf_document
+---
+# Initial Set-Up
+
+## Activating Project Environment
+
+```{r setup}
+knitr::opts_chunk$set(echo = TRUE, message = F, results = 'hold')
+options(scipen=999) 
+devtools::load_all()
+library(MentalHealthEquity)
+```
+
+## Packages Used in Analysis
+
+`r library(DatabaseConnector)`
+
+`DatabaseConnector`
+
+Package Description:
+
+This package will be used to create connections to the database and execute queries to obtain characterizations about the cohorts in the database. 
+
+# Introduction
+
+## Background
+
+The intent of this report is to investigate the characterization statement:
+
+> **Characterization Statement 1:** Characterize the individuals being seen for mental health care services (related to depression, bipolar disorder, and suicidality) at least one time – including hospitalization events.
+
+This characterization statement is founded on the central research topic for this study:
+
+> **Research Topic:** Based on [CLAIMS], we see X% of all persons with at least one claim indicating [DEPRESSION/BIPOLAR DISORDER/SUICIDALITY] are not seen again.
+
+By which the phrases "…all persons…" refer to those seen by patience care provider, etc. and "…are not seen again." implies lack of adherence to care.
+
+
+# Data Analysis Preparation
+
+## Creating Initial Connection
+
+Defining connection details for connecting to a given database:
+
+```{r Establishing Connection}
+connectionDetails <- createConnectionDetails(
+  dbms = "postgresql",
+  server = "data.hdap.gatech.edu/synpuf_v5",
+  user = keyring::key_list("synPUF")[1,2],
+  password = keyring::key_get("synPUF", keyring::key_list("synPUF")[1,2]),
+  port = 5434,
+  pathToDriver = "../utils"
+)
+```
+
+
+## Creating Initial OMOP Tables
+
+In this case, the schema follows the [OMOP CDM v5](https://ohdsi.github.io/CommonDataModel/index.html) schema:
+
+```
+```
+
+For this analysis, we will work with the following tables from the schema:
+
+```
+```
+
+<!--TODO: Add description on what these tables are from the Book of OHDSI-->
+Per the [Book of OHDSI], here are the break downs for these tables:
+
+- `PERSON` - 
+- `LOCATION` - 
+- `OBSERVATION_PERIOD` - 
+- `CONDITION_OCCURRENCE` -
+
+
+
+## General Characterization of Data
+
+```{r Joined SQL for Demographics}
+sql <- "
+  SELECT @table.@concept_name, count(*)
+  FROM person 
+      LEFT JOIN (select LOCATION_ID, STATE FROM location) AS location ON 
+        person.location_id = location.location_id
+      LEFT JOIN (select * FROM concept WHERE DOMAIN_ID = 'Race' 
+              AND STANDARD_CONCEPT = 'S') AS race ON
+        person.race_concept_id = race.concept_id
+      LEFT JOIN (select * FROM concept WHERE DOMAIN_ID = 'Ethnicity' 
+              AND STANDARD_CONCEPT = 'S') AS ethnicity ON
+        person.ethnicity_concept_id = ethnicity.concept_id
+      LEFT JOIN (select * FROM concept WHERE DOMAIN_ID = 'Gender' 
+              AND STANDARD_CONCEPT = 'S') AS gender ON
+        person.gender_concept_id = gender.concept_id
+  GROUP BY @table.@concept_name
+  ORDER BY count(*) DESC
+"
+```
+
+# Cohort Populations
+
+## General Cohort
+
+### Overall Trends
+
+```{r Overall Admit Dates}
+conn <- connect(connectionDetails)
+date_sql <- "
+  SELECT  MIN(visit.visit_end_date) as first_visit,
+          MAX(visit.visit_end_date) as last_visit
+  FROM visit_occurrence visit
+"
+dates <- renderTranslateQuerySql(conn, date_sql)
+disconnect(conn)
+dates
+```
+
+The dates in the dataset range from `r dates$FIRST_VISIT` and `r dates$LAST_VISIT`
+
+#### Patient Spread
+
+This calculates the number of patients in the dataset:
+
+```{r Overall Count}
+conn <- connect(connectionDetails)
+count <- querySql(conn, sql = "SELECT COUNT(DISTINCT PERSON_ID) FROM PERSON")
+disconnect(conn)
+```
+
+In this dataset, there are `r count` patients.
+To further examine this data, we can break them down across the following axes:
+
+- State
+- Age
+- Race
+- Gender
+- Care setting
+
+
+##### State Breakdown
+
+```{r Overall Location}
+conn <- connect(connectionDetails)
+state <- renderTranslateQuerySql(conn, sql, table = "location", concept_name = "state")
+disconnect(conn)
+
+```
+
+The top states are: `r head(state, n = 10)$STATE`
+
+`r knitr::kable(head(state, n = 10))`
+
+
+##### Age Breakdown
+
+```{r Overall Age of Admit}
+conn <- connect(connectionDetails)
+age_sql <- "
+  SELECT  MIN(YEAR(visit.visit_end_date) - person.year_of_birth) as min_age, 
+          MAX(YEAR(visit.visit_end_date) - person.year_of_birth) as max_age
+  FROM person
+    JOIN visit_occurrence visit ON
+      person.person_id = visit.person_id
+"
+age <- renderTranslateQuerySql(conn, age_sql)
+disconnect(conn)
+age
+```
+
+The age of the patient at the time of visit ranged from `r dates$MIN_AGE` years of age to `r dates$MAX_AGE` years of age. 
+
+
+##### Racial Breakdown
+
+```{r Overall Race}
+conn <- connect(connectionDetails)
+race <- renderTranslateQuerySql(conn, sql, table = "race", concept_name= "concept_name")
+disconnect(conn)
+race
+```
+
+In the dataset, there are `r mapply(paste, race$COUNT, race$CONCEPT_NAME, "persons")`
+`r knitr::kable(race)`
+
+
+##### Gender Breakdown
+
+```{r Overall Gender}
+conn <- connect(connectionDetails)
+gender <- renderTranslateQuerySql(conn, sql, table = "gender", concept_name = "concept_name")
+disconnect(conn)
+gender
+```
+
+In the dataset, there are `r mapply(paste, gender$COUNT, gender$CONCEPT_NAME, "persons")`
+`r knitr::kable(gender)`
+
+
+##### Care Site Breakdown
+
+```{r Overall Care Site}
+conn <- connect(connectionDetails)
+caresite_sql <- "
+  SELECT concept.concept_name, count(*)
+  FROM visit_occurrence visit 
+    JOIN (SELECT CONCEPT_NAME , CONCEPT_ID
+          FROM concept 
+          WHERE DOMAIN_ID = 'Visit' 
+              AND STANDARD_CONCEPT = 'S') concept ON
+      visit.visit_concept_id = concept.concept_id
+  GROUP BY concept.concept_name
+  ORDER BY count(*) DESC
+"
+care_site <- renderTranslateQuerySql(conn, caresite_sql)
+disconnect(conn)
+care_site
+```
+
+In the dataset, the care site setting `r mapply(paste, care_site$CONCEPT_NAME, "had", care_site$COUNT, "visits")`
