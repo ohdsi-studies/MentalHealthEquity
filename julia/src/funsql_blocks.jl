@@ -8,4 +8,4 @@ function get_deduplicated_columns(q, primary, tables)
 	return final_query
 end
 
-# TODO: add this in package as export
+export get_deduplicated_columns
