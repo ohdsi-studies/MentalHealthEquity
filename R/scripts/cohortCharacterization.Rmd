@@ -7,7 +7,7 @@ output: pdf_document
 ## Activating Project Environment
 
 ```{r setup}
-knitr::opts_chunk$set(echo = TRUE, message = F, results = 'hold')
+knitr::opts_chunk$set(echo = TRUE, message = F, results = 'hold', cache = T)
 options(scipen=999) 
 devtools::load_all()
 library(MentalHealthEquity)
@@ -15,7 +15,9 @@ library(MentalHealthEquity)
 
 ## Packages Used in Analysis
 
-`r library(DatabaseConnector)`
+```{r Libraries and Packages}
+library(DatabaseConnector)
+```
 
 `DatabaseConnector`
 
@@ -80,23 +82,37 @@ Per the [Book of OHDSI], here are the break downs for these tables:
 
 ## General Characterization of Data
 
+```{r include = F}
+# The next SQL query takes 3 parameters: 
+# the table/domain, 
+# concept name (demographic is default concept name, but location is diff)
+# a bool var for specific demographic or entire table
+```
+
 ```{r Joined SQL for Demographics}
 sql <- "
-  SELECT @table.@concept_name, count(*)
+  SELECT {@x} ? {@table.@concept_name, count(DISTINCT PERSON_ID)} : {*}
   FROM person 
-      LEFT JOIN (select LOCATION_ID, STATE FROM location) AS location ON 
+      LEFT JOIN (SELECT LOCATION_ID, STATE FROM location) AS location ON 
         person.location_id = location.location_id
-      LEFT JOIN (select * FROM concept WHERE DOMAIN_ID = 'Race' 
-              AND STANDARD_CONCEPT = 'S') AS race ON
+      LEFT JOIN (SELECT CONCEPT_ID, 
+                    CONCEPT_NAME as RACE_CONCEPT_NAME  
+                  FROM concept WHERE DOMAIN_ID = 'Race' 
+                  AND STANDARD_CONCEPT = 'S') AS race ON
         person.race_concept_id = race.concept_id
-      LEFT JOIN (select * FROM concept WHERE DOMAIN_ID = 'Ethnicity' 
-              AND STANDARD_CONCEPT = 'S') AS ethnicity ON
+      LEFT JOIN ( SELECT CONCEPT_ID, 
+                    CONCEPT_NAME as ETHNICITY_CONCEPT_NAME 
+                  FROM concept WHERE DOMAIN_ID = 'Ethnicity' 
+                    AND STANDARD_CONCEPT = 'S') AS ethnicity ON
         person.ethnicity_concept_id = ethnicity.concept_id
-      LEFT JOIN (select * FROM concept WHERE DOMAIN_ID = 'Gender' 
-              AND STANDARD_CONCEPT = 'S') AS gender ON
+      LEFT JOIN (SELECT CONCEPT_ID, 
+                    CONCEPT_NAME as GENDER_CONCEPT_NAME 
+                  FROM concept WHERE DOMAIN_ID = 'Gender' 
+                  AND STANDARD_CONCEPT = 'S') AS gender ON
         person.gender_concept_id = gender.concept_id
-  GROUP BY @table.@concept_name
-  ORDER BY count(*) DESC
+  {@x}? {GROUP BY @table.@concept_name
+        ORDER BY COUNT DESC} :
+        {LIMIT 10}
 "
 ```
 
@@ -115,7 +131,6 @@ date_sql <- "
 "
 dates <- renderTranslateQuerySql(conn, date_sql)
 disconnect(conn)
-dates
 ```
 
 The dates in the dataset range from `r dates$FIRST_VISIT` and `r dates$LAST_VISIT`
@@ -144,9 +159,9 @@ To further examine this data, we can break them down across the following axes:
 
 ```{r Overall Location}
 conn <- connect(connectionDetails)
-state <- renderTranslateQuerySql(conn, sql, table = "location", concept_name = "state")
+state <- renderTranslateQuerySql(conn, sql, table = "location", 
+                                 concept_name = "state", x = T)
 disconnect(conn)
-
 ```
 
 The top states are: `r head(state, n = 10)$STATE`
@@ -167,22 +182,21 @@ age_sql <- "
 "
 age <- renderTranslateQuerySql(conn, age_sql)
 disconnect(conn)
-age
 ```
 
-The age of the patient at the time of visit ranged from `r dates$MIN_AGE` years of age to `r dates$MAX_AGE` years of age. 
+The age of the patient at the time of visit ranged from `r age$MIN_AGE` years of age to `r age$MAX_AGE` years of age. 
 
 
 ##### Racial Breakdown
 
 ```{r Overall Race}
 conn <- connect(connectionDetails)
-race <- renderTranslateQuerySql(conn, sql, table = "race", concept_name= "concept_name")
+race <- renderTranslateQuerySql(conn, sql, table = "race", 
+                                concept_name= "RACE_CONCEPT_NAME", x = T)
 disconnect(conn)
-race
 ```
 
-In the dataset, there are `r mapply(paste, race$COUNT, race$CONCEPT_NAME, "persons")`
+In the dataset, there are `r mapply(paste, race$COUNT, race$RACE_CONCEPT_NAME, "persons")`
 `r knitr::kable(race)`
 
 
@@ -190,12 +204,12 @@ In the dataset, there are `r mapply(paste, race$COUNT, race$CONCEPT_NAME, "perso
 
 ```{r Overall Gender}
 conn <- connect(connectionDetails)
-gender <- renderTranslateQuerySql(conn, sql, table = "gender", concept_name = "concept_name")
+gender <- renderTranslateQuerySql(conn, sql, table = "gender", 
+                                  concept_name = "GENDER_CONCEPT_NAME", x = T)
 disconnect(conn)
-gender
 ```
 
-In the dataset, there are `r mapply(paste, gender$COUNT, gender$CONCEPT_NAME, "persons")`
+In the dataset, there are `r mapply(paste, gender$COUNT, gender$GENDER_CONCEPT_NAME, "persons")`
 `r knitr::kable(gender)`
 
 
@@ -204,7 +218,8 @@ In the dataset, there are `r mapply(paste, gender$COUNT, gender$CONCEPT_NAME, "p
 ```{r Overall Care Site}
 conn <- connect(connectionDetails)
 caresite_sql <- "
-  SELECT concept.concept_name, count(*)
+  SELECT concept.concept_name, count(*) VISIT_COUNT, 
+    count(DISTINCT visit.person_id) PERSON_COUNT
   FROM visit_occurrence visit 
     JOIN (SELECT CONCEPT_NAME , CONCEPT_ID
           FROM concept 
@@ -216,7 +231,154 @@ caresite_sql <- "
 "
 care_site <- renderTranslateQuerySql(conn, caresite_sql)
 disconnect(conn)
-care_site
 ```
 
-In the dataset, the care site setting `r mapply(paste, care_site$CONCEPT_NAME, "had", care_site$COUNT, "visits")`
+In the dataset, there are `r care_site$PERSON_COUNT` unique patients with an indicated care site. The care site setting `r mapply(paste, care_site$CONCEPT_NAME, "had", care_site$VISIT_COUNT, "visits")` 
+`r knitr::kable(care_site)`
+
+
+
+\newpage
+
+
+## Inpatient Cohort
+
+### Overall Trends
+
+#### Patient Spread
+
+This calculates the number of patients in the dataset:
+
+```{r Inpatient Total}
+conn <- connect(connectionDetails)
+inpatient_sql <- "
+  SELECT @query
+  FROM (SELECT *
+        FROM visit_occurrence visit
+        JOIN
+          ( SELECT CONCEPT_NAME , CONCEPT_ID
+            FROM concept
+            WHERE DOMAIN_ID = 'Visit'
+            AND STANDARD_CONCEPT = 'S') concept
+        ON visit.VISIT_CONCEPT_ID = concept.CONCEPT_ID
+        WHERE LOWER(concept.CONCEPT_NAME) LIKE '%@a%'
+        ) VISIT_INFO
+  JOIN
+    ( SELECT *
+      FROM person
+          LEFT JOIN (SELECT LOCATION_ID, STATE FROM location) AS location ON
+            person.location_id = location.location_id
+          LEFT JOIN (SELECT CONCEPT_ID,
+                        CONCEPT_NAME as RACE_CONCEPT_NAME
+                      FROM concept WHERE DOMAIN_ID = 'Race'
+                      AND STANDARD_CONCEPT = 'S') AS race ON
+            person.race_concept_id = race.concept_id
+          LEFT JOIN ( SELECT CONCEPT_ID,
+                        CONCEPT_NAME as ETHNICITY_CONCEPT_NAME
+                      FROM concept WHERE DOMAIN_ID = 'Ethnicity'
+                        AND STANDARD_CONCEPT = 'S') AS ethnicity ON
+            person.ethnicity_concept_id = ethnicity.concept_id
+          LEFT JOIN (SELECT CONCEPT_ID,
+                        CONCEPT_NAME as GENDER_CONCEPT_NAME
+                      FROM concept WHERE DOMAIN_ID = 'Gender'
+                      AND STANDARD_CONCEPT = 'S') AS gender ON
+            person.gender_concept_id = gender.concept_id) DEMO_INFO
+  USING(PERSON_ID)
+  {@x} ? {GROUP BY DEMO_INFO.@concept_name
+          ORDER BY COUNT DESC}
+"
+inpatient <- renderTranslateQuerySql(conn, 
+                                     inpatient_sql, 
+                                     x = F, a = "inpatient", 
+                                     query = "COUNT(*) VISIT_COUNT, 
+                                     COUNT(DISTINCT PERSON_ID) PERSON_COUNT
+                                     ")
+disconnect(conn)
+```
+
+In the inpatient cohort, there are a total of `r inpatient$PERSON_COUNT` distinct patients, and there are a total of `r inpatient$VISIT_COUNT` entries. Compared to the original unique person count in the overall dataset, which is `r count`, `r count - inpatient$PERSON_COUNT` are not accounted for in the inpatient count. 
+
+To further examine this data, we can break them down across the following axes:
+
+- State
+- Age
+- Race
+- Gender
+- Care setting
+
+##### State Breakdown
+```{r Inpatient State}
+conn <- connect(connectionDetails)
+inpatient_state <- renderTranslateQuerySql(conn, inpatient_sql, x = T, a = "inpatient",
+                        query = "DEMO_INFO.state, COUNT(DISTINCT PERSON_ID)",
+                        concept_name = "state")
+disconnect(conn)
+```
+
+In the inpatient cohort, the top 5 states by person count are 
+`r knitr::kable(head(inpatient_state, n = 10))`
+
+##### Age Breakdown
+
+```{r Inpatient Age} 
+conn <- connect(connectionDetails)
+inpatient_age <- renderTranslateQuerySql(conn, inpatient_sql,
+                                   x = F, a = "inpatient",
+                                   query = "
+                MIN(YEAR(VISIT_INFO.visit_end_date) -                                   
+                  DEMO_INFO.year_of_birth) as min_age, 
+                MAX(YEAR(VISIT_INFO.visit_end_date) - DEMO_INFO.year_of_birth) 
+                  as max_age, 
+                SUM(CASE WHEN YEAR(VISIT_INFO.visit_end_date) - 
+                  DEMO_INFO.year_of_birth < 18 THEN 1 END) AS less_than_18,
+                SUM(CASE WHEN YEAR(VISIT_INFO.visit_end_date) -                              
+                  DEMO_INFO.year_of_birth BETWEEN 18 AND 24 THEN 1 END) AS age_18_to_24,
+                SUM(CASE WHEN YEAR(VISIT_INFO.visit_end_date) -                              
+                  DEMO_INFO.year_of_birth BETWEEN 25 AND 34 THEN 1 END) AS age_25_to_35,
+                SUM(CASE WHEN YEAR(VISIT_INFO.visit_end_date) -                              
+                  DEMO_INFO.year_of_birth BETWEEN 35 AND 44 THEN 1 ELSE 0 END) AS age_35_44,
+                SUM(CASE WHEN YEAR(VISIT_INFO.visit_end_date) -                              
+                  DEMO_INFO.year_of_birth BETWEEN 45 AND 54 THEN 1 ELSE 0 END) AS age_45_54,
+                SUM(CASE WHEN YEAR(VISIT_INFO.visit_end_date) -                              
+                  DEMO_INFO.year_of_birth BETWEEN 55 AND 64 THEN 1 ELSE 0 END) AS age_55_64,
+                SUM(CASE WHEN YEAR(VISIT_INFO.visit_end_date) -                              
+                  DEMO_INFO.year_of_birth >= 65 THEN 1 ELSE 0 END) AS age_65_and_more")
+disconnect(conn)
+```
+In the inpatient dataset, it takes in the visit encounters, and the ages for the individuals were found according to the time of the inpatient visit. 
+The youngest individual was of age `r inpatient_age$MIN_AGE`, and the oldest individual was of age `r inpatient_age$MAX_AGE`
+
+##### Racial Breakdown
+```{r Inpatient Race}
+conn <- connect(connectionDetails)
+inpatient_race <- renderTranslateQuerySql(conn, inpatient_sql, 
+                                          x = T, 
+                                          a = "inpatient", 
+                                          concept_name = "RACE_CONCEPT_NAME", 
+                                          query = "
+                                          DEMO_INFO.RACE_CONCEPT_NAME, 
+                                          COUNT(DISTINCT PERSON_ID)")
+disconnect(conn)
+```
+
+In the inpatient cohort, there are `r mapply(paste, inpatient_race$COUNT, inpatient_race$RACE_CONCEPT_NAME, "persons")`
+`r knitr::kable(inpatient_race)`
+
+
+##### Gender Breakdown
+
+```{r Inpatient Gender}
+conn <- connect(connectionDetails)
+inpatient_gender <- renderTranslateQuerySql(conn, inpatient_sql, 
+                        x = T, a = "inpatient", 
+                        concept_name = "GENDER_CONCEPT_NAME", 
+                        query = "
+                        DEMO_INFO.GENDER_CONCEPT_NAME, 
+                        COUNT(DISTINCT PERSON_ID)
+                        ")
+disconnect(conn)
+```
+In the inpatient cohort, there are 
+`r mapply(paste, inpatient_gender$COUNT, inpatient_gender$GENDER_CONCEPT_NAME, "persons")`
+`r knitr::kable(inpatient_gender)`
+
