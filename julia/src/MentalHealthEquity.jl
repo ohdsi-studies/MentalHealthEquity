@@ -1,5 +1,6 @@
 module MentalHealthEquity
 
+using DrWatson
 using HTTP
 using JSON3
 
