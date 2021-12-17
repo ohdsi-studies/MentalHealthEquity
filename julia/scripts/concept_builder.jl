@@ -1,32 +1,22 @@
-```julia
 using DrWatson
 @quickactivate "MentalHealthEquity"
-```
 
-
-```julia
 using CSV
 using DataFrames
 using HTTP
 using JSON3
 using MentalHealthEquity
-```
 
-```julia
 conditions =
     Dict("bipolar_disorder" => 436665, "depression" => 440383, "suicidality" => 4273391)
-```
 
-```julia
 for condition in keys(conditions)
     json = get_atlas_concept(conditions[condition])
     file = open(datadir("exp_raw", "queries", "$(condition)_concept.json"), "w")
     JSON3.pretty(file, json)
     close(file)
 end
-```
 
-```julia
 for condition in keys(conditions)
     contents = read(datadir("exp_raw", "queries", "$(condition)_concept.json"), String)
     concept_list =
@@ -41,8 +31,3 @@ for condition in keys(conditions)
         df;
     )
 end
-```
-
-```julia
-# TODO: Create weave routine to create notebooks and scripts
-```
