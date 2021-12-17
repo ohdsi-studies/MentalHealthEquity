@@ -1,20 +1,22 @@
-Assessing Health Equity in Mental Healthcare Delivery Using a Federated Network Research Model
-=============================================================================
+# MentalHealthEquity
 
-<img src="https://img.shields.io/badge/Study%20Status-Started-blue.svg" alt="Study Status: Started">
+This code base is using the Julia Language and [DrWatson](https://juliadynamics.github.io/DrWatson.jl/stable/)
+to make a reproducible scientific project named
+> MentalHealthEquity
 
-- Analytics use case(s): **Characterization, Population-Level Estimation**
-- Study type: **Methods Research**
-- Tags: **Mental Health, Health Equity, Claims, Depression, Bipolar Disorder, Suicide**
-- Study lead: **Jacob S. Zelko**
-- Study lead forums tag: **[TheCedarPrince](https://forums.ohdsi.org/u/thecedarprince/summary)**
-- Study start date: **September 16, 2021**
-- Study end date: **N/A**
-- Protocol: **N/A**
-- Publications: **N/A**
-- Results explorer: **N/A**
+It is authored by Jacob Zelko, Malina Hy.
 
-For this effort, we conduct a federated network research study utilizing claims and EHR data alongside existing survey data. 
-Through this analysis, we will develop clinical phenotypes around mental health conditions and build analytics packages to uncover unknown relationships between claims, EHR, and survey data.
-This effort could lead health officials to implement better informed interventions that will increase equitable access to mental healthcare across vulnerable populations, supports efforts to decrease acute mental health-related morbidities, and improve the efficacy of health spending.
+To (locally) reproduce this project, do the following:
 
+0. Download this code base. Notice that raw data are typically not included in the
+   git-history and may need to be downloaded independently.
+1. Open a Julia console and do:
+   ```
+   julia> using Pkg
+   julia> Pkg.add("DrWatson") # install globally, for using `quickactivate`
+   julia> Pkg.activate("path/to/this/project")
+   julia> Pkg.instantiate()
+   ```
+
+This will install all necessary packages for you to be able to run the scripts and
+everything should work out of the box, including correctly finding local paths.
