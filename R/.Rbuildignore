@@ -5,3 +5,4 @@
 /writeUtilities.R
 ^LICENSE\.md$
 /exp_raw/*
+^\.github$
