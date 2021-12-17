@@ -1,0 +1,1257 @@
+# Initial Set-Up
+
+## Activating Project Environment
+
+```julia
+using DrWatson
+@quickactivate "MentalHealthEquity"
+```
+
+## Packages Used in Analysis
+
+```julia
+using CSV
+using DBInterface
+using Makie
+using CairoMakie
+using LibPQ
+using DataFrames
+using Statistics
+using MentalHealthEquity
+using Shapefile
+using Weave
+using FunSQL:
+    SQLTable,
+    Agg,
+    As,
+    Define,
+    From,
+    Fun,
+    Get,
+    Group,
+    Join,
+    Order,
+    Select,
+    Where,
+    render,
+    Limit
+```
+
+Package descriptions:
+
+- [`DataFrames`](https://github.com/JuliaData/DataFrames.jl) - Julia's dataframe handler for easily manipulating data
+
+- [`DrWatson`](https://github.com/JuliaDynamics/DrWatson.jl) - Incredibly helpful tool for managing Julia-based scientific experiments and exploration
+
+- [`Makie`](https://github.com/JuliaPlots/Makie.jl) - Data visualization ecosystem for the Julia programming language, with high performance and extensibility
+
+- [`Statistics`](https://github.com/JuliaLang/Statistics.jl) - Julia's standard library for useful statistical methods
+
+- [`Weave`](https://github.com/JunoLab/Weave.jl) - Converts Julia Markdown files to other forms of output
+
+# Introduction
+
+## Background
+
+The intent of this report is to investigate the characterization statement:
+
+> **Characterization Statement 1:** Characterize the individuals being seen for mental health care services (related to depression, bipolar disorder, and suicidality) at least one time – including hospitalization events.
+
+This characterization statement is founded on the central research topic for this study:
+
+> **Research Topic:** Based on [CLAIMS], we see X% of all persons with at least one claim indicating [DEPRESSION/BIPOLAR DISORDER/SUICIDALITY] are not seen again.
+
+By which the phrases "…all persons…" refer to those seen by patience care provider, etc. and "…are not seen again." implies lack of adherence to care.
+
+## Data Sources Used
+
+<!--TODO: Add information about data used in this particular notebook-->
+
+## Downloading Data Sources
+
+### State Shapefiles
+
+```julia, eval = false
+download_dataset(; dataset_names = ["US States"])
+data_path = datadir("exp_raw")
+shape_file = "US States/cb_2018_us_state_5m.shp"
+states = joinpath(data_path, shape_file) |> Shapefile.Table |> DataFrame
+```
+
+```julia, eval = false
+# TODO: plot heatmap of patient distribution
+f = Figure()
+Axis(f[1, 1])
+state = states[1, :].geometry.points
+points = [(state[i].x, state[i].y) for i in 1:length(state)]
+points = Point2f0[points...]
+poly(points)
+```
+
+
+# Data Analysis Preparation
+
+## Creating Initial Connection
+
+Defining connection details for connecting to a given database:
+
+```julia, results = "hidden"
+conn = LibPQ.Connection("")
+```
+
+## Creating Initial OMOP Tables
+
+Using `FunSQL` we will query the table and details about a given schema.
+In this case, the schema follows the [OMOP CDM v5](https://ohdsi.github.io/CommonDataModel/index.html) schema:
+
+```julia, results = "hidden"
+schema_info = introspect(conn; schema = :mimic_v531)
+```
+
+For this analysis, we will work with the following tables from the schema:
+
+```julia, results = "hidden"
+person = schema_info[:person]
+location = schema_info[:location]
+observation_period = schema_info[:observation_period]
+condition_occurrence = schema_info[:condition_occurrence]
+visit_occurrence = schema_info[:visit_occurrence]
+care_site = schema_info[:care_site]
+```
+
+<!--TODO: Add description on what these tables are from the Book of OHDSI-->
+Per the [Book of OHDSI], here are the break downs for these tables:
+
+- `PERSON` - 
+- `LOCATION` - 
+- `OBSERVATION_PERIOD` - 
+- `CONDITION_OCCURRENCE` -
+
+
+
+# Cohort Populations
+
+## General Cohort
+
+### Overall Trends
+
+#### Patient Spread
+
+This calculates the number of patients in the dataset:
+
+```julia, eval = true, results = "hidden", echo = false
+q = From(person) |> Group() |> Select(Agg.count(distinct = true, Get.person_id))
+sql = render(q, dialect = :postgresql)
+result = LibPQ.execute(conn, sql) |> DataFrame
+```
+
+In this dataset, there are `j result.count[1]` patients.
+To further examine this data, we can break them down across the following axes:
+
+- State
+- Age
+- Race
+- Gender
+- Care setting
+
+##### State Breakdown [DONE]
+
+Here we define our SQL query to join the `PERSON` table on the `LOCATION` table:
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    Join(
+        From(location) |> As(:location),
+        on = Get.location.location_id .== Get.location_id,
+    ) |>
+    Group(Get.location.state) |> 
+    Select(Get.state, Agg.count())
+sql = render(q, dialect = :postgresql)
+df_states = LibPQ.execute(conn, sql) |> DataFrame
+sort!(df_states, :count)
+```
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1600, 800))
+ax = Axis(f[1, 1])
+
+states = 1:length(df_states.state)
+counts = df_states.count
+
+barplot!(
+    states,
+    counts)
+ax.xticks = (states, string.(df_states.state))
+ax.xticksize = 12
+
+ax.title = "Patients across State"
+ax.titlesize = 28
+
+ax.xlabel = "States"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+##### Age Breakdown [DONE]
+
+```julia, eval = true, results = "hidden", echo = false,
+q = From(person) |>
+Join(:op => observation_period, Get.person_id .== Get.op.person_id) |>
+Define(:age => Fun.date_part("year", Fun.age(Get.op.observation_period_end_date, Fun.make_date(Get.year_of_birth, 1, 1)))) |>
+    Define(:age_group => Fun.case(
+                         Get.age .< 10, "0 - 9",
+    			 Get.age .< 20, "10 - 19",
+			 Get.age .< 30, "20 - 29",
+			 Get.age .< 40, "30 - 39",
+			 Get.age .< 50, "40 - 49",
+			 Get.age .< 60, "50 - 59",
+			 Get.age .< 70, "60 - 69",
+			 Get.age .< 80, "70 - 79",
+			 "80 - 89")) |>
+			 Group(Get.age_group) |>
+			 Select(Get.age_group, Agg.count()) 
+
+sql = render(q, dialect = :postgresql)
+res = LibPQ.execute(conn, sql)
+df_age_group = DataFrame(res)
+sort!(df_age_group, :age_group)
+```
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_age_group)
+counts = df_age_group.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, df_age_group.age_group)
+ax.xticksize = 12
+
+ax.title = "Patients Age Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Age Groups"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+##### Racial Breakdown [DONE]
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+			 Group(Get.race_concept_id) |>
+			 Select(Get.race_concept_id, Agg.count())
+
+sql = render(q, dialect = :postgresql)
+res = LibPQ.execute(conn, sql)
+df_race = DataFrame(res)
+```
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_race)
+counts = df_race.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_race.race_concept_id))
+ax.xticksize = 12
+
+ax.title = "Patient Race Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Races"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+##### Gender Breakdown [DONE]
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+			 Group(Get.gender_concept_id) |>
+			 Select(Get.gender_concept_id, Agg.count())
+		
+
+sql = render(q, dialect = :postgresql)
+res = LibPQ.execute(conn, sql)
+df_gender = DataFrame(res)
+```
+
+```julia, eval = true, echo = false
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_gender)
+counts = df_gender.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_gender.gender_concept_id))
+ax.xticksize = 12
+
+ax.title = "Patients Gender Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Genders"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+##### Care Site Breakdown
+
+```julia, eval = false, echo = false, results = "hidden"
+q =
+    From(care_site) |>
+    Where(Get.place_of_service_source_value .== "Inpatient Facility") |> 
+    Select(Get.care_site_id)
+
+sql = render(q, dialect = :postgresql)
+res = LibPQ.execute(conn, sql)
+inpatient_care_sites = DataFrame(res)
+```
+
+```julia, eval = false, echo = false, results = "hidden"
+q =
+    From(care_site) |>
+    Where(Get.place_of_service_source_value .== "Outpatient Facility") |> 
+    Select(Get.care_site_id)
+
+sql = render(q, dialect = :postgresql)
+res = LibPQ.execute(conn, sql)
+outpatient_care_sites = DataFrame(res)
+```
+
+```julia, eval = false, echo = false, results = "hidden"
+q =
+    From(visit_occurrence) |>
+    Group(Get.care_site_id) |>
+    Select(Get.care_site_id, Agg.count())
+    # Group(Get.place_of_service_source_value) |>
+    # Select(Get.place_of_service_source_value, Agg.count())
+
+sql = render(q, dialect = :postgresql)
+res = LibPQ.execute(conn, sql)
+df_care_site = DataFrame(res)
+```
+
+```julia, eval = false, echo = false
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_care_site)
+counts = df_care_site.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_care_site.place_of_service_concept_id))
+ax.xticksize = 12
+
+ax.title = "Patient Spread across Care Sites"
+ax.titlesize = 28
+
+ax.xlabel = "Care Site Types"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Inpatient Cohort
+
+### Overall Trends
+
+```julia, eval = true, echo = false, results = "hidden"
+inpatient_codes = get_atlas_concept_set(read(datadir("exp_raw", "queries", "inpatient_cohort.json"), String))
+```
+
+There are `j length(inpatient_codes)` inpatient codes for this inpatient cohort.
+
+
+#### Patient Spread
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(visit_occurrence) |>
+    Where(Fun.in(Get.visit_concept_id, inpatient_codes...)) |>
+    Group(Get.person_id)
+
+sql = render(q, dialect = :postgresql)
+res = LibPQ.execute(conn, sql)
+inpatients = DataFrame(res) |> Array
+```
+
+There are `j length(inpatients)` inpatients in this dataset.
+
+##### State Breakdown [DONE]
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    Join(
+        From(location) |> As(:location),
+        on = Get.location.location_id .== Get.location_id,
+    ) |>
+    Where(Fun.in(Get.person_id, inpatients...)) |> 
+    Group(Get.location.state) |> 
+    Select(Get.state, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+df_states = LibPQ.execute(conn, sql) |> DataFrame
+sort!(df_states, :count)
+```
+
+##### Age Breakdown [DONE]
+
+```julia, eval = true, results = "hidden", echo = false,
+q =
+    From(person) |>
+    Join(:op => observation_period, Get.person_id .== Get.op.person_id) |>
+    Where(Fun.in(Get.person_id, inpatients...)) |>
+    Define(
+        :age => Fun.date_part(
+            "year",
+            Fun.age(
+                Get.op.observation_period_end_date,
+                Fun.make_date(Get.year_of_birth, 1, 1),
+            ),
+        ),
+    ) |>
+    Define(
+        :age_group => Fun.case(
+            Get.age .< 10,
+            "0 - 9",
+            Get.age .< 20,
+            "10 - 19",
+            Get.age .< 30,
+            "20 - 29",
+            Get.age .< 40,
+            "30 - 39",
+            Get.age .< 50,
+            "40 - 49",
+            Get.age .< 60,
+            "50 - 59",
+            Get.age .< 70,
+            "60 - 69",
+            Get.age .< 80,
+            "70 - 79",
+            "80 - 89",
+        ),
+    ) |>
+    Group(Get.age_group) |>
+    Select(Get.age_group, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_age_group = DataFrame(res)
+```
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_age_group)
+counts = df_age_group.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, df_age_group.age_group)
+ax.xticksize = 12
+
+ax.title = "Inpatient Age Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Age Groups"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+##### Racial Breakdown [DONE]
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    	Where(Fun.in(Get.person_id, inpatients...)) |>
+			 Group(Get.race_concept_id) |>
+			 Select(Get.race_concept_id, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_race = DataFrame(res)
+```
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_race)
+counts = df_race.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_race.race_concept_id))
+ax.xticksize = 12
+
+ax.title = "Inpatient Race Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Races"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+##### Gender Breakdown [DONE]
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    	Where(Fun.in(Get.person_id, inpatients...)) |>
+			 Group(Get.gender_concept_id) |>
+			 Select(Get.gender_concept_id, Agg.count());
+		
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_gender = DataFrame(res)
+```
+
+```julia, eval = true, echo = false
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_gender)
+counts = df_gender.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_gender.gender_concept_id))
+ax.xticksize = 12
+
+ax.title = "Patients Gender Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Genders"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+##### Care Site Breakdown
+
+### General Trends for Bipolar Disorder
+
+#### Patient Spread [DONE]
+
+```julia, eval = false, results = "hidden"
+bipolar_df = CSV.read(datadir("exp_raw", "concept_sets", "bipolar_disorder_concept_set.csv"), DataFrame)
+```
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(condition_occurrence) |>
+    Where(Fun.in(Get.person_id, inpatients...)) |> 
+    Where(Fun.in(Get.condition_concept_id, bipolar_df.CONCEPT_ID...)) |> 
+    Group(Get.person_id);
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+inpatients_bipolar_disorder = DataFrame(res) |> Array
+```
+
+In this dataset, there 
+
+##### Condition Breakdown
+
+##### State Breakdown [DONE]
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    Join(
+        From(location) |> As(:location),
+        on = Get.location.location_id .== Get.location_id,
+    ) |>
+    Where(Fun.in(Get.person_id, inpatients_bipolar_disorder...)) |> 
+    Group(Get.location.state) |> 
+    Select(Get.state, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+df_states = LibPQ.execute(conn, sql) |> DataFrame
+sort!(df_states, :count)
+```
+
+##### Age Breakdown [DONE]
+
+```julia, eval = true, results = "hidden", echo = false,
+q =
+    From(person) |>
+    Join(:op => observation_period, Get.person_id .== Get.op.person_id) |>
+    Where(Fun.in(Get.person_id, inpatients_bipolar_disorder...)) |>
+    Define(
+        :age => Fun.date_part(
+            "year",
+            Fun.age(
+                Get.op.observation_period_end_date,
+                Fun.make_date(Get.year_of_birth, 1, 1),
+            ),
+        ),
+    ) |>
+    Define(
+        :age_group => Fun.case(
+            Get.age .< 10,
+            "0 - 9",
+            Get.age .< 20,
+            "10 - 19",
+            Get.age .< 30,
+            "20 - 29",
+            Get.age .< 40,
+            "30 - 39",
+            Get.age .< 50,
+            "40 - 49",
+            Get.age .< 60,
+            "50 - 59",
+            Get.age .< 70,
+            "60 - 69",
+            Get.age .< 80,
+            "70 - 79",
+            "80 - 89",
+        ),
+    ) |>
+    Group(Get.age_group) |>
+    Select(Get.age_group, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_age_group = DataFrame(res)
+```
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_age_group)
+counts = df_age_group.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, df_age_group.age_group)
+ax.xticksize = 12
+
+ax.title = "Inpatient Age Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Age Groups"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+##### Racial Breakdown [DONE]
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    	Where(Fun.in(Get.person_id, inpatients_bipolar_disorder...)) |>
+			 Group(Get.race_concept_id) |>
+			 Select(Get.race_concept_id, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_race = DataFrame(res)
+```
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_race)
+counts = df_race.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_race.race_concept_id))
+ax.xticksize = 12
+
+ax.title = "Inpatient Race Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Races"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+##### Gender Breakdown [DONE]
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    	Where(Fun.in(Get.person_id, inpatients_bipolar_disorder...)) |>
+			 Group(Get.gender_concept_id) |>
+			 Select(Get.gender_concept_id, Agg.count());
+		
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_gender = DataFrame(res)
+```
+
+```julia, eval = true, echo = false
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_gender)
+counts = df_gender.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_gender.gender_concept_id))
+ax.xticksize = 12
+
+ax.title = "Patients Gender Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Genders"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+##### Care Site Breakdown
+
+### General Trends for Depression
+
+#### Patient Spread [DONE]
+
+```julia, eval = false, results = "hidden"
+depression_df = CSV.read(datadir("exp_raw", "concept_sets", "depression_concept_set.csv"), DataFrame)
+```
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(condition_occurrence) |>
+    Where(Fun.in(Get.person_id, inpatients...)) |> 
+    Where(Fun.in(Get.condition_concept_id, depression_df.CONCEPT_ID...)) |> 
+    Group(Get.person_id);
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+inpatients_depression = DataFrame(res) |> Array
+```
+
+##### Condition Breakdown
+
+##### State Breakdown [DONE]
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    Join(
+        From(location) |> As(:location),
+        on = Get.location.location_id .== Get.location_id,
+    ) |>
+    Where(Fun.in(Get.person_id, inpatients_depression...)) |> 
+    Group(Get.location.state) |> 
+    Select(Get.state, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+df_states = LibPQ.execute(conn, sql) |> DataFrame
+sort!(df_states, :count)
+```
+
+##### Age Breakdown [DONE]
+
+```julia, eval = true, results = "hidden", echo = false
+q =
+    From(person) |>
+    Join(:op => observation_period, Get.person_id .== Get.op.person_id) |>
+    Where(Fun.in(Get.person_id, inpatients_depression...)) |>
+    Define(
+        :age => Fun.date_part(
+            "year",
+            Fun.age(
+                Get.op.observation_period_end_date,
+                Fun.make_date(Get.year_of_birth, 1, 1),
+            ),
+        ),
+    ) |>
+    Define(
+        :age_group => Fun.case(
+            Get.age .< 10,
+            "0 - 9",
+            Get.age .< 20,
+            "10 - 19",
+            Get.age .< 30,
+            "20 - 29",
+            Get.age .< 40,
+            "30 - 39",
+            Get.age .< 50,
+            "40 - 49",
+            Get.age .< 60,
+            "50 - 59",
+            Get.age .< 70,
+            "60 - 69",
+            Get.age .< 80,
+            "70 - 79",
+            "80 - 89",
+        ),
+    ) |>
+    Group(Get.age_group) |>
+    Select(Get.age_group, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_age_group = DataFrame(res)
+```
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_age_group)
+counts = df_age_group.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, df_age_group.age_group)
+ax.xticksize = 12
+
+ax.title = "Inpatient Age Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Age Groups"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+##### Racial Breakdown [DONE]
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    	Where(Fun.in(Get.person_id, inpatients_depression...)) |>
+			 Group(Get.race_concept_id) |>
+			 Select(Get.race_concept_id, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_race = DataFrame(res)
+```
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_race)
+counts = df_race.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_race.race_concept_id))
+ax.xticksize = 12
+
+ax.title = "Inpatient Race Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Races"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+##### Gender Breakdown [DONE]
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    	Where(Fun.in(Get.person_id, inpatients_depression...)) |>
+			 Group(Get.gender_concept_id) |>
+			 Select(Get.gender_concept_id, Agg.count());
+		
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_gender = DataFrame(res)
+```
+
+```julia, eval = true, echo = false
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_gender)
+counts = df_gender.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_gender.gender_concept_id))
+ax.xticksize = 12
+
+ax.title = "Patients Gender Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Genders"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+##### Care Site Breakdown
+
+### General Trends for Suicidality
+
+#### Patient Spread [DONE]
+
+```julia, eval = false, results = "hidden"
+suicidality_df = CSV.read(datadir("exp_raw", "concept_sets", "suicidality_concept_set.csv"), DataFrame)
+```
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(condition_occurrence) |>
+    Where(Fun.in(Get.person_id, inpatients...)) |> 
+    Where(Fun.in(Get.condition_concept_id, suicidality_df.CONCEPT_ID...)) |> 
+    Group(Get.person_id);
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+inpatients_suicidality = DataFrame(res) |> Array
+```
+
+##### Condition Breakdown
+
+##### State Breakdown [DONE]
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    Join(
+        From(location) |> As(:location),
+        on = Get.location.location_id .== Get.location_id,
+    ) |>
+    Where(Fun.in(Get.person_id, inpatients_suicidality...)) |> 
+    Group(Get.location.state) |> 
+    Select(Get.state, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+df_states = LibPQ.execute(conn, sql) |> DataFrame
+sort!(df_states, :count)
+```
+
+##### Age Breakdown [DONE]
+
+```julia, eval = true, results = "hidden", echo = false
+q =
+    From(person) |>
+    Join(:op => observation_period, Get.person_id .== Get.op.person_id) |>
+    Where(Fun.in(Get.person_id, inpatients_suicidality...)) |>
+    Define(
+        :age => Fun.date_part(
+            "year",
+            Fun.age(
+                Get.op.observation_period_end_date,
+                Fun.make_date(Get.year_of_birth, 1, 1),
+            ),
+        ),
+    ) |>
+    Define(
+        :age_group => Fun.case(
+            Get.age .< 10,
+            "0 - 9",
+            Get.age .< 20,
+            "10 - 19",
+            Get.age .< 30,
+            "20 - 29",
+            Get.age .< 40,
+            "30 - 39",
+            Get.age .< 50,
+            "40 - 49",
+            Get.age .< 60,
+            "50 - 59",
+            Get.age .< 70,
+            "60 - 69",
+            Get.age .< 80,
+            "70 - 79",
+            "80 - 89",
+        ),
+    ) |>
+    Group(Get.age_group) |>
+    Select(Get.age_group, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_age_group = DataFrame(res)
+```
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_age_group)
+counts = df_age_group.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, df_age_group.age_group)
+ax.xticksize = 12
+
+ax.title = "Inpatient Age Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Age Groups"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+##### Racial Breakdown
+
+##### Gender Breakdown
+
+##### Care Site Breakdown
+
+## Outpatient Cohort
+
+### Overall Trends
+
+```julia, eval = false, echo = false, results = "hidden"
+outpatient_codes = get_atlas_concept_set(read(datadir("exp_raw", "queries", "outpatient_cohort.json"), String))
+```
+
+There are `j length(outpatient_codes)` inpatient codes for this inpatient cohort.
+
+#### Patient Spread
+
+```julia, eval = false, echo = false, results = "hidden"
+q =
+    From(visit_occurrence) |>
+    Where(Fun.in(Get.visit_concept_id, outpatient_codes...)) |>
+    Group(Get.person_id)
+
+sql = render(q, dialect = :postgresql)
+res = LibPQ.execute(conn, sql)
+outpatients = DataFrame(res) |> Array
+```
+
+There are `j length(outpatients)` inpatients in this dataset.
+
+##### State Breakdown
+
+```julia, eval = false, echo = false, results = "hidden"
+q =
+    From(person) |>
+    Join(
+        From(location) |> As(:location),
+        on = Get.location.location_id .== Get.location_id,
+    ) |>
+    Where(Fun.in(Get.person_id, outpatients...)) |> 
+    Group(Get.location.state) |> 
+    Select(Get.state, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+df_states = LibPQ.execute(conn, sql) |> DataFrame
+sort!(df_states, :count)
+```
+
+##### Age Breakdown
+
+##### Racial Breakdown
+
+##### Gender Breakdown
+
+##### Care Site Breakdown
+
+### General Trends for Bipolar Disorder
+
+#### Patient Spread
+
+This calculates the number of outpatient patients in the dataset:
+
+```julia, eval = false, results = "hidden"
+q = FROM(:person) |> SELECT(distinct = true, :person_id) |> x -> render(x, dialect = :postgresql) |> x -> LibPQ.execute(conn, x) 
+```
+
+In this dataset, there are `j length(result)` patients.
+To further examine this data, we can break them down across the following axes:
+
+- Condition
+- State
+- Age
+- Race
+- Gender
+- Care setting
+
+##### Condition Breakdown
+
+##### State Breakdown
+
+##### Age Breakdown
+
+##### Racial Breakdown
+
+##### Gender Breakdown
+
+##### Care Site Breakdown
+
+### General Trends for Depression
+
+#### Patient Spread
+
+This calculates the number of patients in the dataset:
+
+```julia, eval = false, results = "hidden"
+q = FROM(:person) |> SELECT(distinct = true, :person_id) |> x -> render(x, dialect = :postgresql) |> x -> LibPQ.execute(conn, x) 
+```
+
+In this dataset, there are `j length(result)` patients.
+To further examine this data, we can break them down across the following axes:
+
+- Condition
+- State
+- Age
+- Race
+- Gender
+- Care setting
+
+##### Condition Breakdown
+
+##### State Breakdown
+
+##### Age Breakdown
+
+##### Racial Breakdown
+
+##### Gender Breakdown
+
+##### Care Site Breakdown
+
+### General Trends for Suicidality
+
+#### Patient Spread
+
+This calculates the number of patients in the dataset:
+
+```julia, eval = false, results = "hidden"
+q = FROM(:person) |> SELECT(distinct = true, :person_id) |> x -> render(x, dialect = :postgresql) |> x -> LibPQ.execute(conn, x) 
+```
+
+In this dataset, there are `j length(result)` patients.
+To further examine this data, we can break them down across the following axes:
+
+- Condition
+- State
+- Age
+- Race
+- Gender
+- Care setting
+
+##### Condition Breakdown
+
+##### State Breakdown
+
+##### Age Breakdown
+
+##### Racial Breakdown
+
+##### Gender Breakdown
+
+##### Care Site Breakdown
+
+
+# File Exports 
+
+## Export Julia Markdown Document as Jupyter Notebook
+
+We can execute the following to turn this report into a Jupyter Notebook:
+
+```julia, eval = false
+convert_doc([FILENAME], projectdir("notebooks", [OUTPUTNAME.ipynb]))
+```
+
+## Export Julia Markdown Document as an HTML Document
+
+We can execute the following to turn this report into a Jupyter Notebook:
+
+```julia, eval = false
+weave([FILENAME], [OUTPUTNAME.html])
+```
+
+## Export Julia Markdown Document as a Script
+
+We can execute the following to turn this report into a script for standalone execution:
+
+```julia, eval = false
+weave([FILENAME], projectdir("scripts", [OUTPUTNAME.jl]))
+```
+

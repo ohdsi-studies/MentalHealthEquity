@@ -1,0 +1,277 @@
+# Initial Set-Up
+
+## Activating Project Environment
+
+```julia
+using DrWatson
+@quickactivate "MentalHealthEquity"
+```
+
+## Packages Used in Analysis
+
+```julia
+using CSV
+using DBInterface
+using Makie
+using CairoMakie
+using LibPQ
+using DataFrames
+using Statistics
+using MentalHealthEquity
+using Shapefile
+using Weave
+using FunSQL:
+    SQLTable,
+    Agg,
+    As,
+    Define,
+    From,
+    Fun,
+    Get,
+    Group,
+    Join,
+    Order,
+    Select,
+    Where,
+    render,
+    Limit
+```
+
+Package descriptions:
+
+- [`DataFrames`](https://github.com/JuliaData/DataFrames.jl) - Julia's dataframe handler for easily manipulating data
+
+- [`DrWatson`](https://github.com/JuliaDynamics/DrWatson.jl) - Incredibly helpful tool for managing Julia-based scientific experiments and exploration
+
+- [`Makie`](https://github.com/JuliaPlots/Makie.jl) - Data visualization ecosystem for the Julia programming language, with high performance and extensibility
+
+- [`Statistics`](https://github.com/JuliaLang/Statistics.jl) - Julia's standard library for useful statistical methods
+
+- [`Weave`](https://github.com/JunoLab/Weave.jl) - Converts Julia Markdown files to other forms of output
+
+# Introduction
+
+## Background
+
+The intent of this report is to investigate the characterization statement:
+
+> **Characterization Statement 1:** Characterize the individuals being seen for mental health care services (related to depression, bipolar disorder, and suicidality) at least one time – including hospitalization events.
+
+This characterization statement is founded on the central research topic for this study:
+
+> **Research Topic:** Based on [CLAIMS], we see X% of all persons with at least one claim indicating [DEPRESSION/BIPOLAR DISORDER/SUICIDALITY] are not seen again.
+
+By which the phrases "…all persons…" refer to those seen by patience care provider, etc. and "…are not seen again." implies lack of adherence to care.
+
+## Data Sources Used
+
+<!--TODO: Add information about data used in this particular notebook-->
+
+## Downloading Data Sources
+
+### State Shapefiles
+
+```julia, eval = false
+download_dataset(; dataset_names = ["US States"])
+data_path = datadir("exp_raw")
+shape_file = "US States/cb_2018_us_state_5m.shp"
+states = joinpath(data_path, shape_file) |> Shapefile.Table |> DataFrame
+```
+
+```julia, eval = false
+# TODO: plot heatmap of patient distribution
+f = Figure()
+Axis(f[1, 1])
+state = states[1, :].geometry.points
+points = [(state[i].x, state[i].y) for i in 1:length(state)]
+points = Point2f0[points...]
+poly(points)
+```
+
+
+# Data Analysis Preparation
+
+## Creating Initial Connection
+
+Defining connection details for connecting to a given database:
+
+```julia, results = "hidden"
+conn = LibPQ.Connection("")
+```
+
+## Creating Initial OMOP Tables
+
+Using `FunSQL` we will query the table and details about a given schema.
+In this case, the schema follows the [OMOP CDM v5](https://ohdsi.github.io/CommonDataModel/index.html) schema:
+
+```julia, results = "hidden"
+schema_info = introspect(conn; schema = :mimic_v531)
+```
+
+For this analysis, we will work with the following tables from the schema:
+
+```julia, results = "hidden"
+person = schema_info[:person]
+location = schema_info[:location]
+observation_period = schema_info[:observation_period]
+condition_occurrence = schema_info[:condition_occurrence]
+visit_occurrence = schema_info[:visit_occurrence]
+care_site = schema_info[:care_site]
+```
+
+<!--TODO: Add description on what these tables are from the Book of OHDSI-->
+Per the [Book of OHDSI], here are the break downs for these tables:
+
+- `PERSON` - 
+- `LOCATION` - 
+- `OBSERVATION_PERIOD` - 
+- `CONDITION_OCCURRENCE` -
+
+
+## Outpatient Cohort
+
+### Overall Trends
+
+```julia, eval = false, echo = false, results = "hidden"
+outpatient_codes = get_atlas_concept_set(read(datadir("exp_raw", "queries", "outpatient_cohort.json"), String))
+```
+
+There are `j length(outpatient_codes)` inpatient codes for this inpatient cohort.
+
+#### Patient Spread
+
+```julia, eval = false, echo = false, results = "hidden"
+q =
+    From(visit_occurrence) |>
+    Where(Fun.in(Get.visit_concept_id, outpatient_codes...)) |>
+    Group(Get.person_id)
+
+sql = render(q, dialect = :postgresql)
+res = LibPQ.execute(conn, sql)
+outpatients = DataFrame(res) |> Array
+```
+
+There are `j length(outpatients)` inpatients in this dataset.
+
+##### State Breakdown
+
+```julia, eval = false, echo = false, results = "hidden"
+q =
+    From(person) |>
+    Join(
+        From(location) |> As(:location),
+        on = Get.location.location_id .== Get.location_id,
+    ) |>
+    Where(Fun.in(Get.person_id, outpatients...)) |> 
+    Group(Get.location.state) |> 
+    Select(Get.state, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+df_states = LibPQ.execute(conn, sql) |> DataFrame
+sort!(df_states, :count)
+```
+
+##### Age Breakdown
+
+##### Racial Breakdown
+
+##### Gender Breakdown
+
+##### Care Site Breakdown
+
+### General Trends for Bipolar Disorder
+
+#### Patient Spread
+
+This calculates the number of outpatient patients in the dataset:
+
+```julia, eval = false, results = "hidden"
+q = FROM(:person) |> SELECT(distinct = true, :person_id) |> x -> render(x, dialect = :postgresql) |> x -> LibPQ.execute(conn, x) 
+```
+
+In this dataset, there are `j length(result)` patients.
+To further examine this data, we can break them down across the following axes:
+
+- Condition
+- State
+- Age
+- Race
+- Gender
+- Care setting
+
+##### Condition Breakdown
+
+##### State Breakdown
+
+##### Age Breakdown
+
+##### Racial Breakdown
+
+##### Gender Breakdown
+
+##### Care Site Breakdown
+
+### General Trends for Depression
+
+#### Patient Spread
+
+This calculates the number of patients in the dataset:
+
+```julia, eval = false, results = "hidden"
+q = FROM(:person) |> SELECT(distinct = true, :person_id) |> x -> render(x, dialect = :postgresql) |> x -> LibPQ.execute(conn, x) 
+```
+
+In this dataset, there are `j length(result)` patients.
+To further examine this data, we can break them down across the following axes:
+
+- Condition
+- State
+- Age
+- Race
+- Gender
+- Care setting
+
+##### Condition Breakdown
+
+##### State Breakdown
+
+##### Age Breakdown
+
+##### Racial Breakdown
+
+##### Gender Breakdown
+
+##### Care Site Breakdown
+
+### General Trends for Suicidality
+
+#### Patient Spread
+
+This calculates the number of patients in the dataset:
+
+```julia, eval = false, results = "hidden"
+q = FROM(:person) |> SELECT(distinct = true, :person_id) |> x -> render(x, dialect = :postgresql) |> x -> LibPQ.execute(conn, x) 
+```
+
+In this dataset, there are `j length(result)` patients.
+To further examine this data, we can break them down across the following axes:
+
+- Condition
+- State
+- Age
+- Race
+- Gender
+- Care setting
+
+##### Condition Breakdown
+
+##### State Breakdown
+
+##### Age Breakdown
+
+##### Racial Breakdown
+
+##### Gender Breakdown
+
+##### Care Site Breakdown
+

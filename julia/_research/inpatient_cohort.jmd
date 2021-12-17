@@ -1,0 +1,1264 @@
+# Analysis Introduction
+
+## Background on Inpatient Analysis
+
+The intent of this report is to investigate the characterization statement:
+
+> **Characterization Statement 1:** Characterize the individuals being seen for mental health care services (related to depression, bipolar disorder, and suicidality) at least one time – including hospitalization events.
+
+This analyses concerns patients categorized as inpatients.
+Activating analysis environment:
+
+# Data Analysis Preparation
+
+## Activating Analysis Environment
+
+```julia
+using DrWatson
+@quickactivate "MentalHealthEquity"
+```
+
+```julia, echo = false
+using CSV
+using DBInterface
+using Makie
+using CairoMakie
+using LibPQ
+using DataFrames
+using Statistics
+using MentalHealthEquity
+using Shapefile
+using Weave
+using FunSQL:
+    SQLTable,
+    Agg,
+    As,
+    Define,
+    From,
+    Fun,
+    Get,
+    Group,
+    Join,
+    Order,
+    Select,
+    Where,
+    render,
+    Limit
+```
+
+## OMOP Table Representation
+
+```julia, results = "hidden", echo = false
+conn = LibPQ.Connection("host= port= user= password=")  
+```
+
+Using `FunSQL` we will query the table and details about a given schema.
+In this case, the schema follows the [OMOP CDM v5](https://ohdsi.github.io/CommonDataModel/index.html) schema:
+
+```julia, results = "hidden"
+schema_info = introspect(conn; schema = :synpuf5)
+```
+
+> **NOTE** The variable `conn` contains connection details of the form 
+`conn = LibPQ.Connection("host=myhost port=myport user=myusername _v5 password=mypassword")`.
+
+For this analysis, we will work with the following tables from the schema:
+
+```julia, results = "hidden"
+person = schema_info[:person]
+location = schema_info[:location]
+observation_period = schema_info[:observation_period]
+condition_occurrence = schema_info[:condition_occurrence]
+visit_occurrence = schema_info[:visit_occurrence]
+care_site = schema_info[:care_site]
+```
+
+## Defining Conditions
+
+Bipolar Disorder:
+
+```julia, eval = true, results = "hidden"
+bipolar_df = CSV.read(
+    datadir("exp_raw", "concept_sets", "bipolar_disorder_concept_set.csv"),
+    DataFrame,
+)
+```
+
+Suicidality:
+
+```julia, eval = true, results = "hidden"
+suicidality_df =
+    CSV.read(datadir("exp_raw", "concept_sets", "suicidality_concept_set.csv"), DataFrame)
+```
+
+Depression:
+
+```julia, eval = true, results = "hidden"
+depression_df =
+    CSV.read(datadir("exp_raw", "concept_sets", "depression_concept_set.csv"), DataFrame)
+```
+
+# Inpatient Cohort
+
+To find the individuals belonging to the inpatient cohort, we utilize the inpatient cohort definition defined with ATLAS (see [Cohort Definitions](cohort-definitions)).
+We load the inpatient codes into the variable `inpatient_codes` using this snippet:
+
+```julia, eval = true, results = "hidden"
+inpatient_codes = get_atlas_concept_set(
+    read(datadir("exp_raw", "queries", "inpatient_cohort.json"), String),
+)
+```
+
+To get the inpatients in this database, the logical flow is as follows:
+
+1. Select the `visit_occurrence` table 
+2. Find rows that contain a code from `inpatient_codes` in the `visit_concept_id` column
+3. Return all patient IDs from the column `person_id`
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(visit_occurrence) |>
+    Where(Fun.in(Get.visit_concept_id, inpatient_codes...)) |>
+    Group(Get.person_id)
+
+sql = render(q, dialect = :postgresql)
+res = LibPQ.execute(conn, sql)
+inpatients = DataFrame(res) |> Array
+```
+
+Using this logic, the inpatient IDs are saved into the variable `inpatients`.
+Accordingly, we report `j length(inpatients)` inpatients in this dataset.
+Now that all the inpatients have been found, we will characterize them in the following ways:
+
+- Total inpatients by state
+- Total inpatients by gender
+- Total inpatients by age
+- Total inpatients by race
+- Total inpatients by care site type
+
+## State Breakdown
+
+To get the inpatient count by state in this database, the logical flow is as follows:
+
+1. Select the `person` table 
+2. Join the `person` table to the `location` table using the `location_id` as the key to join on
+3. Find rows that contain a person ID from the `inpatients` variable in the `person_id` column of this joined table
+4. Group table by the `state` column
+5. Return the counts of patients per each state using the `state` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    Join(
+        From(location) |> As(:location),
+        on = Get.location.location_id .== Get.location_id,
+    ) |>
+    Where(Fun.in(Get.person_id, inpatients...)) |> 
+    Group(Get.location.state) |> 
+    Select(Get.state, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+df_states = LibPQ.execute(conn, sql) |> DataFrame
+sort!(df_states, :count)
+```
+
+Using this logic, we can visualize patient distribution by state as follows:
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1600, 800))
+ax = Axis(f[1, 1])
+
+states = 1:length(df_states.state)
+counts = df_states.count
+
+barplot!(
+    states,
+    counts)
+ax.xticks = (states, string.(df_states.state))
+ax.xticksize = 12
+
+ax.title = "Patients across State"
+ax.titlesize = 28
+
+ax.xlabel = "States"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Age Breakdown
+
+For age breakdowns, inpatient counts were bucketed based on their age.
+The age brackets were as follows:
+
+1. 0 - 9
+2. 10 - 19
+3. 20 - 29
+4. 30 - 39
+5. 40 - 49
+6. 50 - 59
+7. 60 - 69
+8. 70 - 79
+9. 80 - 89
+
+To find patient counts per each bucket, the following scheme was used:
+
+1. Select the `person` table 
+2. Join the `person` table to the `observation_period` table using the `person_id` as the key to join on
+3. Find rows that contain a person ID from the `inpatients` variable in the `person_id` column of this joined table
+4. Define a new column, `age`, where a patient's age is defined as the last recorded `observation_period_end_date` minus their `year_of_birth`
+5. Define a new column, `age_group`, where a patient is given an age group categorization based on the previously stated age breakdown
+6. Group resulting table by the `age_group` column
+7. Return the counts of patients per age group using the `age_group` column
+
+```julia, eval = true, results = "hidden", echo = false,
+q =
+    From(person) |>
+    Join(:op => observation_period, Get.person_id .== Get.op.person_id) |>
+    Where(Fun.in(Get.person_id, inpatients...)) |>
+    Define(
+        :age => Fun.date_part(
+            "year",
+            Fun.age(
+                Get.op.observation_period_end_date,
+                Fun.make_date(Get.year_of_birth, 1, 1),
+            ),
+        ),
+    ) |>
+    Define(
+        :age_group => Fun.case(
+            Get.age .< 10,
+            "0 - 9",
+            Get.age .< 20,
+            "10 - 19",
+            Get.age .< 30,
+            "20 - 29",
+            Get.age .< 40,
+            "30 - 39",
+            Get.age .< 50,
+            "40 - 49",
+            Get.age .< 60,
+            "50 - 59",
+            Get.age .< 70,
+            "60 - 69",
+            Get.age .< 80,
+            "70 - 79",
+            "80 - 89",
+        ),
+    ) |>
+    Group(Get.age_group) |>
+    Select(Get.age_group, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_age_group = DataFrame(res)
+```
+
+With this approach, the age group breakdowns and counts can be visualized as follows:
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_age_group)
+counts = df_age_group.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, df_age_group.age_group)
+ax.xticksize = 12
+
+ax.title = "Inpatient Age Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Age Groups"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Racial Breakdown
+
+To get the inpatient counts broken down by race, the logical flow is as follows:
+
+1. Select the `person` table 
+2. Find rows that contain a person ID from the `inpatients` variable in the `person_id` column 
+4. Group table by the `race_concept_id` column
+5. Return the counts of patients per each recorded race using the `race_concept_id` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    	Where(Fun.in(Get.person_id, inpatients...)) |>
+			 Group(Get.race_concept_id) |>
+			 Select(Get.race_concept_id, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_race = DataFrame(res)
+```
+
+The racial breakdowns can be seen in the following plot:
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_race)
+counts = df_race.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_race.race_concept_id))
+ax.xticksize = 12
+
+ax.title = "Inpatient Race Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Races"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Gender Breakdown
+
+To get the inpatient counts broken down by gender, the logical flow is as follows:
+
+1. Select the `person` table 
+2. Find rows that contain a person ID from the `inpatients` variable in the `person_id` column 
+4. Group table by the `gender_concept_id` column
+5. Return the counts of patients per each recorded gender using the `gender_concept_id` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    	Where(Fun.in(Get.person_id, inpatients...)) |>
+			 Group(Get.gender_concept_id) |>
+			 Select(Get.gender_concept_id, Agg.count());
+		
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_gender = DataFrame(res)
+```
+
+The gender breakdown can be seen as follows:
+
+```julia, eval = true, echo = false
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_gender)
+counts = df_gender.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_gender.gender_concept_id))
+ax.xticksize = 12
+
+ax.title = "Patients Gender Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Genders"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Care Site Breakdown
+
+To get the patient counts broken down by care site, the logical flow is as follows:
+
+1. Select the `visit_occurrence` table 
+2. Join the `visit_occurrence` table to the `care_site` table using the `care_site_id` as the key to join on
+3. Group table by the `place_of_service_concept_id` column
+4. Return the counts of visits per each recorded visit using the `place_of_service_concept_id` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(visit_occurrence) |>
+    Join(
+        From(care_site) |> As(:cs),
+        on = Get.cs.care_site_id .== Get.care_site_id,
+    ) |>
+    Group(Get.cs.place_of_service_concept_id) |> 
+    Select(Get.place_of_service_concept_id, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_care_site = DataFrame(res)
+```
+
+Here we can visualize the breakdown across `place_of_service_concept_id`:
+
+```julia, eval = true, echo = false
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_care_site)
+counts = df_care_site.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_care_site.place_of_service_concept_id))
+ax.xticksize = 12
+
+ax.title = "Visit Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Places of Service"
+ax.xlabelsize = 20
+
+ax.ylabel = "Visit Counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+# Characterizing Inpatients with Bipolar Disorder
+
+To calculate all the inpatients with conditions related to bipolar disorder, the logic is as follows:
+
+1. Select the `condition_occurrence` table 
+2. Find all rows in `condition_occurrence` where `person_id` occurs in the `inpatients` variable
+3. Find all rows where `condition_concept_id` occurs in the `CONCEPT_ID` column of the `bipolar_df`
+4. Group table by the `person_id` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(condition_occurrence) |>
+    Where(Fun.in(Get.person_id, inpatients...)) |> 
+    Where(Fun.in(Get.condition_concept_id, bipolar_df.CONCEPT_ID...)) |> 
+    Group(Get.person_id);
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+inpatients_bipolar_disorder = DataFrame(res) |> Array
+```
+
+Using this logic, there are `length(inpatients_bipolar_disorder)` inpatients with conditions of conditions related to bipolar disorder.
+All these patient ID's get stored in the variable, `inpatients_bipolar_disorder`.
+
+## State Breakdown
+
+To get the inpatient count by state in this database, the logical flow is as follows:
+
+1. Select the `person` table 
+2. Join the `person` table to the `location` table using the `location_id` as the key to join on
+3. Find rows that contain a person ID from the `inpatients_bipolar_disorder` variable in the `person_id` column of this joined table
+4. Group table by the `state` column
+5. Return the counts of patients per each state using the `state` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    Join(
+        From(location) |> As(:location),
+        on = Get.location.location_id .== Get.location_id,
+    ) |>
+    Where(Fun.in(Get.person_id, inpatients_bipolar_disorder...)) |> 
+    Group(Get.location.state) |> 
+    Select(Get.state, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+df_states = LibPQ.execute(conn, sql) |> DataFrame
+sort!(df_states, :count)
+```
+
+Using this logic, we can visualize patient distribution by state as follows:
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1600, 800))
+ax = Axis(f[1, 1])
+
+states = 1:length(df_states.state)
+counts = df_states.count
+
+barplot!(
+    states,
+    counts)
+ax.xticks = (states, string.(df_states.state))
+ax.xticksize = 12
+
+ax.title = "Bipolar Disorder Inpatients across State"
+ax.titlesize = 28
+
+ax.xlabel = "States"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Age Breakdown
+
+For age breakdowns, inpatient counts were bucketed based on their age.
+The age brackets were as follows:
+
+1. 0 - 9
+2. 10 - 19
+3. 20 - 29
+4. 30 - 39
+5. 40 - 49
+6. 50 - 59
+7. 60 - 69
+8. 70 - 79
+9. 80 - 89
+
+To find patient counts per each bucket, the following scheme was used:
+
+1. Select the `person` table 
+2. Join the `person` table to the `observation_period` table using the `person_id` as the key to join on
+3. Find rows that contain a person ID from the `inpatients_bipolar_disorder` variable in the `person_id` column of this joined table
+4. Define a new column, `age`, where a patient's age is defined as the last recorded `observation_period_end_date` minus their `year_of_birth`
+5. Define a new column, `age_group`, where a patient is given an age group categorization based on the previously stated age breakdown
+6. Group resulting table by the `age_group` column
+7. Return the counts of patients per age group using the `age_group` column
+
+```julia, eval = true, results = "hidden", echo = false,
+q =
+    From(person) |>
+    Join(:op => observation_period, Get.person_id .== Get.op.person_id) |>
+    Where(Fun.in(Get.person_id, inpatients_bipolar_disorder...)) |>
+    Define(
+        :age => Fun.date_part(
+            "year",
+            Fun.age(
+                Get.op.observation_period_end_date,
+                Fun.make_date(Get.year_of_birth, 1, 1),
+            ),
+        ),
+    ) |>
+    Define(
+        :age_group => Fun.case(
+            Get.age .< 10,
+            "0 - 9",
+            Get.age .< 20,
+            "10 - 19",
+            Get.age .< 30,
+            "20 - 29",
+            Get.age .< 40,
+            "30 - 39",
+            Get.age .< 50,
+            "40 - 49",
+            Get.age .< 60,
+            "50 - 59",
+            Get.age .< 70,
+            "60 - 69",
+            Get.age .< 80,
+            "70 - 79",
+            "80 - 89",
+        ),
+    ) |>
+    Group(Get.age_group) |>
+    Select(Get.age_group, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_age_group = DataFrame(res)
+```
+
+With this approach, the age group breakdowns and counts can be visualized as follows:
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_age_group)
+counts = df_age_group.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, df_age_group.age_group)
+ax.xticksize = 12
+
+ax.title = "Bipolar Disorder Inpatients Age Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Age Groups"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Racial Breakdown
+
+To get the inpatient counts broken down by race, the logical flow is as follows:
+
+1. Select the `person` table 
+2. Find rows that contain a person ID from the `inpatients_bipolar_disorder` variable in the `person_id` column 
+4. Group table by the `race_concept_id` column
+5. Return the counts of patients per each recorded race using the `race_concept_id` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    	Where(Fun.in(Get.person_id, inpatients_bipolar_disorder...)) |>
+			 Group(Get.race_concept_id) |>
+			 Select(Get.race_concept_id, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_race = DataFrame(res)
+```
+
+The racial breakdowns can be seen in the following plot:
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_race)
+counts = df_race.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_race.race_concept_id))
+ax.xticksize = 12
+
+ax.title = "Bipolar Disorder Inpatients Race Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Races"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Gender Breakdown
+
+To get the inpatient counts broken down by gender, the logical flow is as follows:
+
+1. Select the `person` table 
+2. Find rows that contain a person ID from the `inpatients_bipolar_disorder` variable in the `person_id` column 
+4. Group table by the `gender_concept_id` column
+5. Return the counts of patients per each recorded gender using the `gender_concept_id` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    	Where(Fun.in(Get.person_id, inpatients_bipolar_disorder...)) |>
+			 Group(Get.gender_concept_id) |>
+			 Select(Get.gender_concept_id, Agg.count());
+		
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_gender = DataFrame(res)
+```
+
+The gender breakdown can be seen as follows:
+
+```julia, eval = true, echo = false
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_gender)
+counts = df_gender.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_gender.gender_concept_id))
+ax.xticksize = 12
+
+ax.title = "Bipolar Disorder Inpatients Gender Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Genders"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Care Site Breakdown [TODO]
+
+# Characterizing Inpatients with Depression
+
+To calculate all the inpatients with conditions related to bipolar disorder, the logic is as follows:
+
+1. Select the `condition_occurrence` table 
+2. Find all rows in `condition_occurrence` where `person_id` occurs in the `inpatients_depression` variable
+3. Find all rows where `condition_concept_id` occurs in the `CONCEPT_ID` column of the `depression_df`
+4. Group table by the `person_id` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(condition_occurrence) |>
+    Where(Fun.in(Get.person_id, inpatients...)) |> 
+    Where(Fun.in(Get.condition_concept_id, depression_df.CONCEPT_ID...)) |> 
+    Group(Get.person_id);
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+inpatients_depression = DataFrame(res) |> Array
+```
+
+Using this logic, there are `length(inpatients_depression)` inpatients with conditions of conditions related to bipolar disorder.
+All these patient ID's get stored in the variable, `inpatients_depression`.
+
+## State Breakdown
+
+To get the inpatient count by state in this database, the logical flow is as follows:
+
+1. Select the `person` table 
+2. Join the `person` table to the `location` table using the `location_id` as the key to join on
+3. Find rows that contain a person ID from the `inpatients_depression` variable in the `person_id` column of this joined table
+4. Group table by the `state` column
+5. Return the counts of patients per each state using the `state` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    Join(
+        From(location) |> As(:location),
+        on = Get.location.location_id .== Get.location_id,
+    ) |>
+    Where(Fun.in(Get.person_id, inpatients_depression...)) |> 
+    Group(Get.location.state) |> 
+    Select(Get.state, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+df_states = LibPQ.execute(conn, sql) |> DataFrame
+sort!(df_states, :count)
+```
+
+Using this logic, we can visualize patient distribution by state as follows:
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1600, 800))
+ax = Axis(f[1, 1])
+
+states = 1:length(df_states.state)
+counts = df_states.count
+
+barplot!(
+    states,
+    counts)
+ax.xticks = (states, string.(df_states.state))
+ax.xticksize = 12
+
+ax.title = "Depression Inpatients across State"
+ax.titlesize = 28
+
+ax.xlabel = "States"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Age Breakdown
+
+For age breakdowns, inpatient counts were bucketed based on their age.
+The age brackets were as follows:
+
+1. 0 - 9
+2. 10 - 19
+3. 20 - 29
+4. 30 - 39
+5. 40 - 49
+6. 50 - 59
+7. 60 - 69
+8. 70 - 79
+9. 80 - 89
+
+To find patient counts per each bucket, the following scheme was used:
+
+1. Select the `person` table 
+2. Join the `person` table to the `observation_period` table using the `person_id` as the key to join on
+3. Find rows that contain a person ID from the `inpatients_depression` variable in the `person_id` column of this joined table
+4. Define a new column, `age`, where a patient's age is defined as the last recorded `observation_period_end_date` minus their `year_of_birth`
+5. Define a new column, `age_group`, where a patient is given an age group categorization based on the previously stated age breakdown
+6. Group resulting table by the `age_group` column
+7. Return the counts of patients per age group using the `age_group` column
+
+
+```julia, eval = true, results = "hidden", echo = false
+q =
+    From(person) |>
+    Join(:op => observation_period, Get.person_id .== Get.op.person_id) |>
+    Where(Fun.in(Get.person_id, inpatients_depression...)) |>
+    Define(
+        :age => Fun.date_part(
+            "year",
+            Fun.age(
+                Get.op.observation_period_end_date,
+                Fun.make_date(Get.year_of_birth, 1, 1),
+            ),
+        ),
+    ) |>
+    Define(
+        :age_group => Fun.case(
+            Get.age .< 10,
+            "0 - 9",
+            Get.age .< 20,
+            "10 - 19",
+            Get.age .< 30,
+            "20 - 29",
+            Get.age .< 40,
+            "30 - 39",
+            Get.age .< 50,
+            "40 - 49",
+            Get.age .< 60,
+            "50 - 59",
+            Get.age .< 70,
+            "60 - 69",
+            Get.age .< 80,
+            "70 - 79",
+            "80 - 89",
+        ),
+    ) |>
+    Group(Get.age_group) |>
+    Select(Get.age_group, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_age_group = DataFrame(res)
+```
+
+With this approach, the age group breakdowns and counts can be visualized as follows:
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_age_group)
+counts = df_age_group.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, df_age_group.age_group)
+ax.xticksize = 12
+
+ax.title = "Depression Inpatients Age Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Age Groups"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Racial Breakdown
+
+To get the inpatient counts broken down by race, the logical flow is as follows:
+
+1. Select the `person` table 
+2. Find rows that contain a person ID from the `inpatients_depression` variable in the `person_id` column 
+4. Group table by the `race_concept_id` column
+5. Return the counts of patients per each recorded race using the `race_concept_id` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    	Where(Fun.in(Get.person_id, inpatients_depression...)) |>
+			 Group(Get.race_concept_id) |>
+			 Select(Get.race_concept_id, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_race = DataFrame(res)
+```
+
+The racial breakdowns can be seen in the following plot:
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_race)
+counts = df_race.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_race.race_concept_id))
+ax.xticksize = 12
+
+ax.title = "Depression Inpatient Race Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Races"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Gender Breakdown
+
+To get the inpatient counts broken down by gender, the logical flow is as follows:
+
+1. Select the `person` table 
+2. Find rows that contain a person ID from the `inpatients_depression`
+4. Group table by the `gender_concept_id` column
+5. Return the counts of patients per each recorded gender using the `gender_concept_id` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    	Where(Fun.in(Get.person_id, inpatients_depression...)) |>
+			 Group(Get.gender_concept_id) |>
+			 Select(Get.gender_concept_id, Agg.count());
+		
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_gender = DataFrame(res)
+```
+
+The gender breakdown can be seen as follows:
+
+```julia, eval = true, echo = false
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_gender)
+counts = df_gender.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_gender.gender_concept_id))
+ax.xticksize = 12
+
+ax.title = "Depression Inpatients Gender Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Genders"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Care Site Breakdown [TODO]
+
+# Characterizing Inpatients with Suicidality
+
+To calculate all the inpatients with conditions related to bipolar disorder, the logic is as follows:
+
+1. Select the `condition_occurrence` table 
+2. Find all rows in `condition_occurrence` where `person_id` occurs in the `inpatients_suicidality` variable
+3. Find all rows where `condition_concept_id` occurs in the `CONCEPT_ID` column of the `suicidality_df`
+4. Group table by the `person_id` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(condition_occurrence) |>
+    Where(Fun.in(Get.person_id, inpatients...)) |> 
+    Where(Fun.in(Get.condition_concept_id, suicidality_df.CONCEPT_ID...)) |> 
+    Group(Get.person_id);
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+inpatients_suicidality = DataFrame(res) |> Array
+```
+
+Using this logic, there are `length(inpatients_suicidality)` inpatients with conditions of conditions related to bipolar disorder.
+All these patient ID's get stored in the variable, `inpatients_suicidality`.
+
+## State Breakdown
+
+To get the inpatient count by state in this database, the logical flow is as follows:
+
+1. Select the `person` table 
+2. Join the `person` table to the `location` table using the `location_id` as the key to join on
+3. Find rows that contain a person ID from the `inpatients_suicidality` variable in the `person_id` column of this joined table
+4. Group table by the `state` column
+5. Return the counts of patients per each state using the `state` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    Join(
+        From(location) |> As(:location),
+        on = Get.location.location_id .== Get.location_id,
+    ) |>
+    Where(Fun.in(Get.person_id, inpatients_suicidality...)) |> 
+    Group(Get.location.state) |> 
+    Select(Get.state, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+df_states = LibPQ.execute(conn, sql) |> DataFrame
+sort!(df_states, :count)
+```
+
+Using this logic, we can visualize patient distribution by state as follows:
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1600, 800))
+ax = Axis(f[1, 1])
+
+states = 1:length(df_states.state)
+counts = df_states.count
+
+barplot!(
+    states,
+    counts)
+ax.xticks = (states, string.(df_states.state))
+ax.xticksize = 12
+
+ax.title = "Suicidality Inpatients across State"
+ax.titlesize = 28
+
+ax.xlabel = "States"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Age Breakdown
+
+For age breakdowns, inpatient counts were bucketed based on their age.
+The age brackets were as follows:
+
+1. 0 - 9
+2. 10 - 19
+3. 20 - 29
+4. 30 - 39
+5. 40 - 49
+6. 50 - 59
+7. 60 - 69
+8. 70 - 79
+9. 80 - 89
+
+To find patient counts per each bucket, the following scheme was used:
+
+1. Select the `person` table 
+2. Join the `person` table to the `observation_period` table using the `person_id` as the key to join on
+3. Find rows that contain a person ID from the `inpatients_suicidality` variable in the `person_id` column of this joined table
+4. Define a new column, `age`, where a patient's age is defined as the last recorded `observation_period_end_date` minus their `year_of_birth`
+5. Define a new column, `age_group`, where a patient is given an age group categorization based on the previously stated age breakdown
+6. Group resulting table by the `age_group` column
+7. Return the counts of patients per age group using the `age_group` column
+
+```julia, eval = true, results = "hidden", echo = false
+q =
+    From(person) |>
+    Join(:op => observation_period, Get.person_id .== Get.op.person_id) |>
+    Where(Fun.in(Get.person_id, inpatients_suicidality...)) |>
+    Define(
+        :age => Fun.date_part(
+            "year",
+            Fun.age(
+                Get.op.observation_period_end_date,
+                Fun.make_date(Get.year_of_birth, 1, 1),
+            ),
+        ),
+    ) |>
+    Define(
+        :age_group => Fun.case(
+            Get.age .< 10,
+            "0 - 9",
+            Get.age .< 20,
+            "10 - 19",
+            Get.age .< 30,
+            "20 - 29",
+            Get.age .< 40,
+            "30 - 39",
+            Get.age .< 50,
+            "40 - 49",
+            Get.age .< 60,
+            "50 - 59",
+            Get.age .< 70,
+            "60 - 69",
+            Get.age .< 80,
+            "70 - 79",
+            "80 - 89",
+        ),
+    ) |>
+    Group(Get.age_group) |>
+    Select(Get.age_group, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_age_group = DataFrame(res)
+```
+
+With this approach, the age group breakdowns and counts can be visualized as follows:
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_age_group)
+counts = df_age_group.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, df_age_group.age_group)
+ax.xticksize = 12
+
+ax.title = "Suicidality Inpatients Age Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Age Groups"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Racial Breakdown
+
+To get the inpatient counts broken down by race, the logical flow is as follows:
+
+1. Select the `person` table 
+2. Find rows that contain a person ID from the `inpatients_suicidality` variable in the `person_id` column 
+4. Group table by the `race_concept_id` column
+5. Return the counts of patients per each recorded race using the `race_concept_id` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    	Where(Fun.in(Get.person_id, inpatients_suicidality...)) |>
+			 Group(Get.race_concept_id) |>
+			 Select(Get.race_concept_id, Agg.count());
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_race = DataFrame(res)
+```
+
+The racial breakdowns can be seen in the following plot:
+
+```julia, eval = true, echo = false,
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_race)
+counts = df_race.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_race.race_concept_id))
+ax.xticksize = 12
+
+ax.title = "Suicidality Inpatient Race Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Races"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Gender Breakdown
+
+To get the inpatient counts broken down by gender, the logical flow is as follows:
+
+1. Select the `person` table 
+2. Find rows that contain a person ID from the `inpatients_suicidality`
+4. Group table by the `gender_concept_id` column
+5. Return the counts of patients per each recorded gender using the `gender_concept_id` column
+
+```julia, eval = true, echo = false, results = "hidden"
+q =
+    From(person) |>
+    	Where(Fun.in(Get.person_id, inpatients_suicidality...)) |>
+			 Group(Get.gender_concept_id) |>
+			 Select(Get.gender_concept_id, Agg.count());
+		
+
+sql = render(q, dialect = :postgresql);
+res = LibPQ.execute(conn, sql)
+df_gender = DataFrame(res)
+```
+
+The gender breakdown can be seen as follows:
+
+```julia, eval = true, echo = false
+f = Figure(resolution = (1200, 600))
+ax = Axis(f[1, 1])
+
+x_locs = 1:nrow(df_gender)
+counts = df_gender.count
+
+barplot!(
+    x_locs,
+    counts)
+ax.xticks = (x_locs, string.(df_gender.gender_concept_id))
+ax.xticksize = 12
+
+ax.title = "Suicidality Inpatients Gender Breakdown"
+ax.titlesize = 28
+
+ax.xlabel = "Genders"
+ax.xlabelsize = 20
+
+ax.ylabel = "Patient counts"
+ax.ylabelsize = 20
+
+display(f)
+```
+
+## Care Site Breakdown [TODO]
+
+# Appendix
+
+## Packages Used in Analysis
+
+Package descriptions:
+
+- [`DataFrames`](https://github.com/JuliaData/DataFrames.jl) - Julia's dataframe handler for easily manipulating data
+
+- [`DrWatson`](https://github.com/JuliaDynamics/DrWatson.jl) - Incredibly helpful tool for managing Julia-based scientific experiments and exploration
+
+- [`Makie`](https://github.com/JuliaPlots/Makie.jl) - Data visualization ecosystem for the Julia programming language, with high performance and extensibility
+
+- [`Statistics`](https://github.com/JuliaLang/Statistics.jl) - Julia's standard library for useful statistical methods
+
+- [`Weave`](https://github.com/JunoLab/Weave.jl) - Converts Julia Markdown files to other forms of output
+
