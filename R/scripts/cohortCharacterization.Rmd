@@ -348,6 +348,12 @@ disconnect(conn)
 In the inpatient dataset, it takes in the visit encounters, and the ages for the individuals were found according to the time of the inpatient visit. 
 The youngest individual was of age `r inpatient_age$MIN_AGE`, and the oldest individual was of age `r inpatient_age$MAX_AGE`
 
+This table shows the number of occurences of the ages in the data set. 
+
+`r knitr::kable(t(inpatient_age), col.names = "COUNT")`
+
+
+
 ##### Racial Breakdown
 ```{r Inpatient Race}
 conn <- connect(connectionDetails)
@@ -382,3 +388,427 @@ In the inpatient cohort, there are
 `r mapply(paste, inpatient_gender$COUNT, inpatient_gender$GENDER_CONCEPT_NAME, "persons")`
 `r knitr::kable(inpatient_gender)`
 
+### General Trends for Bipolar Disorder
+
+```{r Bipolar Cohort}
+bipolar_id <- 436665
+bipolar_df <- get_atlas_concept_set(get_atlas_concept(bipolar_id))
+bipolar_concept <- paste0('(', paste(bipolar_df$CONCEPT_ID, collapse = ", "), ')')
+condition_sql <- "
+  SELECT {@x} ?
+      { person.PERSON_ID, 
+        person.YEAR_OF_BIRTH, 
+        person.MONTH_OF_BIRTH, 
+        person.DAY_OF_BIRTH, 
+        location.STATE, 
+        race.RACE_CONCEPT_NAME, 
+        ethnicity.ETHNICITY_CONCEPT_NAME, 
+        gender.GENDER_CONCEPT_NAME, 
+        condition.CONDITION_OCCURRENCE_ID, 
+        condition.CONDITION_CONCEPT_ID, 
+        condition.CONDITION_CONCEPT_NAME,
+        condition.CONDITION_START_DATE, 
+        condition.CONDITION_END_DATE, 
+        condition.VISIT_OCCURRENCE_ID, 
+        visit_info.VISIT_CONCEPT_NAME} :
+      {@query}
+  FROM person 
+      LEFT JOIN (SELECT LOCATION_ID, STATE FROM location) AS location ON
+        person.location_id = location.location_id
+      LEFT JOIN (SELECT CONCEPT_ID,
+                    CONCEPT_NAME as RACE_CONCEPT_NAME
+                  FROM concept WHERE DOMAIN_ID = 'Race'
+                  AND STANDARD_CONCEPT = 'S') AS race ON
+        person.race_concept_id = race.concept_id
+      LEFT JOIN ( SELECT CONCEPT_ID,
+                    CONCEPT_NAME as ETHNICITY_CONCEPT_NAME
+                  FROM concept WHERE DOMAIN_ID = 'Ethnicity'
+                    AND STANDARD_CONCEPT = 'S') AS ethnicity ON
+        person.ethnicity_concept_id = ethnicity.concept_id
+      LEFT JOIN ( SELECT CONCEPT_ID,
+                  CONCEPT_NAME as GENDER_CONCEPT_NAME
+                  FROM concept WHERE DOMAIN_ID = 'Gender'
+                      AND STANDARD_CONCEPT = 'S') AS gender ON
+        person.gender_concept_id = gender.concept_id
+      LEFT JOIN ( SELECT *
+                  FROM CONDITION_OCCURRENCE 
+                  LEFT JOIN  
+                    ( SELECT CONCEPT_ID,
+                      CONCEPT_NAME as CONDITION_CONCEPT_NAME
+                      FROM concept WHERE DOMAIN_ID = 'Condition'
+                          AND STANDARD_CONCEPT = 'S') concept ON 
+                  CONDITION_OCCURRENCE.CONDITION_CONCEPT_ID = concept.CONCEPT_ID) condition ON
+        person.PERSON_ID = condition.PERSON_ID
+      LEFT JOIN ( SELECT *
+                  FROM VISIT_OCCURRENCE visit
+                  JOIN
+                        ( SELECT concept.CONCEPT_NAME AS VISIT_CONCEPT_NAME, 
+                              concept.CONCEPT_ID
+                          FROM concept
+                          WHERE DOMAIN_ID = 'Visit'
+                          AND STANDARD_CONCEPT = 'S') concept
+                  ON visit.VISIT_CONCEPT_ID = concept.CONCEPT_ID) as visit_info ON 
+                  person.PERSON_ID = visit_info.PERSON_ID AND
+                  condition.VISIT_OCCURRENCE_ID = visit_info.VISIT_OCCURRENCE_ID
+  WHERE condition.CONDITION_CONCEPT_ID in @ids
+  {@y}? {@query2} 
+"
+conn <- connect(connectionDetails)
+bipolar_counts <- renderTranslateQuerySql(conn, condition_sql, 
+                        ids = bipolar_concept, x = F, y = F, 
+                        query = "COUNT(*) AS RECORDS, COUNT(DISTINCT person.PERSON_ID) AS COUNT")
+disconnect(conn)
+```
+
+#### Patient Spread
+
+This calculates the number of inpatient patients in the dataset:
+
+In this dataset, there are a total of `r bipolar_counts$RECORDS` records of bipolar disorder in the dataset, with `r bipolar_counts$COUNT` patients
+
+To further examine this data, we can break them down across the following axes:
+
+- Condition
+- State
+- Age
+- Race
+- Gender
+- Care setting
+
+
+##### Condition Breakdown
+
+```{r Bipolar Conditions}
+conn <- connect(connectionDetails)
+bipolar_conditions <- renderTranslateQuerySql(conn, condition_sql, ids = bipolar_concept, x = F,
+                                              query = " condition.CONDITION_CONCEPT_NAME, COUNT(*) RECORD_COUNT, COUNT(DISTINCT person.PERSON_ID) PERSON_COUNT", y = T, query2 = "GROUP BY condition.CONDITION_CONCEPT_NAME ORDER BY COUNT(*) DESC")
+disconnect(conn)
+```
+
+Here is the breakdown of the top bipolar diagnoses: `r knitr::kable(head(bipolar_conditions))`
+
+
+##### State Breakdown
+```{r Bipolar State}
+conn <- connect(connectionDetails)
+bipolar_state <- renderTranslateQuerySql(conn, condition_sql, ids = bipolar_concept, x = F, 
+                        query = "location.STATE, COUNT(DISTINCT person.PERSON_ID)",
+                        y = T, query2 = "GROUP BY location.STATE ORDER BY COUNT DESC")
+disconnect(conn)
+```
+
+The top ten states by person count with bipolar disorder are
+`r knitr::kable(head(bipolar_state, n = 10))`
+
+##### Age Breakdown
+
+```{r Bipolar Age}
+conn <- connect(connectionDetails)
+bipolar_age <- renderTranslateQuerySql(conn, condition_sql, ids = bipolar_concept, x = F,
+query = "
+                MIN(YEAR(condition.CONDITION_START_DATE)- person.YEAR_OF_BIRTH) 
+                  as min_age, 
+                MAX(YEAR(condition.CONDITION_START_DATE) - person.YEAR_OF_BIRTH)
+                  as max_age, 
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) - 
+                  person.YEAR_OF_BIRTH < 18 THEN 1 END) AS less_than_18,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -
+                  person.YEAR_OF_BIRTH BETWEEN 18 AND 24 THEN 1 END) 
+                  AS age_18_to_24,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -
+                  person.YEAR_OF_BIRTH BETWEEN 25 AND 34 THEN 1 END) 
+                  AS age_25_to_35,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -                                 person.YEAR_OF_BIRTH BETWEEN 35 AND 44 THEN 1 ELSE 0 END) 
+                  AS age_35_44,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -               
+                  person.YEAR_OF_BIRTH BETWEEN 45 AND 54 THEN 1 ELSE 0 END) 
+                  AS age_45_54,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -                                 person.YEAR_OF_BIRTH BETWEEN 55 AND 64 THEN 1 ELSE 0 END) 
+                  AS age_55_64,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -
+                  person.YEAR_OF_BIRTH >= 65 THEN 1 ELSE 0 END) 
+                  AS age_65_and_more",
+y = F)
+disconnect(conn)
+```
+
+`r knitr::kable(t(bipolar_age), col.names = "COUNT")`
+
+
+##### Racial Breakdown
+```{r Bipolar Race}
+conn <- connect(connectionDetails)
+bipolar_race <- renderTranslateQuerySql(conn, condition_sql, ids = bipolar_concept,
+                                        x = F, query = "race.RACE_CONCEPT_NAME, COUNT(DISTINCT person.PERSON_ID)", y = T, query2 = "GROUP BY race.RACE_CONCEPT_NAME ORDER BY COUNT DESC")
+disconnect(conn)
+```
+
+`r knitr::kable(bipolar_race)`
+
+##### Gender Breakdown
+```{r Bipolar Gender}
+conn <- connect(connectionDetails)
+bipolar_gender <- renderTranslateQuerySql(conn, condition_sql, ids = bipolar_concept,
+                                        x = F, query = "gender.GENDER_CONCEPT_NAME, COUNT(DISTINCT person.PERSON_ID)", y = T, query2 = "GROUP BY gender.GENDER_CONCEPT_NAME ORDER BY COUNT DESC")
+disconnect(conn)
+```
+
+`r knitr::kable(bipolar_gender)`
+
+
+##### Care Site Breakdown
+```{r Bipolar Care Site}
+conn <- connect(connectionDetails)
+bipolar_caresite <- renderTranslateQuerySql(conn, condition_sql, ids = bipolar_concept, x= F, query = "visit_info.VISIT_CONCEPT_NAME, COUNT(*)", y = T, query2 = "GROUP BY visit_info.VISIT_CONCEPT_NAME ORDER BY COUNT DESC")
+disconnect(conn)
+```
+
+`r knitr::kable(bipolar_caresite)`
+
+### General Trends for Depression
+
+#### Patient Spread
+
+This calculates the number of patients in the dataset:
+
+```{r Depression Cohort}
+depression_id <- 440383
+depression_df <- get_atlas_concept_set(get_atlas_concept(depression_id))
+depression_concept <- paste0('(', paste(depression_df$CONCEPT_ID, collapse = ", "), ')')
+
+conn <- connect(connectionDetails)
+depression_counts <- renderTranslateQuerySql(conn, condition_sql, 
+                        ids = depression_concept, x = F, y = F, 
+                        query = "COUNT(*) AS RECORDS, COUNT(DISTINCT person.PERSON_ID) AS COUNT")
+disconnect(conn)
+```
+
+
+
+In this dataset, there are a total of `r depression_counts$RECORDS` records for `r depression_counts$COUNT` patients.
+To further examine this data, we can break them down across the following axes:
+
+- Condition
+- State
+- Age
+- Race
+- Gender
+- Care setting
+
+##### Condition Breakdown
+
+```{r Depression Condition}
+conn <- connect(connectionDetails)
+depression_conditions <- renderTranslateQuerySql(conn, condition_sql, ids = depression_concept, x = F,
+                                              query = " condition.CONDITION_CONCEPT_NAME, COUNT(*) RECORD_COUNT, COUNT(DISTINCT person.PERSON_ID) PERSON_COUNT", y = T, query2 = "GROUP BY condition.CONDITION_CONCEPT_NAME ORDER BY COUNT(*) DESC")
+disconnect(conn)
+```
+
+
+Here is the breakdown of the top bipolar diagnoses: `r knitr::kable(head(depression_conditions))`
+
+
+
+##### State Breakdown
+```{r Depression State}
+conn <- connect(connectionDetails)
+depression_state <- renderTranslateQuerySql(conn, condition_sql, ids = depression_concept, x = F, 
+                        query = "location.STATE, COUNT(DISTINCT person.PERSON_ID)",
+                        y = T, query2 = "GROUP BY location.STATE ORDER BY COUNT DESC")
+disconnect(conn)
+```
+
+
+
+`r knitr::kable(head(depression_state, n = 10))`
+
+
+
+
+##### Age Breakdown
+```{r Depression Age}
+conn <- connect(connectionDetails)
+depression_age <- renderTranslateQuerySql(conn, condition_sql, ids = depression_concept, x = F,
+query = "
+                MIN(YEAR(condition.CONDITION_START_DATE)- person.YEAR_OF_BIRTH) 
+                  as min_age, 
+                MAX(YEAR(condition.CONDITION_START_DATE) - person.YEAR_OF_BIRTH)
+                  as max_age, 
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) - 
+                  person.YEAR_OF_BIRTH < 18 THEN 1 END) AS less_than_18,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -
+                  person.YEAR_OF_BIRTH BETWEEN 18 AND 24 THEN 1 END) 
+                  AS age_18_to_24,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -
+                  person.YEAR_OF_BIRTH BETWEEN 25 AND 34 THEN 1 END) 
+                  AS age_25_to_35,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -                                 person.YEAR_OF_BIRTH BETWEEN 35 AND 44 THEN 1 ELSE 0 END) 
+                  AS age_35_44,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -               
+                  person.YEAR_OF_BIRTH BETWEEN 45 AND 54 THEN 1 ELSE 0 END) 
+                  AS age_45_54,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -                                 person.YEAR_OF_BIRTH BETWEEN 55 AND 64 THEN 1 ELSE 0 END) 
+                  AS age_55_64,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -
+                  person.YEAR_OF_BIRTH >= 65 THEN 1 ELSE 0 END) 
+                  AS age_65_and_more",
+y = F)
+disconnect(conn)
+```
+
+
+
+`r knitr::kable(t(depression_age), col.names = "COUNT")`
+
+
+##### Racial Breakdown
+```{r Depression Race}
+conn <- connect(connectionDetails)
+depression_race <- renderTranslateQuerySql(conn, condition_sql, ids = depression_concept,
+                                        x = F, query = "race.RACE_CONCEPT_NAME, COUNT(DISTINCT person.PERSON_ID)", y = T, query2 = "GROUP BY race.RACE_CONCEPT_NAME ORDER BY COUNT DESC")
+disconnect(conn)
+```
+
+
+
+`r knitr::kable(depression_race)`
+
+##### Gender Breakdown
+```{r Depression Gender}
+conn <- connect(connectionDetails)
+depression_gender <- renderTranslateQuerySql(conn, condition_sql, ids = depression_concept,
+                                        x = F, query = "gender.GENDER_CONCEPT_NAME, COUNT(DISTINCT person.PERSON_ID)", y = T, query2 = "GROUP BY gender.GENDER_CONCEPT_NAME ORDER BY COUNT DESC")
+disconnect(conn)
+```
+
+
+
+`r knitr::kable(depression_gender)`
+
+##### Care Site Breakdown
+```{r Depression Care Site}
+conn <- connect(connectionDetails)
+depression_caresite <- renderTranslateQuerySql(conn, condition_sql, ids = depression_concept, x= F, query = "visit_info.VISIT_CONCEPT_NAME, COUNT(*)", y = T, query2 = "GROUP BY visit_info.VISIT_CONCEPT_NAME ORDER BY COUNT DESC")
+disconnect(conn)
+```
+
+
+
+`r knitr::kable(depression_caresite)`
+
+
+### General Trends for Suicidality
+
+#### Patient Spread
+
+This calculates the number of patients in the dataset:
+
+```{r Suicidality Cohort}
+suicidality_id <- 4273391
+suicidality_df <- get_atlas_concept_set(get_atlas_concept(suicidality_id))
+suicidality_concept <- paste0('(', paste(suicidality_df$CONCEPT_ID, collapse = ", "), ')')
+
+conn <- connect(connectionDetails)
+suicidality_counts <- renderTranslateQuerySql(conn, condition_sql, 
+                        ids = suicidality_concept, x = F, y = F, 
+                        query = "COUNT(*) AS RECORDS, COUNT(DISTINCT person.PERSON_ID) AS COUNT")
+disconnect(conn)
+```
+
+
+
+In this dataset, there are a total of `r suicidality_counts$RECORDS` records for `r suicidality_counts$COUNT` patients.
+
+
+To further examine this data, we can break them down across the following axes:
+
+- Condition
+- State
+- Age
+- Race
+- Gender
+- Care setting
+
+##### Condition Breakdown
+
+```{r Suicidality Condition}
+conn <- connect(connectionDetails)
+suicidality_conditions <- renderTranslateQuerySql(conn, condition_sql, ids = suicidality_concept, x = F,
+                                              query = " condition.CONDITION_CONCEPT_NAME, COUNT(*) RECORD_COUNT, COUNT(DISTINCT person.PERSON_ID) PERSON_COUNT", y = T, query2 = "GROUP BY condition.CONDITION_CONCEPT_NAME ORDER BY COUNT(*) DESC")
+disconnect(conn)
+```
+Here is the breakdown of the top bipolar diagnoses: `r knitr::kable(head(suicidality_conditions))`
+
+##### State Breakdown
+```{r Suicidality State}
+conn <- connect(connectionDetails)
+suicidality_state <- renderTranslateQuerySql(conn, condition_sql, ids = suicidality_concept, x = F, 
+                        query = "location.STATE, COUNT(DISTINCT person.PERSON_ID)",
+                        y = T, query2 = "GROUP BY location.STATE ORDER BY COUNT DESC")
+disconnect(conn)
+```
+
+`r knitr::kable(head(suicidality_state, n = 10))`
+
+##### Age Breakdown
+```{r Suicidality Age}
+conn <- connect(connectionDetails)
+suicidality_age <- renderTranslateQuerySql(conn, condition_sql, ids = suicidality_concept, x = F,
+query = "
+                MIN(YEAR(condition.CONDITION_START_DATE)- person.YEAR_OF_BIRTH) 
+                  as min_age, 
+                MAX(YEAR(condition.CONDITION_START_DATE) - person.YEAR_OF_BIRTH)
+                  as max_age, 
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) - 
+                  person.YEAR_OF_BIRTH < 18 THEN 1 END) AS less_than_18,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -
+                  person.YEAR_OF_BIRTH BETWEEN 18 AND 24 THEN 1 END) 
+                  AS age_18_to_24,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -
+                  person.YEAR_OF_BIRTH BETWEEN 25 AND 34 THEN 1 END) 
+                  AS age_25_to_35,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -                                 person.YEAR_OF_BIRTH BETWEEN 35 AND 44 THEN 1 ELSE 0 END) 
+                  AS age_35_44,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -               
+                  person.YEAR_OF_BIRTH BETWEEN 45 AND 54 THEN 1 ELSE 0 END) 
+                  AS age_45_54,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -                                 person.YEAR_OF_BIRTH BETWEEN 55 AND 64 THEN 1 ELSE 0 END) 
+                  AS age_55_64,
+                SUM(CASE WHEN YEAR(condition.CONDITION_START_DATE) -
+                  person.YEAR_OF_BIRTH >= 65 THEN 1 ELSE 0 END) 
+                  AS age_65_and_more",
+y = F)
+disconnect(conn)
+```
+
+`r knitr::kable(t(suicidality_age), col.names = "COUNT")`
+
+
+##### Racial Breakdown
+```{r Suicidality Race}
+conn <- connect(connectionDetails)
+suicidality_race <- renderTranslateQuerySql(conn, condition_sql, ids = suicidality_concept,
+                                        x = F, query = "race.RACE_CONCEPT_NAME, COUNT(DISTINCT person.PERSON_ID)", y = T, query2 = "GROUP BY race.RACE_CONCEPT_NAME ORDER BY COUNT DESC")
+disconnect(conn)
+```
+
+`r knitr::kable(suicidality_race)`
+
+##### Gender Breakdown
+```{r Suicidality Gender}
+conn <- connect(connectionDetails)
+suicidality_gender <- renderTranslateQuerySql(conn, condition_sql, ids = suicidality_concept,
+                                        x = F, query = "gender.GENDER_CONCEPT_NAME, COUNT(DISTINCT person.PERSON_ID)", y = T, query2 = "GROUP BY gender.GENDER_CONCEPT_NAME ORDER BY COUNT DESC")
+disconnect(conn)
+```
+
+`r knitr::kable(suicidality_gender)`
+
+##### Care Site Breakdown
+```{r Suicidality Care Site}
+conn <- connect(connectionDetails)
+suicidality_caresite <- renderTranslateQuerySql(conn, condition_sql, ids = suicidality_concept, x= F, query = "visit_info.VISIT_CONCEPT_NAME, COUNT(*)", y = T, query2 = "GROUP BY visit_info.VISIT_CONCEPT_NAME ORDER BY COUNT DESC")
+disconnect(conn)
+```
+
+`r knitr::kable(suicidality_caresite)`
