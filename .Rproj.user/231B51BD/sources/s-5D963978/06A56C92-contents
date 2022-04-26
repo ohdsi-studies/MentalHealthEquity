@@ -1,0 +1,151 @@
+---
+title: "Introduction to OHDSI HADES Packages"
+author: "Malina Hy"
+date: "3/10/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Using HADES Packages
+
+In this tutorial, we will be using DatabaseConnector, SqlRender, ROhdsiWebApi, and Eunomia to interact with connect to our database and interact with the OHDSI environment. 
+
+## Set up
+Required Libraries: 
+
+`DatabaseConnector` insert brief description here
+`Eunomia` 
+
+
+`SqlRender` insert brief description here
+
+`ROhdsiWebApi` R based interface to the WebApi (OHDSI RESTful services), and performs GET/PULL/POST/DELETE calls via the Atlas WebApi.
+
+
+```{r Installing Libraries, eval = F}
+install.packages("DatabaseConnector")
+install.packages("remotes")
+
+remotes::install_github("OHDSI/ROhdsiWebApi")
+remotes::install_github("OHDSI/SqlRender")
+remotes::install_github("OHDSI/Eunomia")
+```
+
+
+```{R Loading Libraries}
+library(DatabaseConnector)
+library(SqlRender)
+library(Eunomia)
+```
+
+
+We'll be using `renderTranslateQuerySql`, it takes parameters connectioin, sql)
+Functions to query with DatabaseConnector, SqlRender
+- renderTranslateQuerySql
+- querySql
+
+
+
+
+## Connecting to our database
+
+1) DatabaseConnector
+2) Eunomia 
+
+include explanations of what you're doing 
+Connecting to different database instances and servers in different SQL dialects
+
+We'll be using three database things
+- Eunomia: HADES 
+
+```{R DatabaseConnector}
+connectionDetails <- DatabaseConnector::createConnectionDetails(
+    dbms = "postgresql",
+    server = "data.hdap.gatech.edu/mimic_v531",
+    user = "mimic_v531",
+    password = "i3lworks",
+    port = 5442,
+    pathToDriver = "./utils"
+)
+```
+
+
+```{R }
+sql <- "SELECT * FROM PERSON LIMIT 5"
+conn <- DatabaseConnector::connect(connectionDetails = connectionDetails)
+DatabaseConnector::renderTranslateQuerySql(connection = conn, 
+                                   sql = sql)
+
+
+
+conn <- DatabaseConnector::connect(connectionDetails)
+sql <- "SELECT * FROM @cohort_database_schema.@cohort_table LIMIT 5"
+cohort_example <- DatabaseConnector::renderTranslateQuerySql(conn, sql,
+                                                             cohort_database_schema = "mimic_v531",
+                                                             cohort_table = "example_cohort"
+)
+DatabaseConnector::disconnect(conn)
+```
+
+## Eunomia
+Explain what the purpose of this package is
+
+
+#### Getting Connection Details/Connecting to Eunomia
+```{R Connecting to Eunomia}
+connectionDetails <- Eunomia::getEunomiaConnectionDetails()
+```
+
+
+## ROhdsiWebApi
+
+#### Auxillary Packages for ROhdsiWebApi 
+- `httr` for interacting with the APIs
+- rjson/jsonlite 
+
+```{R}
+library(ROhdsiWebApi)
+
+concept_id <- 1869143
+baseUrl <- "http://api.ohdsi.org:8080/WebAPI" 
+
+```
+
+
+#### Getting Concept Sets
+
+```{R}
+get_atlas_concept <- function(id) {
+  url <- paste0("https://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/", id)
+  result <- httr::GET(url)
+  if (httr::http_type(result) != "application/json") {
+    stop("Atlas WebAPI did not return json", call. = FALSE)
+  } else if (httr::status_code(result) == 500) {
+    stop("Atlas WebAPI is unavailable")
+  }
+  concept_set <- httr::content(result, type = "application/json")
+  jsontext <- jsonlite::toJSON(
+    list(
+      items = list(
+        list(
+          concept = concept_set,
+          isExcluded = FALSE,
+          includeDescendants = TRUE,
+          includeMapped = TRUE
+        )
+      )
+    ),
+    pretty = T, auto_unbox = T
+  )
+  return(jsontext)
+}
+
+
+conceptUrl <- "https://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/"
+
+
+
+```

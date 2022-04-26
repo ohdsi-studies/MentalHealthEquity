@@ -1,0 +1,528 @@
+library("httr")
+library("rjson")
+
+###########################
+# TODO's for a First Pass #
+###########################
+#
+# 1. Look up vocabulary concept codes
+#
+# EXAMPLE:
+#    url <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/4273391/"
+#    result <- GET(url)
+#
+# 2. Build JSON definitions for conditions
+#
+# EXAMPLE: See the JSON as an example:
+#
+# {
+#   "items": [
+#     {
+#       "concept": {
+# 	"CONCEPT_CLASS_ID": "Clinical Finding",
+# 	"CONCEPT_CODE": "13746004",
+# 	"CONCEPT_ID": 436665,
+# 	"CONCEPT_NAME": "Bipolar disorder",
+# 	"DOMAIN_ID": "Condition",
+# 	"INVALID_REASON": "V",
+# 	"INVALID_REASON_CAPTION": "Valid",
+# 	"STANDARD_CONCEPT": "S",
+# 	"STANDARD_CONCEPT_CAPTION": "Standard",
+# 	"VOCABULARY_ID": "SNOMED"
+#       },
+#       "isExcluded": false,
+#       "includeDescendants": true,
+#       "includeMapped": true
+#     }
+#   ]
+# }
+#
+# 3. Build tables detailing concept set as a CSV
+#
+# EXAMPLE:
+#
+# | Id       | Code    | Name             | Class        | Standard Concept  Caption | RC | DRC | Domain    | Vocabulary |
+# |----------|---------|------------------|--------------|---------------------------|----|-----|-----------|------------|
+# | 45618865 | D001714 | Bipolar Disorder | Main Heading | Non-Standard              | 0  | 0   | Condition | MeSH       |
+#
+# See link for how to get this information: http://webapidoc.ohdsi.org/index.html#-504206733
+# And this can be an example of how you get concept information:
+#
+# url <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/4273391/"
+# result <- GET(url)
+
+# TODO: Get the descendants and mapped table codes for these concepts
+# bipolar_id <- 436665
+# depression_id<- 440383
+# suicidality_id <- 4273391
+
+# Using JSON and sending it as an expression
+# See: http://webapidoc.ohdsi.org/index.html#-896907989
+# bipolar_cohort <- fromJSON(file = "data/exp_raw/concept_sets/bipolar_disorder_atlas_concept_set.json")
+
+# url <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/resolveConceptSetExpression/"
+# result <- POST(url, body = bipolar_cohort, encode = "json")
+
+# This gets you the information about a specific concept
+# See: http://webapidoc.ohdsi.org/index.html#-504206733
+# url <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/440383/"
+# result <- GET(url)
+
+
+
+## This function takes in the concept ID for depression, bipolar, or suicidality and returns a list of the different concept set fields
+
+get_concept <- function(id) {
+  url <- paste0("http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/", id)
+  result <- httr::GET(url)
+  return(httr::content(result, "parsed"))
+}
+
+## This function takes in the concept set, and it returns the JSON file with the proper querying format
+## the proper format is given above but also in the bipolar_disorder_concept_set.json
+
+get_json <- function(concept_set) {
+  jsontext <- jsonlite::toJSON(
+    list(
+      items = list(
+        list(
+          concept = concept_set,
+          isExcluded = FALSE,
+          includeDescendants = TRUE,
+          includeMapped = TRUE
+        )
+      )
+    ),
+    pretty = T, auto_unbox = T
+  )
+  return(jsontext)
+}
+
+## This function is similar to the get_json function, except this function will save it as a json file
+
+write_json_file <- function(concept_set) {
+  if (concept_set$CONCEPT_ID == 436665) {
+    condition <- "bipolar_disorder"
+  } else if (concept_set$CONCEPT_ID == 440383) {
+    condition <- "depression"
+  } else if (concept_set$CONCEPT_ID == 4273391) {
+    condition <- "suicidality"
+  } else {
+    condition <- "INVALID"
+  }
+  jsontext <- jsonlite::toJSON(
+    list(
+      items = list(
+        list(
+          concept = concept_set,
+          isExcluded = FALSE,
+          includeDescendants = TRUE,
+          includeMapped = TRUE
+        )
+      )
+    ),
+    pretty = T, auto_unbox = T
+  )
+  filename <- paste0(condition, "_concept_set.json")
+  path <- "../MentalHealthEquity/R/data/exp_raw/concept_sets/"
+  return(
+    write(jsontext, paste0(path, filename))
+  )
+}
+
+
+#### Getting the concept sets using concept ID ####
+bipolar_id <- 436665
+depression_id <- 440383
+suicidality_id <- 4273391
+
+bipolar_concept <- get_concept(bipolar_id)
+depression_concept <- get_concept(depression_id)
+suicidality_concept <- get_concept(suicidality_id)
+#### Getting JSON (optional since we can use the file) ####
+## If we just need the json text instead of using the file: use this function
+bipolar_json <- get_json(bipolar_concept)
+depression_json <- get_json(depression_concept)
+suicide_json <- get_json(suicidality_concept)
+
+#### Saving the json to a file ####
+## Writing all concept sets as json files and saving it under the concept_sets folder
+write_json_file(bipolar_concept)
+write_json_file(depression_concept)
+write_json_file(suicidality_concept)
+
+
+#### Getting all the relevant concept IDs related to each condition ####
+# this function will take in the condition:
+# bipolar_disorder, depression, or suicidality
+# it will return the response object and retrieve all of the concept IDs
+
+get_cohort <- function(condition) {
+  condition <- substitute(condition)
+  filename <- paste0("../MentalHealthEquity/R/data/exp_raw/concept_sets/", condition, "_concept_set.json")
+  condition_json <- fromJSON(file = filename)
+  concept_set_url <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/resolveConceptSetExpression/"
+  cohort <- POST(concept_set_url, body = condition_json, encode = "json")
+  return(cohort)
+}
+
+
+## Looping through the concept IDs and getting the json and writing it to a csv
+# this function takes in a cohort from the get_cohort function
+# and it returns the dataframe all the concept sets in the condition code
+
+get_concept_set <- function(cohort) {
+  cohort_list <- list()
+  for (i in 1:length(content(cohort))) {
+    concept_id <- content(cohort)[i]
+    url_base <- "http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/"
+    url <- paste0(url_base, concept_id, "/")
+    result <- GET(url)
+    df <- data.frame(content(result))
+    cohort_list[[i]] <- df
+  }
+  concept_set_df <- do.call(rbind, cohort_list)
+  return(concept_set_df)
+}
+
+
+#### Getting the cohorts ####
+bipolar_cohort <- get_cohort(bipolar_disorder)
+depression_cohort <- get_cohort(depression)
+suicidality_cohort <- get_cohort(suicidality)
+
+#### Writing the cohorts to csv files ####
+base_filename <- "../MentalHealthEquity/R/data/exp_raw/concept_sets/"
+
+write.csv(get_concept_set(bipolar_cohort), file = paste0(base_filename, "bipolar_disorder_concept_set.csv"))
+
+write.csv(get_concept_set(depression_cohort), file = paste0(base_filename, "depression_concept_set.csv"))
+
+write.csv(get_concept_set(suicidality_cohort), file = paste0(base_filename, "suicidality_concept_set.csv"))
+
+
+
+
+get_concept_atlas <- function(id) {
+  url <- paste0("http://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/", id)
+  result <- httr::GET(url)
+  concept_set <- httr::content(result, "parsed")
+  jsontext <- jsonlite::toJSON(
+    list(
+      items = list(
+        list(
+          concept = concept_set,
+          isExcluded = FALSE,
+          includeDescendants = TRUE,
+          includeMapped = TRUE
+        )
+      )
+    ),
+    pretty = T, auto_unbox = T
+  )
+  filename <- paste0(condition, "_concept_set.json")
+  path <- "../data/exp_raw/concept_sets/"
+  return(
+    write(jsontext, paste0(path, filename))
+  )
+}
+
+
+test_url <- sprintf("http://atlas-demo.ohdsi.org/WebAPI/vocabulary/%s/relatedconcepts/", 13746004)
+test_json <- jsonlite::toJSON(
+  list(
+    CONCEPT_ID = list(436665),
+    CONCEPT_CLASS_ID = list("Clinical Finding"),
+    VOCABULARY_ID = list("SNOMED")
+  ),
+  pretty = T, auto_unbox = T
+)
+httr::POST(test_url, body = test_json, encode = "json")
+
+test_url <- sprintf("https://atlas-demo.ohdsi.org/WebAPI/vocabulary/relatedconcepts/")
+test_json <- jsonlite::toJSON(
+    list(
+        CONCEPT_ID = list(436665),
+        CONCEPT_CLASS_ID = list("Clinical Finding"),
+        VOCABULARY_ID = list("SNOMED")
+    ),
+    pretty = T, auto_unbox = T
+)
+resp <- httr::POST(test_url, body = test_json, content_type_json())
+jsonlite::fromJSON(content(resp, "text"), simplifyVector = FALSE)
+
+
+
+context("Checking retrieval of Atlas concept sets from OHDSI Atlas WebAPI")
+
+check_api <- function(resp) {
+  if (httr::status_code(resp) == 500) {
+    skip("API not available")
+  } else if (httr::status_code(resp) == 412){
+    skip("Invalid JSON/XML input.")
+  }
+}
+
+test_that("Atlas WebAPI is available", {
+  resp <- GET("https://atlas-demo.ohdsi.org/WebAPI/vocabulary/concept/436665")
+  if (http_type(resp) != "application/json") {
+    stop("API did not return json", call. = FALSE)
+  }
+})
+
+json_file <- jsonlite::fromJSON(txt = "bipolar_concept.json")
+
+concept_set_url <- sprintf("https://atlas-demo.ohdsi.org/WebAPI/vocabulary/resolveConceptSetExpression/")
+
+resp <- httr::POST(concept_set_url, body = jsonlite::toJSON(json_file), content_type_json())
+
+jsonlite::fromJSON(content(resp, "text"), simplifyVector = FALSE)
+
+
+
+
+
+
+
+conn <- connect(connectionDetails)
+sql <- "
+  SELECT
+    person.PERSON_ID,
+    person.YEAR_OF_BIRTH,
+    person.LOCATION_ID, person.GENDER_SOURCE_VALUE AS GENDER,
+    person.RACE_SOURCE_VALUE AS RACE,
+    person.ETHNICITY_SOURCE_VALUE AS ETHNICITY
+  FROM
+    person
+      "
+querySql(conn, sql)
+disconnect(conn)
+
+#visit_occurrence_id: visit_occurrence and condition_occurrence and procedure_occurrence
+
+sql <- "
+  SELECT
+    person.PERSON_ID,
+    person.BIRTH_DATETIME AS DATE_OF_BIRTH,
+    person.LOCATION_ID, person.GENDER_SOURCE_VALUE AS GENDER,
+    person.RACE_SOURCE_VALUE AS RACE,
+    person.ETHNICITY_SOURCE_VALUE AS ETHNICITY,
+    v.VISIT_OCCURRENCE_ID,
+    v.PERSON_ID,
+    v.VISIT_START_DATE,
+    v.VISIT_END_DATE,
+    v.VISIT_SOURCE_VALUE,
+    c.VISIT_OCCURRENCE_ID,
+    c.PERSON_ID,
+    c.CONDITION_CONCEPT_ID
+  FROM
+    PERSON person
+      INNER JOIN VISIT_OCCURRENCE v ON
+        person.PERSON_ID = v.PERSON_ID
+      INNER JOIN CONDITION_OCCURRENCE c ON
+        person.PERSON_ID = c.PERSON_ID
+      LEFT JOIN VISIT_OCCURRENCE v
+
+
+
+# sql <- "SELECT COUNT(*),
+#         CASE
+#             WHEN RACE_CONCEPT_ID = 38003600 THEN 'African'
+#             WHEN RACE_CONCEPT_ID = 38003599 THEN 'African American'
+#             WHEN RACE_CONCEPT_ID = 38003573 THEN 'Alaska Native'
+#             WHEN RACE_CONCEPT_ID = 38003572 THEN 'American Indian'
+#             WHEN RACE_CONCEPT_ID = 8657 THEN 'American Indian or Alaska Native'
+#             WHEN RACE_CONCEPT_ID = 38003616 THEN 'Arab'
+#             WHEN RACE_CONCEPT_ID = 8515 THEN 'Asian'
+#             WHEN RACE_CONCEPT_ID = 38003574 THEN 'Asian Indian'
+#             WHEN RACE_CONCEPT_ID = 38003601 THEN 'Bahamian'
+#             WHEN RACE_CONCEPT_ID = 38003575 THEN 'Bangladeshi'
+#             WHEN RACE_CONCEPT_ID = 38003602 THEN 'Barbadian'
+#             WHEN RACE_CONCEPT_ID = 38003576 THEN 'Bhutanese'
+#             WHEN RACE_CONCEPT_ID = 38003598 THEN 'Black'
+#             WHEN RACE_CONCEPT_ID = 8516 THEN 'Black or African American'
+#             WHEN RACE_CONCEPT_ID = 38003577 THEN 'Burmese'
+#             WHEN RACE_CONCEPT_ID = 38003578 THEN 'Cambodian'
+#             WHEN RACE_CONCEPT_ID = 38003579 THEN 'Chinese'
+#             WHEN RACE_CONCEPT_ID = 38003604 THEN 'Dominica Islander'
+#             WHEN RACE_CONCEPT_ID = 38003603 THEN 'Dominican'
+#             WHEN RACE_CONCEPT_ID = 38003614 THEN 'European'
+#             WHEN RACE_CONCEPT_ID = 38003581 THEN 'Filipino'
+#             WHEN RACE_CONCEPT_ID = 38003605 THEN 'Haitian'
+#             WHEN RACE_CONCEPT_ID = 38003582 THEN 'Hmong'
+#             WHEN RACE_CONCEPT_ID = 38003583  THEN 'Indonesian'
+#             WHEN RACE_CONCEPT_ID = 38003593  THEN 'Iwo Jiman'
+#             WHEN RACE_CONCEPT_ID = 38003606  THEN 'Jamaican'
+#             WHEN RACE_CONCEPT_ID = 38003584  THEN 'Japanese'
+#             WHEN RACE_CONCEPT_ID = 38003585  THEN 'Korean'
+#             WHEN RACE_CONCEPT_ID = 38003586  THEN 'Laotian'
+#             WHEN RACE_CONCEPT_ID = 38003597  THEN 'Madagascar'
+#             WHEN RACE_CONCEPT_ID = 38003587  THEN 'Mayalsian'
+#             WHEN RACE_CONCEPT_ID = 38003594  THEN 'Maldivian'
+#             WHEN RACE_CONCEPT_ID = 38003612  THEN 'Melanesian'
+#             WHEN RACE_CONCEPT_ID = 38003611  THEN 'Micronesian'
+#             WHEN RACE_CONCEPT_ID = 38003615  THEN 'Middle Eastern or North African'
+#             WHEN RACE_CONCEPT_ID = 8557  THEN 'Native Hawaiian or Other Pacific Islander'
+#             WHEN RACE_CONCEPT_ID = 38003595  THEN 'Napalese'
+#             WHEN RACE_CONCEPT_ID = 38003588  THEN 'Okinawan'
+#             WHEN RACE_CONCEPT_ID = 38003613  THEN 'Other Pacific Islander'
+#             WHEN RACE_CONCEPT_ID = 38003610  THEN 'Polynesian'
+#             WHEN RACE_CONCEPT_ID = 38003596  THEN 'Singaporean'
+#             WHEN RACE_CONCEPT_ID = 38003590  THEN 'Ski Lankan'
+#             WHEN RACE_CONCEPT_ID = 38003580  THEN 'Taiwanese'
+#             WHEN RACE_CONCEPT_ID = 38003591  THEN 'Thai'
+#             WHEN RACE_CONCEPT_ID = 38003607  THEN 'Tobagoan'
+#             WHEN RACE_CONCEPT_ID = 38003608  THEN 'Trinidadian'
+#             WHEN RACE_CONCEPT_ID = 38003592  THEN 'Vietnamese'
+#             WHEN RACE_CONCEPT_ID = 38003609  THEN 'West Indian'
+#             WHEN RACE_CONCEPT_ID = 8527  THEN 'White'
+#             ELSE 'NA'
+#         END
+#         FROM PERSON
+#         GROUP BY RACE_CONCEPT_ID"
+
+
+
+#
+# ```{r Scratch Work, include = F}
+# # The parameterized sql can do one demographic at a time
+# conn <- connect(connectionDetails)
+# practice <- "
+#   SELECT person.person_id, person.@attrib1, @table.@attrib2, @table.@concept_name
+#   FROM person
+#     INNER JOIN @table ON person.@attrib1 = @table.@attrib2"
+#
+# # Examples of how to use the parameterized SQL queries
+# practice_out <- renderTranslateQuerySql(conn,practice,
+#                                         table = "location",
+#                                         attrib1 = "location_id", attrib2 = "location_id",
+#                                         concept_name = "STATE")
+# # renderTranslateQuerySql(conn,practice,
+# #                         table = "race",
+# #                         attrib1 = "race_concept_id", attrib2 = "CONCEPT_ID",
+# #                         concept_name = "CONCEPT_NAME")
+# disconnect(conn)
+#
+# head(practice_out)
+#
+# # This query returns all the tables in the schema
+# conn <- connect(connectionDetails)
+# practice <-
+#   "select TABLE_NAME from information_schema.tables WHERE TABLE_TYPE = 'BASE TABLE'"
+# querySql(conn, practice)
+# disconnect(conn)
+#
+# ```
+
+
+
+
+# Alternatively, we can use `CohortDiagnostics` to save our cohort definition and dataset that can be shared. In `CohortDiagnostics`, the information regarding our cohort definition and cohort database will be saved as a `CSV` file. In the `executeDiagnostics()` function, we can specify our cohorts and the location of our export folder.
+
+# {R Need to change, include = F, eval = F}
+# CohortDiagnostics::executeDiagnostics(cohortDefinitionSet,
+#                    connectionDetails = connectionDetails,
+#                    cohortTableNames = cohortTableNames,
+#                    cohortTable = cohortTableNames$cohortTable,
+#                    cohortDatabaseSchema = "main",
+#                    cdmDatabaseSchema = "main",
+#                    exportFolder = "export",
+#                    databaseId = "example_db",
+#                    minCellCount = 5)
+
+
+
+#--------------- Eunomia ---------------
+
+## Connecting to the Eunomia Database
+
+# Moving forward, let's create a connection to our dummy data set from Eunomia:
+#
+connectionDetails <- Eunomia::getEunomiaConnectionDetails()
+#
+# Now, we need to create the dummy tables which will store our cohort results.
+# We can do this with the following snippet using the connection we just made:
+#
+conn <- connect(connectionDetails)
+cohortTableNames <- CohortGenerator::getCohortTableNames(cohortTable = "example")
+CohortGenerator::createCohortTables(connectionDetails,
+                   cohortTableNames = cohortTableNames,
+                   cohortDatabaseSchema = "main")
+#
+#
+# All created tables are prefixed with the word "example" and each table was placed in the main schema of Eunomia.
+
+cohortsGenerated <- CohortGenerator::generateCohortSet(connectionDetails,
+                                                       cdmDatabaseSchema = "main",
+                                                       cohortDatabaseSchema = "main",
+                                                       cohortTableNames = cohortTableNames,
+                                                       cohortDefinitionSet = cohortDefinitionSet)
+
+## Querying New Tables
+#
+# With the synthetic database created through `Eunomia`, we can query through some of the tables.
+#
+# We can get all the tables by using the `DatabaseConnector` package to call `getTableNames()`, and it takes two arguments: the connection to the database server and the name of the database schema.
+
+
+
+# We can get information about our data set by querying into the `person` table.
+#
+# ```{R, message = F, eval = F}
+# conn <- connect(connectionDetails)
+# sql <- "SELECT * FROM person LIMIT 5;"
+# DatabaseConnector::renderTranslateQuerySql(conn, sql)
+# disconnect(conn)
+# ```
+
+# CohortDiagnostics::executeDiagnostics(cohortDefinitionSet,
+#                                       connectionDetails = connectionDetails,
+#                                       cohortTableNames = cohortTableNames,
+#                                       cohortTable = cohortTableNames$cohortTable,
+#                                       cohortDatabaseSchema = "mimic_v531",
+#                                       cdmDatabaseSchema = "mimic_v531",
+#                                       exportFolder = "export",
+#                                       databaseId = "example_db",
+#                                       minCellCount = 5)
+# Cohort IDs from Atlas
+
+# bipolarId <- 1869141
+# depressionId <- 1869439
+# suicidalityId <- 1869143
+
+cohortIds <- c(1778386, 1778387, 1778389)
+
+ATLASurl <- "http://api.ohdsi.org:8080/WebAPI"
+
+# Creating connectionDetails
+
+connectionDetails <- DatabaseConnector::createConnectionDetails(
+  dbms = "postgresql",
+  server = "data.hdap.gatech.edu/mimic_v531",
+  user = keyring::key_list("mimic")[1, 2],
+  password = keyring::key_get("mimic", keyring::key_list("mimic")[1, 2]),
+  port = 5442,
+  pathToDriver = "./utils"
+)
+
+
+conn <- DatabaseConnector::connect(connectionDetails)
+sql <- "SELECT * FROM @cohort_database_schema.@cohort_table LIMIT 5"
+cohort_example <- DatabaseConnector::renderTranslateQuerySql(conn, sql,
+                                                             cohort_database_schema = "mimic_v531",
+                                                             cohort_table = "example_cohort"
+)
+DatabaseConnector::disconnect(conn)
+
+
+cohortCounts <- CohortGenerator::getCohortCounts(
+  connectionDetails = connectionDetails,
+  cohortDatabaseSchema = "mimic_v531",
+  cohortTable = "example_cohort"
+)
+
+dropCohorts(
+  connectionDetails = connectionDetails,
+  cohortDatabaseSchema = "mimic_v531",
+  cohortTable = "example_cohort"
+)

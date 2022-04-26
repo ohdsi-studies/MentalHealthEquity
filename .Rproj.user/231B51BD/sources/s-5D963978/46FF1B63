@@ -1,0 +1,26 @@
+{
+    "id": "46FF1B63",
+    "path": "~/Documents/MentalHealthEquity/scripts/conceptDefinitions.R",
+    "project_path": "scripts/conceptDefinitions.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1650389482530.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "19,54",
+        "scrollLine": "6"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1650391861,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1650391861,
+    "read_only": false,
+    "read_only_alternatives": []
+}
