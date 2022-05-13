@@ -10,108 +10,65 @@ library(dplyr)
 library(ggplot2)
 ```
 
-```{r, message = F, warning = F}
+```{r Loading Packages, message = F, warning = F}
 # Loading libraries
 packages <- c(
   "dplyr", "ggplot2", "tidyverse",
   "repr", "ggsci", "ggrepel", 
-  "lubridate", "forcats", "ggpubr"
+  "lubridate", "forcats", "ggpubr",
+  "lemon"
 )
 installed_packages <- packages %in% rownames(installed.packages())
 if (any(installed_packages == FALSE)) {
   install.packages(packages[!installed_packages])
 }
+
 lapply(packages, require, character.only = TRUE)
 ```
 
 
-```{r}
-white <- 8527
-black <- 8516
+```{r Denominator counts}
+# Putting denominator counts in dataframe
 
-male <- 8507
-female <- 8532
+denom_counts <- data.frame(rbind(
+  c("Black or African American", "GA", "Male", 426619),
+  c("Black or African American", "GA", "Female", 624548),
+  c("White", "GA", "Male", 405619),
+  c("White", "GA", "Female", 535392),
+  c("Other Race", "GA", "Male", 209061),
+  c("Other Race", "GA", "Female", 219146),
+  c("Asian", "GA", "Male", 21416),
+  c("Asian", "GA", "Female", 25407),
+  c("American Indian or Alaska Native", "GA", "Male", 1113),
+  c("American Indian or Alaska Native", "GA", "Female", 1868)
+))
+names(denom_counts) <- c("race_concept_id", "state", "gender_concept_id", "count")
+
+denom_counts <- denom_counts %>%
+  mutate(
+    race_concept_id = as.factor(race_concept_id),
+    state = as.factor(state),
+    gender_concept_id = as.factor(gender_concept_id),
+    count = as.numeric(count))
+
 ```
 
 
-```{r}
+```{r Reading data dictionary}
 # Reading the data dictionary
 baseName <- "/Users/mhy3/Box/CHAI_UPLOAD_BOX/04212022-study_initial_baseline/"
 data <- read.csv(paste0(baseName, "data_dictionary.csv"))
 head(data)
 
-
-data %>% distinct(race)
-
-csvFiles <- data %>%
-  filter(
-    condition == "Bipolar Disorder",
-    race == "White" | race == "Black or African American"
-  ) %>%
-  select(id) %>%
-  as.list()
-
-csvFiles
-
-
-
-bd_white <- data %>%
-  filter(
-    condition == "Bipolar Disorder",
-    race == "White",
-    gender == "Male"
-  ) %>%
-  select(id) %>%
-  as.list()
 ```
 
-
-```{r}
-# Looking at some of the csv files
-csvFiles$id[1]
-
-rbind(read.csv(paste0(baseName, 817, ".csv")), read.csv(paste0(baseName, 705, ".csv"))) %>% arrange(age_group)
-
-
-cohort <- data.frame()
-for (i in bd_white$id[-length(bd_white$id)]) {
-  cohort <- rbind(cohort, read.csv(paste0(baseName, i, ".csv")))
-}
-
-cohort %>%
-  arrange(age_group) %>%
-  distinct()
-```
-
-```{r}
+```{r Reading files and getting counts}
 # This function will take in 2 parameters:
 # dataDictionary--master list with all the csv files
 # condition--Bipolar Disorder, Depression, Suicidality
-# race--Asian, American Indian or Alaskan Indian, White,
-#       Native Hawaiian or Other Pacific Islander,
-#       Black or African American, Other Race
 # @examples
 # \dontrun{
-# gettingCounts(data, "Bipolar Disorder", "White", "Male")
 # getCounts(data, "Bipolar Disorder")
-# }
-
-
-# gettingCounts <- function(dataDictionary, condition, race, gender){
-#    cohort <- data.frame()
-#    ids <- dataDictionary %>% filter(condition == !!condition,
-#                                    race == !!race,
-#                                    gender == !!gender)
-#    for(i in ids$id){
-#       df <- read.csv(paste0(baseName, i, ".csv"))
-#       if(dim(df)[2] == 5){
-#          cohort <- rbind(cohort, df)
-#       } else{
-#          next
-#       }
-#    }
-#    cohort <- cohort %>% arrange(age_group) %>% distinct()
-#    return(cohort)
 # }
 
 getCounts <- function(dataDictionary, conditionName) {
@@ -148,87 +105,106 @@ getCounts <- function(dataDictionary, conditionName) {
   return(cohort)
 }
 
+# Getting condition dataframes 
 bipolar <- getCounts(data, "Bipolar Disorder")
 depression <- getCounts(data, "Depression")
 suicidality <- getCounts(data, "Suicidality")
+
+# Creating a combined dataframe 
+rbind(bipolar, depression, suicidality) %>%
+  mutate(race_concept_id = fct_reorder(race_concept_id,
+                                       count, .fun = sum, 
+                                       .desc = TRUE)) -> all_data
+
+# outdated, not in use: 
+# gettingCounts <- function(dataDictionary, condition, race, gender){
+#    cohort <- data.frame()
+#    ids <- dataDictionary %>% filter(condition == !!condition,
+#                                    race == !!race,
+#                                    gender == !!gender)
+#    for(i in ids$id){
+#       df <- read.csv(paste0(baseName, i, ".csv"))
+#       if(dim(df)[2] == 5){
+#          cohort <- rbind(cohort, df)
+#       } else{
+#          next
+#       }
+#    }
+#    cohort <- cohort %>% arrange(age_group) %>% distinct()
+#    return(cohort)
+# }
+
 ```
 
-```{r Heatmaps}
-#scale_fill_discrete(labels = c("8507" = "Male", "8532" = "Female"))
-#scale_fill_nejm(labels = function(x) str_wrap(x, width = 12)) + 
+```{r Themes for Graphing}
+theme_pie <- function(){
+  theme_pubr() + 
+  theme(panel.grid = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.line = element_blank(),
+        legend.title = element_blank()
+        )
+}
 
+theme_bar <- function(){
+  theme_pubr() + 
+  theme(plot.title = element_text(vjust = 1),
+        axis.title.x = element_text(vjust = -1),
+        axis.title.y = element_text(angle = 90, vjust = 1),
+        legend.title = element_blank())
+}
+```
+
+
+
+```{r Heatmaps}
+# Heat map for bipolar disorder by age and race
 bipolar %>% 
   group_by(race_concept_id, age_group) %>% 
   summarise(count = sum(count)) %>% 
   ungroup() %>% 
-  mutate(value = count/sum(count)) %>% 
-  ggplot(aes(x = age_group, y = race_concept_id))+
+  mutate(value = count/sum(count),
+         race_concept_id = fct_reorder(race_concept_id, value)) %>% 
+  ggplot(aes(x = age_group, y = str_wrap(race_concept_id, width = 15)))+
   geom_tile(aes(fill = value)) + 
   theme(axis.title = element_blank()) + 
-  labs(title = "Heatmap of Race and Age Groups", subtitle = "Bipolar Disorder")
+  labs(title = "Heatmap of Race and Age Groups", 
+       subtitle = "Bipolar Disorder") -> heat_bipolar
 
-
+# Heat map for depression by age and race
 depression %>% 
   group_by(race_concept_id, age_group) %>% 
   summarise(count = sum(count)) %>% 
   ungroup() %>% 
-  mutate(value = count/sum(count)) %>% 
-  ggplot(aes(x = age_group, y = race_concept_id))+
+  mutate(value = count/sum(count),
+         race_concept_id = fct_reorder(race_concept_id, value)) %>% 
+  ggplot(aes(x = age_group, y = str_wrap(race_concept_id, width = 15)))+
   geom_tile(aes(fill = value)) + 
   theme(axis.title = element_blank()) + 
-  labs(title = "Heatmap of Race and Age Groups", subtitle = "Depression")
+  labs(title = "Heatmap of Race and Age Groups", 
+       subtitle = "Depression") -> heat_depression
 
-suicidality %>% 
-  group_by(race_concept_id, age_group) %>% 
-  summarise(count = sum(count)) %>% 
-  ungroup() %>% 
-  mutate(value = count/sum(count)) %>% 
-  ggplot(aes(x = age_group, y = race_concept_id))+
-  geom_tile(aes(fill = value)) + 
-  theme(axis.title = element_blank()) + 
-  labs(title = "Heatmap of Race and Age Groups", subtitle = "Suicidality")
-
-
+# Heat map for suicidality by age and race
 suicidality %>% 
   group_by(race_concept_id, age_group) %>% 
   summarise(count = sum(count)) %>% 
   ungroup() %>% 
   mutate(value = count/sum(count),
          race_concept_id = fct_reorder(race_concept_id, value)) %>% 
-  ggplot(aes(x = age_group, y = race_concept_id))+
+  ggplot(aes(x = age_group, y = str_wrap(race_concept_id, width = 15)))+
   geom_tile(aes(fill = value)) + 
-  scale_y_discrete(labels = c("8527" = "White", 
-                              "8516" = str_wrap("Black or African American", 12), 
-                              "8515" = "Asian", "8522" = "Other Race", 
-                              "8657" = str_wrap("American Indian or Alaska Native", 12)))+
   theme(axis.title = element_blank()) + 
-  labs(title = "Heatmap of Race and Age Groups", subtitle = "Depression")
-
-```
-
-```{r}
-# labels = function(x) str_wrap(x, width = 15)
-bipolar %>%
-  mutate(race_concept_id = fct_reorder(race_concept_id, count, .fun = sum,.desc = TRUE),
-         age_group = fct_rev(age_group)) %>% 
-  ggplot(aes(x = age_group, y = count)) +
-  geom_bar(aes(fill = race_concept_id),
-    stat = "identity", color = "white",
-    position = position_dodge2(width = 1, preserve = "single")) +
-  coord_flip()+
-  facet_wrap(~gender_concept_id) + 
-  scale_fill_nejm(labels = function(x) str_wrap(x, width = 20)) +
-  theme_pubr(base_size = 12)+
-  theme(legend.title = element_blank(),
-        axis.title.x = element_text(vjust = -1),
-        axis.title.y = element_text(vjust = 1))+
-  labs(fill = "", title = "Overview of Bipolar Disorder by Gender, Age, and Race", 
-       x = "Age Group", y = "Count") 
+  labs(title = "Heatmap of Race and Age Groups", 
+       subtitle = "Suicidality") -> heat_suicidality
 ```
 
 
 
-```{r}
+```{r Depression Graphs}
+# Depression counts by age group raw counts
 depression %>% 
   mutate(race_concept_id = fct_reorder(race_concept_id, count, .fun = sum, .desc = TRUE)) %>% 
   group_by(age_group) %>% 
@@ -257,7 +233,7 @@ depression %>%
   labs(x = "Age Group", y = "Count", 
        title = "Depression across Age Groups") -> dep_age
 
-
+# Interaction plot of age and races raw counts
 depression %>%
   mutate(race_concept_id = fct_reorder(race_concept_id, count, .fun = sum, .desc = TRUE)) %>% 
   group_by(age_group, race_concept_id) %>% 
@@ -279,20 +255,12 @@ depression %>%
        title = "Interaction between Age and Race for Depression")
 
 
-```
-
-
-```{r}
+# Double bar graph of counts by age and gender
 depression %>% 
   mutate(race_concept_id = fct_reorder(race_concept_id, count, .fun = sum, .desc = TRUE),
          gender_concept_id = fct_rev(gender_concept_id)) %>% 
   group_by(age_group, gender_concept_id) %>% 
   summarise(count = sum(count)) %>% 
-  mutate(freq = round(count/sum(count)*100, 2),
-         cs = rev(cumsum(rev(freq))),
-         pos = freq/2 + lead(cs,1),
-         pos = if_else(is.na(pos), freq/2, pos), 
-         top5 = rank(-count) %in% 1:5) %>% 
   ggplot(aes(x = age_group, y = count)) + 
   geom_line(size = 1.2, aes(group=gender_concept_id, color = gender_concept_id),
             key_glyph = "rect") +
@@ -315,68 +283,7 @@ depression %>%
 
 
 
-```{r, include = F}
-
-# options(repr.plot.width = 4, repr.plot.height = 4)
-# bipolar %>% group_by(race_concept_id) %>% summarize(count = sum(count)) %>% 
-#   mutate(freq = round(count/sum(count)*100, 2),
-#          cs = rev(cumsum(rev(freq))),
-#          pos = freq/2 + lead(cs,1),
-#          pos = if_else(is.na(pos), freq/2, pos), 
-#          top5 = rank(-count) %in% 1:5, 
-#          race_concept_id = fct_reorder(race_concept_id, freq, .desc = T)) %>% 
-#   ggplot(aes(x = race_concept_id, y = count)) + 
-#   geom_bar(aes(fill = race_concept_id), stat = "identity") +
-#   geom_text(aes(label = count), color = "black", vjust = -.3)+
-#    geom_text(aes(label = if_else(freq > 1, paste0(freq, "%"), "")), 
-#              position = position_stack(vjust = .5))+
-#    labs(title = "Distribution of Bipolar Cohort by Race", y = "Count") +
-#    scale_fill_nejm()+
-#    theme_classic() + 
-#    theme(legend.position = "none", 
-#          axis.title.x = element_blank())
-
-
-bipolar %>% 
-  mutate(race_concept_id = fct_reorder(race_concept_id, count, .fun = sum, .desc = TRUE)) %>% 
-  group_by(race_concept_id) %>% summarize(count = sum(count)) %>% 
-  mutate(freq = round(count/sum(count)*100, 2),
-         cs = rev(cumsum(rev(freq))),
-         pos = freq/2 + lead(cs,1),
-         pos = if_else(is.na(pos), freq/2, pos), 
-         top5 = rank(-count) %in% 1:5) %>% 
-  ggplot(aes(x = "", y = freq, fill = race_concept_id))+
-  geom_bar(stat = "identity", width = 1, color = "white") + 
-  theme_pubr()+
-  coord_polar("y", start = 0)+
-  labs(fill = "", 
-       title = str_wrap("Overall Distribution of Bipolar Disorder by Race",30))+ 
-  theme(panel.grid  = element_blank(),
-        axis.text.x = element_blank(), 
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank(), 
-        legend.title = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.line= element_blank(),
-        plot.title = element_text(size = 12),
-        legend.position = "bottom")+ 
-   # geom_label_repel(aes(y = pos, 
-   #                      label = if_else(top5, paste0(race_concept_id,
-   #                                                   "\nCount:", 
-   #                                                   count, ",\n", 
-   #                                                   freq, "%"), NULL)),
-   #                  size = 3, show.legend = F, color = "white",
-   #                  max.overlaps = Inf, nudge_x = .5, min.segment.length = Inf)+
-  geom_text(aes(y = pos, label = if_else(freq > 10, 
-                                         paste0(freq, "%"), 
-                                         NULL)))+
-  scale_fill_nejm(labels = function(x) str_wrap(x, width = 18)) -> bd_race
-  
-
-```
-
-
-```{r}
+```{r Interaction Plots for all the conditions}
 rbind(bipolar, depression, suicidality) %>%
   mutate(race_concept_id = fct_reorder(race_concept_id, count, .fun = sum, .desc = TRUE)) %>% 
   group_by(race_concept_id, gender_concept_id, condition) %>% 
@@ -423,121 +330,198 @@ rbind(bipolar, depression, suicidality) %>%
 
 ```
 
+```{r Bipolar Disorder for White/Black Pie chart}
+bipolar %>% 
+  mutate(race_concept_id = fct_reorder(race_concept_id, count, .fun = sum, .desc = TRUE)) %>% 
+  group_by(race_concept_id) %>% summarize(count = sum(count)) %>% 
+  mutate(freq = round(count/sum(count)*100, 2),
+         cs = rev(cumsum(rev(freq))),
+         pos = freq/2 + lead(cs,1),
+         pos = if_else(is.na(pos), freq/2, pos), 
+         top5 = rank(-count) %in% 1:5) %>% 
+  ggplot(aes(x = "", y = freq, fill = race_concept_id))+
+  geom_bar(stat = "identity", width = 1, color = "white") + 
+  theme_pubr()+
+  coord_polar("y", start = 0)+
+  labs(fill = "", 
+       title = str_wrap("Overall Distribution of Bipolar Disorder by Race",30))+ 
+  theme_pie()+
+  theme(plot.title = element_text(size = 12),
+        legend.position = "bottom")+ 
+  geom_text(aes(y = pos, label = if_else(freq > 10, 
+                                         paste0(freq, "%"), 
+                                         NULL)))+
+  scale_fill_nejm(labels = function(x) str_wrap(x, width = 18)) -> bd_race
+```
 
-
-```{r}
+```{r Bipolar Disorder for White/Black Bar graph}
+# Double bar graph of counts by age group for white and black/african americans
 bipolar %>% 
   mutate(race_concept_id = fct_reorder(race_concept_id, count, .fun = sum, .desc = TRUE)) %>% 
   filter(race_concept_id == "White"| race_concept_id == "Black or African American") %>%
   group_by(race_concept_id, age_group) %>% 
   summarise(sum = sum(count)) %>% 
   ggplot(aes(x = age_group, y = sum)) + 
+  geom_line(size = 1.2, aes(group=race_concept_id, color = race_concept_id),
+            key_glyph = "rect") +
+  geom_point(size = 1.6, aes(group=race_concept_id, color = race_concept_id), 
+             show.legend = FALSE)+
   geom_bar(aes(fill = race_concept_id), stat = "identity",
-           width = 0.7, 
-           position = "dodge") + 
-  scale_fill_nejm(labels = function(x) str_wrap(x, width = 20)) + 
+           position = position_dodge2(width = 0.7, preserve = "single"), 
+           alpha= 0.3)+
+  theme_pubr()+
+  scale_color_nejm()+
+  scale_fill_nejm() + 
   theme_pubr(base_size = 9) + 
   theme(legend.position = "none",
         axis.title.x = element_text(vjust = -2),
         axis.title.y = element_text(vjust = 3),
         plot.margin = unit(c(1,0,.5,0), "cm"),
-        plot.title = element_text(size = 12)) +
-  labs(fill = "", 
-       title = str_wrap("Age Differences in White vs Black or African American populations",40), 
-       # subtitle = "White vs Black or African American populations"
-       x = "Age Group", y = "Count" ) -> bd_bw
-
-bipolar %>% 
-  mutate(race_concept_id = fct_reorder(race_concept_id, count, .fun = sum, .desc = TRUE)) %>% 
-  filter(race_concept_id == "White"| race_concept_id == "Black or African American") %>% 
-  ggplot(aes(x = age_group, y = count)) + 
-  geom_bar(aes(fill = race_concept_id), stat = "identity",
-           width = 0.7, position = "dodge") +
-  scale_fill_nejm(labels = function(x) str_wrap(x, width = 20)) + 
-  theme_pubr(base_size = 10) + 
-  theme(plot.title = element_text(vjust = 1),
-        axis.title.x = element_text(vjust = -1),
-        axis.title.y = element_text(angle = 90, vjust = 1),
-        legend.position = "bottom") +
-  labs(fill = "", 
-       title = "Age Differences in White vs Black or African American populations",
-       x = "Age Group", y = "Count") + 
-  guides(fill = guide_legend(direction = "horizontal")) +
-  facet_grid(~gender_concept_id) -> bd_bw_mf
-
-# values = c("#0072B5FF", "#E18727FF"), 
-# legend.background = element_rect(linetype = "solid", color = "black")
-
-bipolar %>% 
-  mutate(race_concept_id = fct_reorder(race_concept_id, count, .fun = sum, .desc = TRUE)) %>% 
-  group_by(race_concept_id, gender_concept_id) %>% 
-  summarise(sum = sum(count)) %>% 
-  ggplot(aes(x = race_concept_id, y = sum)) +
-  geom_bar(aes(fill = gender_concept_id), stat = "identity", 
-           width = 0.7, position = "dodge") + 
-  scale_fill_manual(labels = function(x) str_wrap(x, width = 20), 
-                    values = c("#0073C2FF", "#EFC000FF")) + 
-  theme_pubr(base_size = 10) + 
-  facet_wrap(~race_concept_id, scales = "free")
+        plot.title = element_text(size = 12))+
+  labs(x = "Age Group", y = "Count", 
+       title = str_wrap(
+         "Age Differences in White vs Black or African American populations",40)) -> bd_bw
 
 
-    
+# double bar graph by age and gender -- too much going on
+# bipolar %>% 
+#   mutate(race_concept_id = fct_reorder(race_concept_id, count, .fun = sum, .desc = TRUE)) %>% 
+#   filter(race_concept_id == "White"| race_concept_id == "Black or African American") %>% 
+#   ggplot(aes(x = age_group, y = count)) + 
+#   geom_bar(aes(fill = race_concept_id), stat = "identity",
+#            width = 0.7, position = "dodge") +
+#   scale_fill_nejm(labels = function(x) str_wrap(x, width = 20)) + 
+#   theme_pubr(base_size = 10) + 
+#   theme(plot.title = element_text(vjust = 1),
+#         axis.title.x = element_text(vjust = -1),
+#         axis.title.y = element_text(angle = 90, vjust = 1),
+#         legend.position = "bottom") +
+#   labs(fill = "", 
+#        title = "Age Differences in White vs Black or African American populations",
+#        x = "Age Group", y = "Count") + 
+#   guides(fill = guide_legend(direction = "horizontal")) +
+#   facet_grid(~gender_concept_id) -> bd_bw_mf
 
 ```
 
-
-```{r}
-bipolar %>% 
-  mutate(race_concept_id = fct_reorder(race_concept_id, count, .fun = sum, .desc = TRUE)) %>% 
-  filter(race_concept_id == "White"| race_concept_id == "Black or African American") %>%
-  group_by(race_concept_id, age_group) %>% 
-  summarise(sum = sum(count)) %>% 
-  filter(age_group == "80 - 89") %>% 
-  mutate(race = case_when(race_concept_id == "White" ~ 0, 
-                          race_concept_id == "Black or African American" ~ 1),
-         race = as.factor(race)) -> bd_bw_label
-
-depression %>% 
-  mutate(race_concept_id = fct_reorder(race_concept_id, count, .fun = sum, .desc = TRUE)) %>% 
-  filter(race_concept_id == "White"| race_concept_id == "Black or African American") %>%
-  group_by(race_concept_id, age_group) %>% 
-  summarise(sum = sum(count)) %>% 
-  ggplot(aes(x = age_group, y = sum)) +
-  geom_line(size = 1.2, aes(group = race_concept_id, color = race_concept_id)) + 
-  geom_point(size = 1.6, aes(color = race_concept_id), shape = 15) + 
-  theme_pubr() + 
-  scale_color_nejm()+ 
-  theme(panel.grid.major = element_line(color = "#DAE1E7"),
-        panel.grid.major.x = element_blank(),
-        legend.title = element_blank()) + 
-```
-
-
-
-```{r}
-# ggarrange(ggarrange(bd_race, bd_bw, 
-#                     widths = c(0.3, 0.7), 
-#                     common.legend = T, legend = "bottom"), 
-#           bd_bw_mf, nrow = 2, 
-#           heights = c(.4, .6))
-
+```{r Bipolar Disorder for White/Black}
 fig1 <- ggarrange(bd_race, bd_bw, widths = c(0.3, 0.7), common.legend = T, legend = "bottom")
 annotate_figure(fig1, 
                 top = text_grob("Comparing Bipolar Disorder Prevalence", 
                                 size = 16, face = "bold"),
-                fig.lab = "Figure 1", fig.lab.face = "bold")
+                fig.lab.face = "bold")
 ```
 
 
-
-
-
-
-```{r}
-bipolar %>% filter(race_concept_id == "White") %>% 
-  full_join(., (bipolar %>% filter(race_concept_id == "Black or African American")), 
-            by = c("age_group", "gender_concept_id", "state", "condition")) %>% 
-  select(-state, -condition) %>% 
-  head()
+```{r Interaction Plot Bipolar Disorder Age and Race}
+bipolar %>%
+  mutate(race_concept_id = fct_reorder(race_concept_id, count, .fun = sum, .desc = TRUE)) %>% 
+  group_by(age_group, race_concept_id) %>% 
+  summarise(count = sum(count)) %>% 
+  ggplot(aes(x = age_group, y = count)) + 
+  geom_line(size = 1.2, aes(group = race_concept_id, color = race_concept_id),
+            key_glyph = "rect") + 
+  geom_point(size = 1.6, aes(color = race_concept_id))+
+  # geom_text(size = 4, aes(x = "Female", 
+  #                         label = if_else(gender_concept_id == "Female", 
+  #                                         str_wrap(race_concept_id,20), NULL), 
+  #                         color = race_concept_id), nudge_x = 0.04, hjust = 0) +
+  scale_color_nejm(labels = function(x) str_wrap(x, width = 20))+
+  theme_pubr()+
+  theme(panel.grid.major = element_line(color = "#DAE1E7"),
+        panel.grid.major.x = element_blank(),
+        legend.title = element_blank()) + 
+  labs(x = "", y = "Count", 
+       title = "Interaction between Age and Race for Bipolar Disorder")
 ```
+
+
+```{r Pie Chart Gender Race}
+# This function will create a pie chart for the gender dist. among different races
+# Takes a condition dataframe (bipolar, depression, suicidality)
+# @examples
+# \dontrun{
+# pie_gender(denom_counts)
+# }
+
+pie_gender <- function(df){
+  options(repr.plot.height = 4, repr.plot.width = 4)
+  df %>% 
+    mutate(race_concept_id = fct_reorder(race_concept_id, count, .fun = sum, .desc = TRUE)) %>%
+    group_by(race_concept_id, gender_concept_id) %>% 
+    summarize(count = sum(count)) %>% 
+    mutate(freq = round(count/sum(count)*100, 2),
+           cs = rev(cumsum(rev(freq))),
+           pos = freq/2 + lead(cs,1),
+           pos = if_else(is.na(pos), freq/2, pos)) %>% 
+    ggplot(aes(x = "", y = freq, fill = gender_concept_id)) +
+    geom_bar(stat = "identity", 
+             width = 1) + 
+    coord_polar("y", start = 0)+
+    scale_fill_manual(labels = function(x) str_wrap(x, width = 20), 
+                      values = c("#0073C2FF", "#EFC000FF")) + 
+    geom_text(aes(y = pos, 
+                  label = if_else(freq > 10, 
+                                  paste0(freq, "%"), NULL)))+
+    theme_pie()+
+    facet_wrap(~race_concept_id) -> pie_plot
+  return(pie_plot)
+}
+pie_gender(denom_counts)
+
+```
+
+
+```{r Prevalence Chart Function}
+# Tornado prevalence graph 
+prev_df <- function(num_df, raceControlled = FALSE, denom_df = NULL){
+  if(raceControlled) {
+    df <- inner_join(num_df, denom_df, 
+                        by = c("state", "race_concept_id", "gender_concept_id"), 
+                        suffix = c(".num", ".denom")) %>% 
+    mutate(race_concept_id = fct_reorder(race_concept_id, count.denom, .fun = sum, .desc = TRUE),
+           prev = if_else(gender_concept_id == "Female",
+                          100*(count.num/count.denom), -100*(count.num/count.denom)))
+  } else{
+    df <- num_df %>% 
+      group_by(race_concept_id, age_group) %>%
+      mutate(prev = if_else(gender_concept_id == "Female", 
+                            100*count/sum(count), -100*count/sum(count))) 
+  } 
+  df %>% 
+    mutate(race_concept_id = fct_reorder(race_concept_id, prev, .fun = sum, .desc = TRUE)) %>% 
+    ggplot(aes(x = age_group, y = prev)) +
+    geom_bar(aes(fill = gender_concept_id), stat = "identity",
+             width = .9, position = "identity") +
+    geom_text(aes(label = if_else(prev > 0, paste0(round(prev,2), "%"), NULL)), 
+              stat = "identity", hjust = -0.2, size = 5)+
+    geom_text(aes(label = if_else(prev < 0, paste0(round(abs(prev),2), "%"), NULL)), 
+              stat = "identity", hjust = 1.1, size = 5)+
+    # geom_text(aes(label = if_else(prev > 0, count.num, NULL)), stat = "identity", hjust = -0.2)+
+    # geom_text(aes(label = if_else(prev < 0, count.num, NULL)), stat = "identity", hjust = 1.1)+
+    geom_label(aes(label = paste0("N = ", count.denom),
+                   x = Inf, y = -Inf), size = 5, 
+              hjust=0, vjust=1, inherit.aes = FALSE)+
+    coord_flip()+
+    theme_pubr(base_size = 14) + 
+    theme(plot.title = element_text(vjust = 1),
+          axis.title.x = element_text(vjust = -1),
+          axis.title.y = element_text(angle = 90, vjust = 1),
+          legend.title = element_blank(),
+          legend.text = element_text(size = 14),
+          panel.spacing = unit(1.5, "lines"),
+          strip.text = element_text(size = 14), 
+          axis.line = element_line())+
+    scale_y_continuous(labels = function(x) abs(x), 
+                       expand = expansion(mult = 0.5)) +
+    scale_fill_manual(values = c("#0073C2FF", "#EFC000FF"))+
+    facet_rep_wrap(~race_concept_id, scales = "free_x", 
+                   repeat.tick.labels = 'left')+
+    labs(x = "Age Group (years)", y = "Prevalence (%)", 
+         title = "Bipolar Disorder Crude Prevalence Rates") -> prev_age
+  return(prev_age)
+}
+prev_df(num_df = bipolar, raceControlled = TRUE, denom_df = denom_counts)
+```
+
 
