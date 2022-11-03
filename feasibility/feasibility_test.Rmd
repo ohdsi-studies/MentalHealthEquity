@@ -1,0 +1,457 @@
+# Executive Summary 
+
+**Author:** Jacob Scott Zelko
+
+**Date:** 2022-11-02
+
+**Summary:** A feasibility assessment to assess candidacy of partner site location 
+
+# Environment Set-Up 📝
+
+## R and RStudio Requirements
+
+For this feasibility assessment, you will need: 
+
+- **R version 4.2.1**
+	- [Windows](https://cran.r-project.org/bin/windows/base/old/4.2.1/)
+		- [Install R 4.2.1](https://cran.r-project.org/bin/windows/base/old/4.2.1/R-4.2.1-win.exe)
+	- [Mac OSX Big Sur](https://cran.r-project.org/bin/macosx/big-sur-arm64/base/)
+	  	- [Install R 4.2.1](https://cran.r-project.org/bin/macosx/big-sur-arm64/base/R-4.2.1-arm64.pkg)
+	- [Linux](https://cran.r-project.org/src/base/R-4/)
+	  	- [Install R 4.2.1](https://cran.r-project.org/src/base/R-4/R-4.2.1.tar.gz)
+- [**RStudio**](https://posit.co/download/rstudio-desktop/)
+
+Furthermore, **I am assuming that RStudio is the client being used** for this assessment.
+As RStudio can be configured very differently depending on what sort of operating system you are using, please see this [RStudio guide on how to switch the version of R being used in RStudio](https://support.rstudio.com/hc/en-us/articles/200486138-Changing-R-versions-for-the-RStudio-Desktop-IDE).
+
+> **NOTE:** If you do not want to manually deal with multiple versions of R on your system, I suggest checking out the great Rust tool, [rig](https://github.com/r-lib/rig) which allows you to have multiple R versions on the same machine simultaneously and switch between them seamlessly.
+
+## Copying the `MentalHealthEquity` Project
+
+To download the environment we will use, there are two procedures available:
+
+### Git Command Line Approach
+
+Assuming you have some experience with the fantastic version control tool, [git](https://git-scm.com), and some experience with the command line (whether on Windows, Linux, or OSX) you can follow these steps:
+
+1. Navigate to a directory of your choice
+2. Execute the following git command: 
+   - `git clone git@github.com:ohdsi-studies/MentalHealthEquity.git`
+
+### Website Approach
+
+For this approach, you will need to: 
+
+1. Go to this [link](https://github.com/ohdsi-studies/MentalHealthEquity)
+2. Follow the directions [on downloading a repository without git here](https://sites.northwestern.edu/researchcomputing/resources/downloading-from-github/#:~:text=When%20downloading%20materials%20to%20your,repository%20as%20a%20ZIP%20file.) 
+3. Unzip the zip file you downloaded to somewhere you want 
+
+## Configuring R Environment
+
+For this tutorial, you will need the `renv` package installed into your main R environment (for more information about this package, refer to the [Appendix](#appendix)).
+This can be done via: 
+
+```{r, eval = FALSE}
+install.packages("renv")
+```
+
+Then, from within RStudio, navigate to the folder `MentalHealthEquity/feasibility`.
+Within that directory, do the following steps within the RStudio console: 
+
+1. Load the RStudio project within the `MentalHealthEquity/feasibility` folder 
+2. Load the `renv` package: `library(renv)` 
+3. Activate the `renv` environment: `renv::activate()`
+4. Restore the needed project packages by running: `renv::restore()` and accepting 
+
+The following code block shows how this would run:
+
+```{r, eval = TRUE, message = FALSE, warning = FALSE}
+library(renv)
+
+renv::activate()
+renv::restore()
+```
+
+If everything worked correctly up to this point, you should be prepared to run the feasibility assessment! 🎉🎉🎉
+
+> **NOTE:** For steps 2, 3 and 4, RStudio may have already done or attempted to do this for you. If it did, you may not see anything when you run these steps in the console.
+
+# Running Feasbility Assessment 🤓
+
+## Packages 
+
+The following packages will be loaded to conduct the feasibility assessment:
+
+```{r, eval = TRUE, message = FALSE}
+library(ggplot2)
+library(dplyr)
+library(tibble)
+library(SqlRender)
+library(DatabaseConnector)
+```
+
+To learn more about these packages, see the [Appendix](#appendix).
+
+## Defining Connection Details
+
+Here, we need to set-up connection to the OMOP CDM database we will assess.
+To do so, we need to define some constants that will be used for the connection.
+The following list of constants:
+
+- `dbms` - the database management system that is used to host your database; common options include (see all options [here](http://ohdsi.github.io/DatabaseConnector/reference/createConnectionDetails.html)):
+	- `"postgresql"`
+	- `"sql server"`
+- `server` - name of the server; could be `localhost`, an address like `123.0.1.5`, etc. 
+- `user` - your username to access the server 
+- `password` - the password you use to access the server 
+- `port` - the port where the database is hosted
+
+Must be defined in this code block (change `eval = FALSE` to `eval = TRUE` when you have set these variables correctly): 
+
+```{r, eval = FALSE}
+dbms <- "Fill in here"
+server <- "Fill in here"
+user <- "Fill in here"
+password <- "Fill in here"
+port <- "Fill in here"
+```
+
+An additional step needed is to configure the required driver to connect to the database as follows: 
+
+1. Determine the name of your database management system based on the list [here](http://ohdsi.github.io/DatabaseConnector/reference/downloadJdbcDrivers.html)
+2. Download the drivers by running the following:
+
+This is accomplished in the following codeblock (change `eval = FALSE` to `eval = TRUE` when you have set these variables correctly):
+	
+```{r, eval = FALSE}
+pathToDriver = "/location/that/you/want"
+downloadJdbcDrivers(dbms = dbms, pathToDriver = pathToDriver, method = "auto")
+```
+
+Once this is done, we can create the connection to the database (change `eval = FALSE` to `eval = TRUE` when you have set these variables correctly): 
+
+```{r, eval = FALSE} 
+connectionDetails <- createConnectionDetails(dbms=dbms, 
+                                             server=server,
+                                             user=user,
+                                             password=password,
+					     port=port
+					     pathToDriver=pathToDriver)
+
+connection <- connect(connectionDetails)
+```
+
+If there were no errors, then we should be able to continue with the analysis! 👩‍🔬
+
+### Example Connection 
+
+If any of this was confusing, here is an example of how to fill out the above connection information:
+
+```{r, eval = FALSE}
+dbms <- "postgresql"
+server <- "test.data.americus.edu/mimic_omop"
+user <- "mimic"
+password <- "omoprocks"
+port <- 5042
+
+pathToDriver = "utils"
+downloadJdbcDrivers(dbms = dbms, pathToDriver = pathToDriver, method = "auto")
+
+connectionDetails <- createConnectionDetails(dbms=dbms, 
+                                             server=server,
+                                             user=user,
+                                             password=password,
+					     port=port,
+					     pathToDriver=pathToDriver)
+
+connection <- connect(connectionDetails)
+```
+
+## Queries 🤔
+
+There are a number of queries to execute that will take varying amounts of time depending on how many patients are in your database and how much data is at your site.
+
+### Person Query
+
+**Desc:** Gets all unique person IDs:
+
+```{r, eval = TRUE}
+person_sql <- render(
+	'SELECT DISTINCT "PERSON_1"."person_id"
+	FROM "person" AS "PERSON_1";'
+	) 
+person_sql <- translate(sql = person_sql, targetDialect = dbms)
+
+person_ids <- querySql(connection, person_sql)
+person_ids <- person_ids$PERSON_ID
+```
+
+### Person Race Query
+
+**Desc:** Gets race ID's associated with each person ID passed into this query
+
+```{r, eval = TRUE}
+person_race_sql <- render(
+		'SELECT
+		  "PERSON_1"."person_id",
+		  "PERSON_1"."race_concept_id"
+		FROM "person" AS "PERSON_1"
+		WHERE ("PERSON_1"."person_id" IN (@a));',
+		a = person_ids[1:100])
+person_race_sql <- translate(sql = person_race_sql, targetDialect = dbms)
+
+person_races <- querySql(connection, person_race_sql)
+```
+
+### Person Gender Query
+
+**Desc:** Gets gender ID's associated with each person ID passed into this query
+
+```{r, eval = TRUE}
+person_gender_sql <- render(
+		'SELECT
+		  "PERSON_1"."person_id",
+		  "PERSON_1"."gender_concept_id"
+		FROM "person" AS "PERSON_1"
+		WHERE ("PERSON_1"."person_id" IN (@a));',
+		a = person_ids)
+person_gender_sql <- translate(sql = person_gender_sql, targetDialect = dbms)
+
+person_genders <- querySql(connection, person_gender_sql)
+```
+
+### Person Age Group Query
+
+**Desc:** Gets an age group associated with each person ID passed into this query
+
+```{r, eval = TRUE}
+person_age_groups_sql <- render(
+		'SELECT
+  "PERSON_2"."person_id",
+  (CASE WHEN ("PERSON_2"."age" < 10) THEN \'0 - 9\' WHEN ("PERSON_2"."age" < 20) THEN \'10 - 19\' WHEN ("PERSON_2"."age" < 30) THEN \'20 - 29\' WHEN ("PERSON_2"."age" < 40) THEN \'30 - 39\' WHEN ("PERSON_2"."age" < 50) THEN \'40 - 49\' WHEN ("PERSON_2"."age" < 60) THEN \'50 - 59\' WHEN ("PERSON_2"."age" < 70) THEN \'60 - 69\' WHEN ("PERSON_2"."age" < 80) THEN \'70 - 79\' WHEN ("PERSON_2"."age" < 90) THEN \'80 - 89\' END) AS "age_group"
+FROM (
+  SELECT
+    "PERSON_1"."person_id",
+    (2022 - "PERSON_1"."year_of_birth") AS "age"
+  FROM "person" AS "PERSON_1"
+  WHERE ("PERSON_1"."person_id" IN (@a))
+) AS "PERSON_2";',
+		a = person_ids)
+person_age_groups_sql <- translate(sql = person_age_groups_sql, targetDialect = dbms)
+
+person_age_groups <- querySql(connection, person_age_groups_sql)
+```
+
+### Care Site Query
+
+**Desc:** Gets counts of distinct care site types present in database:
+
+```{r, eval = TRUE}
+care_sites_sql <- render('
+SELECT 
+     foo.care_site_id,
+     care_site.place_of_service_concept_id,
+     COUNT(foo.care_site_id) AS "counts"
+FROM 
+        (
+		SELECT DISTINCT
+			person_id, care_site_id
+		FROM 
+                        visit_occurrence
+	) foo
+FULL OUTER JOIN 
+	care_site
+ON 
+	foo.care_site_id = care_site.care_site_id
+GROUP BY 
+	foo.care_site_id,
+	care_site.place_of_service_concept_id;')
+care_sites_sql <- translate(sql = care_sites_sql, targetDialect = dbms)
+
+care_sites <- querySql(connection, care_sites_sql)
+```
+
+### State Person Query
+
+**Desc:** Gets counts of persons broken down by state:
+
+```{r, eval = TRUE}
+location_sql <- render('SELECT
+  "LOCATION_2"."state",
+  COUNT("LOCATION_2"."state") AS COUNT
+FROM (
+  SELECT
+    "LOCATION_1"."location_id",
+    "LOCATION_1"."state"
+  FROM location AS "LOCATION_1"
+) AS "LOCATION_2"
+JOIN person AS "PERSON_1" ON ("LOCATION_2"."location_id" = "PERSON_1"."location_id")
+GROUP BY "LOCATION_2".state;')
+location_sql <- translate(sql = location_sql, targetDialect = dbms)
+
+location <- querySql(connection, location_sql)
+```
+
+### Visit Type Query 
+
+**Desc:** Count of unique visits across types of visits
+
+```{r, eval = TRUE}
+visit_types_sql <- render('SELECT
+	visit_concept_id, 
+	COUNT(visit_concept_id) 
+FROM (
+	SELECT DISTINCT 
+		person_id,
+		visit_concept_id
+	FROM
+		visit_occurrence 
+	) tmp
+GROUP BY 
+	visit_concept_id;')
+visit_types_sql <- translate(sql = visit_types_sql, targetDialect = dbms)
+
+visit_types <- querySql(connection, visit_types_sql)
+```
+
+## Analyses to Conduct ⚗️
+
+### Breakdown by Race, Gender, and Age Group
+
+Here, we look at breakdowns by race, gender, and age group of persons.
+
+#### Aggregation and Privacy Preserving
+
+In this step, person ID's are removed and tables are joined:
+
+```{r, eval = TRUE} 
+grouped_df <- full_join(person_genders, person_races, by = c("PERSON_ID" = "PERSON_ID")) %>% 
+full_join(person_age_groups, by = c("PERSON_ID" = "PERSON_ID")) %>%
+select(-PERSON_ID)
+```
+
+Now we enforce aggregation and [HITECH standards](https://www.hhs.gov/hipaa/for-professionals/special-topics/hitech-act-enforcement-interim-final-rule/index.html) for filtering:
+
+```{r, eval = TRUE}
+grouped_df <- grouped_df %>% 
+count(RACE_CONCEPT_ID, AGE_GROUP, GENDER_CONCEPT_ID) %>%
+rename(COUNT = "n") %>%
+filter(COUNT > 10)
+```
+
+#### Recoding 
+
+Using codes that come from [OHDSI Athena](https://athena.ohdsi.org/), we can recode variables to human readable terms: 
+
+```{r, eval = TRUE}
+recoded_df <- grouped_df %>% 
+mutate(GENDER_CONCEPT_ID = recode(GENDER_CONCEPT_ID, "8507" = "MALE", "8532" = "FEMALE")) %>% 
+mutate(RACE_CONCEPT_ID = recode(RACE_CONCEPT_ID, "0" = "UNKNOWN", "8515" = "ASIAN", "8516" = "BLACK OR AFRICAN AMERICAN", "8527" = "WHITE"))
+recoded_df
+```
+
+#### Plotting Aggregate Information 
+
+The following are helper functions to plot the results from our aggregation:
+
+```{r, eval = TRUE}
+theme_bar <- function(){
+      theme_classic(base_size = 10) + 
+      theme(plot.title = element_text(vjust = 1, hjust = 0.5, face = "bold", size = 18),
+            axis.title.x = element_text(size = 14),
+            axis.title.y = element_text(size = 14),
+            legend.position = "right", 
+            legend.title = element_text(face = "bold"),
+            legend.text = element_text(size = 10),
+            legend.title.align = 0.5, 
+            legend.background = element_rect(color = "black", size = .5),
+            strip.text = element_text(size = 10), 
+            axis.text.y = element_text(size = 12),
+            axis.text.x = element_text(size = 12))+
+      theme(panel.grid.major = element_line(color = "#DAE1E7"),
+            panel.grid.major.x = element_line(color = "#DAE1E7"),
+            panel.border = element_rect(color = "black", size = 1, fill = NA),
+            axis.line = element_blank())
+}
+
+plotRace <- function(df, race){
+   race <- enquo(race)
+   plot <- df %>% 
+      dplyr::filter(RACE_CONCEPT_ID == !!race) %>% 
+      ggplot(aes(x = AGE_GROUP, y = COUNT)) +
+      geom_bar(aes(fill = GENDER_CONCEPT_ID), stat = "identity",
+               width = .9, position = position_dodge2(width = 0.7, preserve = "single"))+
+      theme_bar()+
+      labs(x = "Age Group", y = "Patient Count", fill = "Colors", title = paste0("Patient Counts by ",rlang::eval_tidy(race), " Race"))
+   return(plot)
+}
+```
+
+Now we can run the plotting functions to generate findings:
+
+```{r, eval = TRUE}
+for (race in unique(recoded_df$RACE_CONCEPT_ID)) {
+	plotRace(recoded_df, race) 
+	file <- paste0(rlang::eval_tidy(race), "_aggregate_counts.png")
+	ggsave(filename = file, path = "plots/aggregates")
+}
+```
+
+### Breakdown by Care Site 
+
+For this, all we need to do is export the data: 
+
+```{r, eval = TRUE}
+write.table(care_sites, file = "data/exp_raw/care_site_breakdown.csv")
+```
+
+### Breakdown by Visit Type 
+
+For this, all we need to do is export the data: 
+
+```{r, eval = TRUE}
+write.table(visit_types, file = "data/exp_raw/visit_type_breakdown.csv")
+```
+
+### Breakdown by State
+
+#### Enforce Privacy 
+
+Here we must enforce [HITECH standards](https://www.hhs.gov/hipaa/for-professionals/special-topics/hitech-act-enforcement-interim-final-rule/index.html) for filtering:
+
+```{r, eval = TRUE}
+location <- location %>% 
+filter(COUNT > 10)
+```
+
+#### Export 
+
+Now, all we need to do is export the data: 
+
+```{r, eval = TRUE}
+write.table(location, file = "data/exp_raw/location_breakdown.csv")
+```
+
+# Conclusion 📚
+
+## Next Steps
+
+With this feasibility analysis done, please share the results back to us at GTRI. 
+Feel free to contact us at `jacob.zelko@gtri.gatech.edu` and we can discuss further steps.
+
+## THANK YOU! 
+
+If you completed this entire feasibility assessment, **THANK YOU**! 
+You are making this network study possible and my team and I at GTRI fully understand how difficult getting these assessments to run can be!
+We look forward to collaborating further!
+
+# Appendix 
+
+## Packages Details
+
+- [`renv`](https://rstudio.github.io/renv/index.html) - create reproducible environments for R projects
+- [`ggplot2`](https://ggplot2.tidyverse.org) - system for declaratively creating graphics
+- [`dplyr`](https://dplyr.tidyverse.org) - grammar for data manipulation
+- [`tibble`](https://tibble.tidyverse.org) - improved data.frame functionality
+- [`SqlRender`](https://ohdsi.github.io/SqlRender/) - package for rendering parameterized SQL
+- [`DatabaseConnector`](http://ohdsi.github.io/DatabaseConnector/) - package for connecting to databases using JDBC
