@@ -185,7 +185,7 @@ There are a number of queries to execute that will take varying amounts of time 
 
 ### Person Query
 
-**Desc:** Gets all unique person IDs:
+**Desc:** Gets all unique person IDs.
 
 ```{r, eval = FALSE}
 person_sql <- render(
@@ -234,7 +234,8 @@ person_genders <- querySql(connection, person_gender_sql)
 
 ### Person Age Group Query
 
-**Desc:** Gets an age group associated with each person ID passed into this query
+**Desc:** Gets an age group associated with each person ID passed into this query. 
+For the purpose of this analysis, the subtrahend value is calculated based on the latest recorded date found in the `observation_period` table (considered by OHDSI experts to be the table with the latest information in a database).
 
 ```{r, eval = FALSE} 
 db_year_range_sql <- render(
@@ -258,10 +259,7 @@ last_year <- db_year_range$LAST_YEAR %>%
 	as.character %>%
 	parse_datetime("%Y-%m-%d") %>%
 	year
-```
 
-
-```{r, eval = FALSE}
 person_age_groups_sql <- render(
 		'SELECT
   "PERSON_2"."person_id",
@@ -281,7 +279,32 @@ person_age_groups <- querySql(connection, person_age_groups_sql)
 
 ### Stratified Person Query 
 
+**Desc:** A compact query to get all persons by race, gender, and age group (thanks to Sarah Gasman for the suggestion!). 
+For the purpose of this analysis, the subtrahend value is calculated based on the latest recorded date found in the `observation_period` table (considered by OHDSI experts to be the table with the latest information in a database).
+
 ```{r}
+db_year_range_sql <- render(
+'SELECT
+  MIN("observation_period_1"."observation_period_end_date") AS "first_year",
+  MAX("observation_period_1"."observation_period_end_date") AS "last_year"
+FROM @schema."observation_period" AS "observation_period_1";',
+schema = schema)
+db_year_range_sql <- translate(sql = db_year_range_sql, targetDialect = dbms)
+
+db_year_range <- querySql(connection, db_year_range_sql)
+
+# Determine earliest year data is recorded for
+first_year <- db_year_range$FIRST_YEAR %>% 
+	as.character %>%
+	parse_datetime("%Y-%m-%d") %>%
+	year
+
+# Determine latest year data is recorded for
+last_year <- db_year_range$LAST_YEAR %>% 
+	as.character %>%
+	parse_datetime("%Y-%m-%d") %>%
+	year
+
 person_stratified_sql <- render(
                              'SELECT
                              COUNT(DISTINCT ages.person_id) as counts,
@@ -386,21 +409,19 @@ Here, we look at breakdowns by race, gender, and age group of persons.
 
 #### Aggregation and Privacy Preserving
 
-In this step, person ID's are removed and tables are joined:
-
-```{r, eval = FALSE} 
-grouped_df <- full_join(person_genders, person_races, by = c("PERSON_ID" = "PERSON_ID")) %>% 
-full_join(person_age_groups, by = c("PERSON_ID" = "PERSON_ID")) %>%
-select(-PERSON_ID)
-```
-
 Now we enforce aggregation and [HITECH standards](https://www.hhs.gov/hipaa/for-professionals/special-topics/hitech-act-enforcement-interim-final-rule/index.html) for filtering:
 
 ```{r, eval = FALSE}
-grouped_df <- grouped_df %>% 
-count(RACE_CONCEPT_ID, AGE_GROUP, GENDER_CONCEPT_ID) %>%
-rename(COUNT = "n") %>%
-filter(COUNT > 10)
+person_stratified_counts <- person_stratified %>% 
+filter(counts> 10)
+```
+
+#### Export 
+
+Now, all we need to do is export the data: 
+
+```{r, eval = FALSE}
+write.table(location, file = "data/exp_raw/person_stratified_breakdown.csv")
 ```
 
 ### Breakdown by Care Site 
