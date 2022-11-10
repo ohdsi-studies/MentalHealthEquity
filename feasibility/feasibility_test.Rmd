@@ -240,11 +240,13 @@ db_year_range_sql <- translate(sql = db_year_range_sql, targetDialect = dbms)
 
 db_year_range <- querySql(connection, db_year_range_sql)
 
+# Determine earliest year data is recorded for
 first_year <- db_year_range$FIRST_YEAR %>% 
 	as.character %>%
 	parse_datetime("%Y-%m-%d") %>%
 	year
 
+# Determine latest year data is recorded for
 last_year <- db_year_range$LAST_YEAR %>% 
 	as.character %>%
 	parse_datetime("%Y-%m-%d") %>%
@@ -392,64 +394,6 @@ grouped_df <- grouped_df %>%
 count(RACE_CONCEPT_ID, AGE_GROUP, GENDER_CONCEPT_ID) %>%
 rename(COUNT = "n") %>%
 filter(COUNT > 10)
-```
-
-#### Recoding 
-
-Using codes that come from [OHDSI Athena](https://athena.ohdsi.org/), we can recode variables to human readable terms: 
-
-```{r, eval = FALSE}
-recoded_df <- grouped_df %>% 
-mutate(GENDER_CONCEPT_ID = recode(GENDER_CONCEPT_ID, "8507" = "MALE", "8532" = "FEMALE")) %>% 
-mutate(RACE_CONCEPT_ID = recode(RACE_CONCEPT_ID, "0" = "UNKNOWN", "8515" = "ASIAN", "8516" = "BLACK OR AFRICAN AMERICAN", "8527" = "WHITE"))
-recoded_df
-```
-
-#### Plotting Aggregate Information 
-
-The following are helper functions to plot the results from our aggregation:
-
-```{r, eval = FALSE}
-theme_bar <- function(){
-      theme_classic(base_size = 10) + 
-      theme(plot.title = element_text(vjust = 1, hjust = 0.5, face = "bold", size = 18),
-            axis.title.x = element_text(size = 14),
-            axis.title.y = element_text(size = 14),
-            legend.position = "right", 
-            legend.title = element_text(face = "bold"),
-            legend.text = element_text(size = 10),
-            legend.title.align = 0.5, 
-            legend.background = element_rect(color = "black", size = .5),
-            strip.text = element_text(size = 10), 
-            axis.text.y = element_text(size = 12),
-            axis.text.x = element_text(size = 12))+
-      theme(panel.grid.major = element_line(color = "#DAE1E7"),
-            panel.grid.major.x = element_line(color = "#DAE1E7"),
-            panel.border = element_rect(color = "black", size = 1, fill = NA),
-            axis.line = element_blank())
-}
-
-plotRace <- function(df, race){
-   race <- enquo(race)
-   plot <- df %>% 
-      dplyr::filter(RACE_CONCEPT_ID == !!race) %>% 
-      ggplot(aes(x = AGE_GROUP, y = COUNT)) +
-      geom_bar(aes(fill = GENDER_CONCEPT_ID), stat = "identity",
-               width = .9, position = position_dodge2(width = 0.7, preserve = "single"))+
-      theme_bar()+
-      labs(x = "Age Group", y = "Patient Count", fill = "Colors", title = paste0("Patient Counts by ",rlang::eval_tidy(race), " Race"))
-   return(plot)
-}
-```
-
-Now we can run the plotting functions to generate findings:
-
-```{r, eval = FALSE}
-for (race in unique(recoded_df$RACE_CONCEPT_ID)) {
-	plotRace(recoded_df, race) 
-	file <- paste0(rlang::eval_tidy(race), "_aggregate_counts.png")
-	ggsave(filename = file, path = "plots/aggregates")
-}
 ```
 
 ### Breakdown by Care Site 
