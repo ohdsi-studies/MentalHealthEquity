@@ -6,7 +6,7 @@
 
 **Summary:** A feasibility assessment to assess candidacy of partner site location 
 
-# Environment Set-Up 📝
+# Environment Set-Up
 
 ## R and RStudio Requirements
 
@@ -65,29 +65,31 @@ Within that directory, do the following steps within the RStudio console:
 
 The following code block shows how this would run:
 
-```{r, eval = TRUE, message = FALSE, warning = FALSE}
+```{r, eval = FALSE, message = FALSE, warning = FALSE}
 library(renv)
 
 renv::activate()
 renv::restore()
 ```
 
-If everything worked correctly up to this point, you should be prepared to run the feasibility assessment! 🎉🎉🎉
+If everything worked correctly up to this point, you should be prepared to run the feasibility assessment!
 
 > **NOTE:** For steps 2, 3 and 4, RStudio may have already done or attempted to do this for you. If it did, you may not see anything when you run these steps in the console.
 
-# Running Feasbility Assessment 🤓
+# Running Feasbility Assessment
 
 ## Packages 
 
 The following packages will be loaded to conduct the feasibility assessment:
 
-```{r, eval = TRUE, message = FALSE}
-library(ggplot2)
-library(dplyr)
-library(tibble)
-library(SqlRender)
+```{r, eval = FALSE, message = FALSE}
 library(DatabaseConnector)
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+library(readr)
+library(SqlRender)
+library(tibble)
 ```
 
 To learn more about these packages, see the [Appendix](#appendix).
@@ -105,8 +107,9 @@ The following list of constants:
 - `user` - your username to access the server 
 - `password` - the password you use to access the server 
 - `port` - the port where the database is hosted
+- `schema` - name of the database schema used
 
-Must be defined in this code block (change `eval = FALSE` to `eval = TRUE` when you have set these variables correctly): 
+Must be defined in this code block (change `eval = FALSE` to `eval = FALSE` when you have set these variables correctly): 
 
 ```{r, eval = FALSE}
 dbms <- "Fill in here"
@@ -114,6 +117,7 @@ server <- "Fill in here"
 user <- "Fill in here"
 password <- "Fill in here"
 port <- "Fill in here"
+schema <- "Fill in here"
 ```
 
 An additional step needed is to configure the required driver to connect to the database as follows: 
@@ -121,27 +125,27 @@ An additional step needed is to configure the required driver to connect to the 
 1. Determine the name of your database management system based on the list [here](http://ohdsi.github.io/DatabaseConnector/reference/downloadJdbcDrivers.html)
 2. Download the drivers by running the following:
 
-This is accomplished in the following codeblock (change `eval = FALSE` to `eval = TRUE` when you have set these variables correctly):
+This is accomplished in the following codeblock (change `eval = FALSE` to `eval = FALSE` when you have set these variables correctly):
 	
 ```{r, eval = FALSE}
 pathToDriver = "/location/that/you/want"
 downloadJdbcDrivers(dbms = dbms, pathToDriver = pathToDriver, method = "auto")
 ```
 
-Once this is done, we can create the connection to the database (change `eval = FALSE` to `eval = TRUE` when you have set these variables correctly): 
+Once this is done, we can create the connection to the database (change `eval = FALSE` to `eval = FALSE` when you have set these variables correctly): 
 
 ```{r, eval = FALSE} 
 connectionDetails <- createConnectionDetails(dbms=dbms, 
                                              server=server,
                                              user=user,
                                              password=password,
-					     port=port
+					     port=port,
 					     pathToDriver=pathToDriver)
 
 connection <- connect(connectionDetails)
 ```
 
-If there were no errors, then we should be able to continue with the analysis! 👩‍🔬
+If there were no errors, then we should be able to continue with the analysis! 
 
 ### Example Connection 
 
@@ -153,6 +157,7 @@ server <- "test.data.americus.edu/mimic_omop"
 user <- "mimic"
 password <- "omoprocks"
 port <- 5042
+schema <- "mimic.omop"
 
 pathToDriver = "utils"
 downloadJdbcDrivers(dbms = dbms, pathToDriver = pathToDriver, method = "auto")
@@ -167,7 +172,7 @@ connectionDetails <- createConnectionDetails(dbms=dbms,
 connection <- connect(connectionDetails)
 ```
 
-## Queries 🤔
+## Queries
 
 There are a number of queries to execute that will take varying amounts of time depending on how many patients are in your database and how much data is at your site.
 
@@ -175,11 +180,11 @@ There are a number of queries to execute that will take varying amounts of time 
 
 **Desc:** Gets all unique person IDs:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 person_sql <- render(
 	'SELECT DISTINCT "PERSON_1"."person_id"
-	FROM "person" AS "PERSON_1";'
-	) 
+	FROM @schema."person" AS "PERSON_1";',
+	schema = schema) 
 person_sql <- translate(sql = person_sql, targetDialect = dbms)
 
 person_ids <- querySql(connection, person_sql)
@@ -190,14 +195,14 @@ person_ids <- person_ids$PERSON_ID
 
 **Desc:** Gets race ID's associated with each person ID passed into this query
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 person_race_sql <- render(
 		'SELECT
 		  "PERSON_1"."person_id",
 		  "PERSON_1"."race_concept_id"
-		FROM "person" AS "PERSON_1"
-		WHERE ("PERSON_1"."person_id" IN (@a));',
-		a = person_ids[1:100])
+		FROM @schema."person" AS "PERSON_1"
+		WHERE ("PERSON_1"."person_id" IN (@ids));',
+		schema = schema, ids = person_ids)
 person_race_sql <- translate(sql = person_race_sql, targetDialect = dbms)
 
 person_races <- querySql(connection, person_race_sql)
@@ -207,14 +212,14 @@ person_races <- querySql(connection, person_race_sql)
 
 **Desc:** Gets gender ID's associated with each person ID passed into this query
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 person_gender_sql <- render(
 		'SELECT
 		  "PERSON_1"."person_id",
 		  "PERSON_1"."gender_concept_id"
-		FROM "person" AS "PERSON_1"
-		WHERE ("PERSON_1"."person_id" IN (@a));',
-		a = person_ids)
+		FROM @schema."person" AS "PERSON_1"
+		WHERE ("PERSON_1"."person_id" IN (@ids));',
+		schema = schema, ids = person_ids)
 person_gender_sql <- translate(sql = person_gender_sql, targetDialect = dbms)
 
 person_genders <- querySql(connection, person_gender_sql)
@@ -224,7 +229,30 @@ person_genders <- querySql(connection, person_gender_sql)
 
 **Desc:** Gets an age group associated with each person ID passed into this query
 
-```{r, eval = TRUE}
+```{r, eval = FALSE} 
+db_year_range_sql <- render(
+'SELECT
+  MIN("observation_period_1"."observation_period_end_date") AS "first_year",
+  MAX("observation_period_1"."observation_period_end_date") AS "last_year"
+FROM @schema."observation_period" AS "observation_period_1";',
+schema = schema)
+db_year_range_sql <- translate(sql = db_year_range_sql, targetDialect = dbms)
+
+db_year_range <- querySql(connection, db_year_range_sql)
+
+first_year <- db_year_range$FIRST_YEAR %>% 
+	as.character %>%
+	parse_datetime("%Y-%m-%d") %>%
+	year
+
+last_year <- db_year_range$LAST_YEAR %>% 
+	as.character %>%
+	parse_datetime("%Y-%m-%d") %>%
+	year
+```
+
+
+```{r, eval = FALSE}
 person_age_groups_sql <- render(
 		'SELECT
   "PERSON_2"."person_id",
@@ -232,21 +260,48 @@ person_age_groups_sql <- render(
 FROM (
   SELECT
     "PERSON_1"."person_id",
-    (2022 - "PERSON_1"."year_of_birth") AS "age"
-  FROM "person" AS "PERSON_1"
-  WHERE ("PERSON_1"."person_id" IN (@a))
+    (@subtrahend - "PERSON_1"."year_of_birth") AS "age"
+  FROM @schema."person" AS "PERSON_1"
+  WHERE ("PERSON_1"."person_id" IN (@ids))
 ) AS "PERSON_2";',
-		a = person_ids)
+		schema = schema, ids = person_ids, subtrahend = 2022)
 person_age_groups_sql <- translate(sql = person_age_groups_sql, targetDialect = dbms)
 
 person_age_groups <- querySql(connection, person_age_groups_sql)
+```
+
+### Stratified Person Query 
+
+```{r}
+person_stratified_sql <- render(
+                             'SELECT
+                             COUNT(DISTINCT ages.person_id) as counts,
+                             ages.race_concept_id,
+                             ages.gender_concept_id,
+                             ages.age_group
+                             FROM (SELECT
+  "PERSON_2"."person_id",
+  (CASE WHEN ("PERSON_2"."age" < 10) THEN \'0 - 9\' WHEN ("PERSON_2"."age" < 20) THEN \'10 - 19\' WHEN ("PERSON_2"."age" < 30) THEN \'20 - 29\' WHEN ("PERSON_2"."age" < 40) THEN \'30 - 39\' WHEN ("PERSON_2"."age" < 50) THEN \'40 - 49\' WHEN ("PERSON_2"."age" < 60) THEN \'50 - 59\' WHEN ("PERSON_2"."age" < 70) THEN \'60 - 69\' WHEN ("PERSON_2"."age" < 80) THEN \'70 - 79\' WHEN ("PERSON_2"."age" < 90) THEN \'80 - 89\' END) AS "age_group",
+  "PERSON_2"."race_concept_id",
+  "PERSON_2"."gender_concept_id"
+FROM (SELECT
+    "PERSON_1"."person_id",
+    (@subtrahend - "PERSON_1"."year_of_birth") AS "age",
+    "PERSON_1"."race_concept_id" AS "race_concept_id",
+    "PERSON_1"."gender_concept_id" AS "gender_concept_id"
+  FROM @schema.person AS "PERSON_1") AS "PERSON_2") ages
+GROUP BY ages.age_group,ages.race_concept_id, ages.gender_concept_id;', schema = schema, subtrahend = last_year)
+
+person_stratified_sql <- translate(sql = person_stratified_sql, targetDialect = dbms)
+ 
+person_stratified <- querySql(connection, person_stratified_sql)
 ```
 
 ### Care Site Query
 
 **Desc:** Gets counts of distinct care site types present in database:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 care_sites_sql <- render('
 SELECT 
      foo.care_site_id,
@@ -257,15 +312,15 @@ FROM
 		SELECT DISTINCT
 			person_id, care_site_id
 		FROM 
-                        visit_occurrence
+                        @schema.visit_occurrence
 	) foo
 FULL OUTER JOIN 
-	care_site
+	@schema.care_site
 ON 
 	foo.care_site_id = care_site.care_site_id
 GROUP BY 
 	foo.care_site_id,
-	care_site.place_of_service_concept_id;')
+	care_site.place_of_service_concept_id;', schema = schema)
 care_sites_sql <- translate(sql = care_sites_sql, targetDialect = dbms)
 
 care_sites <- querySql(connection, care_sites_sql)
@@ -275,7 +330,7 @@ care_sites <- querySql(connection, care_sites_sql)
 
 **Desc:** Gets counts of persons broken down by state:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 location_sql <- render('SELECT
   "LOCATION_2"."state",
   COUNT("LOCATION_2"."state") AS COUNT
@@ -283,10 +338,10 @@ FROM (
   SELECT
     "LOCATION_1"."location_id",
     "LOCATION_1"."state"
-  FROM location AS "LOCATION_1"
+  FROM @schema.location AS "LOCATION_1"
 ) AS "LOCATION_2"
 JOIN person AS "PERSON_1" ON ("LOCATION_2"."location_id" = "PERSON_1"."location_id")
-GROUP BY "LOCATION_2".state;')
+GROUP BY "LOCATION_2".state;', schema = schema)
 location_sql <- translate(sql = location_sql, targetDialect = dbms)
 
 location <- querySql(connection, location_sql)
@@ -296,7 +351,7 @@ location <- querySql(connection, location_sql)
 
 **Desc:** Count of unique visits across types of visits
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 visit_types_sql <- render('SELECT
 	visit_concept_id, 
 	COUNT(visit_concept_id) 
@@ -305,16 +360,16 @@ FROM (
 		person_id,
 		visit_concept_id
 	FROM
-		visit_occurrence 
+		@schema.visit_occurrence 
 	) tmp
 GROUP BY 
-	visit_concept_id;')
+	visit_concept_id;', schema = schema)
 visit_types_sql <- translate(sql = visit_types_sql, targetDialect = dbms)
 
 visit_types <- querySql(connection, visit_types_sql)
 ```
 
-## Analyses to Conduct ⚗️
+## Analyses to Conduct
 
 ### Breakdown by Race, Gender, and Age Group
 
@@ -324,7 +379,7 @@ Here, we look at breakdowns by race, gender, and age group of persons.
 
 In this step, person ID's are removed and tables are joined:
 
-```{r, eval = TRUE} 
+```{r, eval = FALSE} 
 grouped_df <- full_join(person_genders, person_races, by = c("PERSON_ID" = "PERSON_ID")) %>% 
 full_join(person_age_groups, by = c("PERSON_ID" = "PERSON_ID")) %>%
 select(-PERSON_ID)
@@ -332,7 +387,7 @@ select(-PERSON_ID)
 
 Now we enforce aggregation and [HITECH standards](https://www.hhs.gov/hipaa/for-professionals/special-topics/hitech-act-enforcement-interim-final-rule/index.html) for filtering:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 grouped_df <- grouped_df %>% 
 count(RACE_CONCEPT_ID, AGE_GROUP, GENDER_CONCEPT_ID) %>%
 rename(COUNT = "n") %>%
@@ -343,7 +398,7 @@ filter(COUNT > 10)
 
 Using codes that come from [OHDSI Athena](https://athena.ohdsi.org/), we can recode variables to human readable terms: 
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 recoded_df <- grouped_df %>% 
 mutate(GENDER_CONCEPT_ID = recode(GENDER_CONCEPT_ID, "8507" = "MALE", "8532" = "FEMALE")) %>% 
 mutate(RACE_CONCEPT_ID = recode(RACE_CONCEPT_ID, "0" = "UNKNOWN", "8515" = "ASIAN", "8516" = "BLACK OR AFRICAN AMERICAN", "8527" = "WHITE"))
@@ -354,7 +409,7 @@ recoded_df
 
 The following are helper functions to plot the results from our aggregation:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 theme_bar <- function(){
       theme_classic(base_size = 10) + 
       theme(plot.title = element_text(vjust = 1, hjust = 0.5, face = "bold", size = 18),
@@ -389,7 +444,7 @@ plotRace <- function(df, race){
 
 Now we can run the plotting functions to generate findings:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 for (race in unique(recoded_df$RACE_CONCEPT_ID)) {
 	plotRace(recoded_df, race) 
 	file <- paste0(rlang::eval_tidy(race), "_aggregate_counts.png")
@@ -401,7 +456,7 @@ for (race in unique(recoded_df$RACE_CONCEPT_ID)) {
 
 For this, all we need to do is export the data: 
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 write.table(care_sites, file = "data/exp_raw/care_site_breakdown.csv")
 ```
 
@@ -409,7 +464,7 @@ write.table(care_sites, file = "data/exp_raw/care_site_breakdown.csv")
 
 For this, all we need to do is export the data: 
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 write.table(visit_types, file = "data/exp_raw/visit_type_breakdown.csv")
 ```
 
@@ -419,7 +474,7 @@ write.table(visit_types, file = "data/exp_raw/visit_type_breakdown.csv")
 
 Here we must enforce [HITECH standards](https://www.hhs.gov/hipaa/for-professionals/special-topics/hitech-act-enforcement-interim-final-rule/index.html) for filtering:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 location <- location %>% 
 filter(COUNT > 10)
 ```
@@ -428,11 +483,11 @@ filter(COUNT > 10)
 
 Now, all we need to do is export the data: 
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 write.table(location, file = "data/exp_raw/location_breakdown.csv")
 ```
 
-# Conclusion 📚
+# Conclusion
 
 ## Next Steps
 
@@ -455,3 +510,5 @@ We look forward to collaborating further!
 - [`tibble`](https://tibble.tidyverse.org) - improved data.frame functionality
 - [`SqlRender`](https://ohdsi.github.io/SqlRender/) - package for rendering parameterized SQL
 - [`DatabaseConnector`](http://ohdsi.github.io/DatabaseConnector/) - package for connecting to databases using JDBC
+
+TODO: Update packages used list
