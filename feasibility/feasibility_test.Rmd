@@ -421,7 +421,7 @@ filter(counts> 10)
 Now, all we need to do is export the data: 
 
 ```{r, eval = FALSE}
-write.table(location, file = "data/exp_raw/person_stratified_breakdown.csv")
+write.table(person_stratified_counts, file = "data/exp_raw/person_stratified_breakdown.csv")
 ```
 
 ### Breakdown by Care Site 
