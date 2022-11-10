@@ -147,6 +147,13 @@ connection <- connect(connectionDetails)
 
 If there were no errors, then we should be able to continue with the analysis! 
 
+> WARN: As you proceed with this analysis, if you encounter a Java issue like this: "Insufficient java heap memory", please run the following code block:
+> 
+> ````{r, eval = FALSE}
+> options(java.parameters = c("-XX:+UseConcMarkSweepGC", "-Xmx8192m"))
+> ````
+> This is only an emergency work around and should be removed when a better solution is found.
+
 ### Example Connection 
 
 If any of this was confusing, here is an example of how to fill out the above connection information:
