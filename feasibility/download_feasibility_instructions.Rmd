@@ -1,0 +1,36 @@
+# Downloading the Project 
+
+## Executive Summary 
+
+**Author:** Jacob S. Zelko
+
+**Date:** 2022-11-12
+
+**Summary:** Instructions on how to install the MentalHealthEquity project
+
+## Copying the `MentalHealthEquity` Project
+
+To download the environment we will use, there are two procedures one can follow:
+
+### Git Command Line Approach
+
+Assuming you have some experience with the fantastic version control tool, [git](https://git-scm.com), and some experience with the command line (whether on Windows, Linux, or OSX) you can follow these steps:
+
+1. Navigate to a directory of your choice
+2. Execute the following git command: 
+   - `git clone git@github.com:ohdsi-studies/MentalHealthEquity.git`
+
+### Website Approach
+
+For this approach, you will need to: 
+
+1. Go to this [link](https://github.com/ohdsi-studies/MentalHealthEquity)
+2. Follow the directions [on downloading a repository without git here](https://sites.northwestern.edu/researchcomputing/resources/downloading-from-github/#:~:text=When%20downloading%20materials%20to%20your,repository%20as%20a%20ZIP%20file.) 
+3. Unzip the zip file you downloaded to somewhere you want 
+
+### Next Steps 
+
+With RStudio, enter the downloaded directory/folder and then open a project within the `feasibility` subfolder.
+Open the file within the `feasibility` subfolder called `README.md` and follow the instructions from there. 
+
+Thank you!
