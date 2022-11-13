@@ -58,7 +58,7 @@ An additional step needed is to configure the required driver to connect to the 
 This is accomplished in the following codeblock (change `eval = FALSE` to `eval = FALSE` when you have set these variables correctly):
 	
 ```{r, eval = FALSE}
-pathToDriver = "/location/that/you/want"
+pathToDriver <- "/location/that/you/want"
 downloadJdbcDrivers(dbms = dbms, pathToDriver = pathToDriver, method = "auto")
 ```
 

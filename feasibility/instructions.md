@@ -1,4 +1,6 @@
-# Executive Summary 
+# Set-Up Instructions
+
+## Executive Summary 
 
 **Author:** Jacob Scott Zelko
 
@@ -6,9 +8,9 @@
 
 **Summary:** Instructions on setting up environment for analysis with necessary installation instructions
 
-# Environment Set-Up
+## Environment Set-Up
 
-## R and RStudio Requirements
+### R and RStudio Requirements
 
 For this feasibility assessment, you will need: 
 
@@ -26,14 +28,14 @@ As RStudio can be configured very differently depending on what sort of operatin
 
 > **NOTE:** If you do not want to manually deal with multiple versions of R on your system, I suggest checking out the great Rust tool, [rig](https://github.com/r-lib/rig) which allows you to have multiple R versions on the same machine simultaneously and switch between them seamlessly.
 
-## Install RTools42 (Windows Only Requirement)
+### Install RTools42 (Windows Only Requirement)
 
 For Windows only users, one will need to download the tool RTools42. 
 To do this, click [this link](https://cran.r-project.org/bin/windows/Rtools/rtools42/files/rtools42-5355-5357.exe) which will download the installer.
 Execute the installer and follow the instructions there.
 Make sure after you have installed the tool, restart RStudio if it is running on your computer!
 
-## Java Installation
+### Java Installation
 
 Java is required to be installed for this to work.
 In practical deployment, I have found Java 1.8 to be sufficient for assessments:
@@ -45,11 +47,11 @@ In practical deployment, I have found Java 1.8 to be sufficient for assessments:
 
 I have left out specific installation instructions for which executable to use due to the instructions and types differing between operating systems.
 
-## Copying the `MentalHealthEquity` Project
+### Copying the `MentalHealthEquity` Project
 
-To download the environment we will use, there are two procedures available:
+To download the environment we will use, there are two procedures one can follow:
 
-### Git Command Line Approach
+#### Git Command Line Approach
 
 Assuming you have some experience with the fantastic version control tool, [git](https://git-scm.com), and some experience with the command line (whether on Windows, Linux, or OSX) you can follow these steps:
 
@@ -57,7 +59,7 @@ Assuming you have some experience with the fantastic version control tool, [git]
 2. Execute the following git command: 
    - `git clone git@github.com:ohdsi-studies/MentalHealthEquity.git`
 
-### Website Approach
+#### Website Approach
 
 For this approach, you will need to: 
 
@@ -65,7 +67,7 @@ For this approach, you will need to:
 2. Follow the directions [on downloading a repository without git here](https://sites.northwestern.edu/researchcomputing/resources/downloading-from-github/#:~:text=When%20downloading%20materials%20to%20your,repository%20as%20a%20ZIP%20file.) 
 3. Unzip the zip file you downloaded to somewhere you want 
 
-## Configuring R Environment
+### Configuring R Environment
 
 For this tutorial, you will need the `renv` package installed into your main R environment (for more information about this package, refer to the [Appendix](#appendix)).
 This can be done via: 
