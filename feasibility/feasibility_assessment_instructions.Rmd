@@ -1,0 +1,278 @@
+# Feasibility Assessment
+
+## Executive Summary 
+
+**Author:** Jacob S. Zelko
+
+**Date:** 2022-11-02
+
+**Summary:** A feasibility assessment to assess candidacy of partner site location 
+
+## Running Feasbility Assessment
+
+### Packages 
+
+The following packages will be loaded to conduct the feasibility assessment:
+
+```{r, eval = FALSE, message = FALSE}
+library(DatabaseConnector)
+library(dplyr)
+library(lubridate)
+library(readr)
+library(SqlRender)
+library(tibble)
+```
+
+To learn more about these packages, see the [Appendix](#appendix).
+
+### Defining Connection Details
+
+Here, we need to set-up connection to the OMOP CDM database we will assess.
+To do so, we need to define some constants that will be used for the connection.
+The following list of constants:
+
+- `dbms` - the database management system that is used to host your database; common options include (see all options [here](http://ohdsi.github.io/DatabaseConnector/reference/createConnectionDetails.html)):
+	- `"postgresql"`
+	- `"sql server"`
+- `server` - name of the server; could be `localhost`, an address like `123.0.1.5`, etc. 
+- `user` - your username to access the server 
+- `password` - the password you use to access the server 
+- `port` - the port where the database is hosted
+- `schema` - name of the database schema used
+
+Must be defined in this code block: 
+
+```{r, eval = FALSE}
+dbms <- "Fill in here"
+server <- "Fill in here"
+user <- "Fill in here"
+password <- "Fill in here"
+port <- "Fill in here"
+schema <- "Fill in here"
+```
+
+An additional step needed is to configure the required driver to connect to the database as follows: 
+
+1. Determine the name of your database management system based on the list [here](http://ohdsi.github.io/DatabaseConnector/reference/downloadJdbcDrivers.html)
+2. Download the drivers by running the following:
+
+This is accomplished in the following codeblock (change `eval = FALSE` to `eval = FALSE` when you have set these variables correctly):
+	
+```{r, eval = FALSE}
+pathToDriver <- "/location/that/you/want"
+downloadJdbcDrivers(dbms = dbms, pathToDriver = pathToDriver, method = "auto")
+```
+
+Once this is done, we can create the connection to the database (change `eval = FALSE` to `eval = FALSE` when you have set these variables correctly): 
+
+```{r, eval = FALSE} 
+connectionDetails <- createConnectionDetails(dbms=dbms, 
+                                             server=server,
+                                             user=user,
+					     password=password,
+					     port=port,
+					     pathToDriver=pathToDriver)
+
+connection <- connect(connectionDetails)
+```
+
+If there were no errors, then we should be able to continue with the analysis! 
+
+> WARN: As you proceed with this analysis, if you encounter a Java issue like this: "Insufficient java heap memory", please run the following code block:
+> 
+> ````{r, eval = FALSE}
+> options(java.parameters = c("-XX:+UseConcMarkSweepGC", "-Xmx8192m"))
+> ````
+> This is only an emergency work around and should be removed when a better solution is found.
+
+#### Example Connection 
+
+If any of this was confusing, here is an example of how to fill out the above connection information:
+
+```r
+dbms <- "postgresql"
+server <- "test.data.americus.edu/mimic_omop"
+user <- "mimic"
+password <- "omoprocks"
+port <- 5042
+schema <- "mimic.omop"
+
+pathToDriver = "utils"
+downloadJdbcDrivers(dbms = dbms, pathToDriver = pathToDriver, method = "auto")
+
+connectionDetails <- createConnectionDetails(dbms=dbms, 
+                                             server=server,
+                                             user=user,
+                                             password=password,
+					     port=port,
+					     pathToDriver=pathToDriver)
+
+connection <- connect(connectionDetails)
+```
+
+### Queries and Analysis
+
+There are a number of queries to execute and analyses that will take varying amounts of time to run depending on how many patients are in your database and how much data is at your site.
+Each query has the following two pieces of information:
+
+1. **Description** - a concise description of what the query will do upon execution
+2. **Requirements** - the expected database tables and fields required to run a query
+
+If there are concerns about 1, you can view queries within the `sql` directory to see each query. 
+If the requirements per 2 are not met, then either that query will need to be skipped or the corresponding query within the `sql` directory will need to be modified.
+
+> **NOTE:** For 2, if there is no available in a certain CDM field, that will not cause the query to fail.
+> The query will fail, however, if a given field does not exist within a database table at all.
+
+The final step needed before running the following queries is to define some constants we will use in this analysis:
+
+- `site_name` - the name of the site in snake case (i.e. "Georgia Tech Research Institute" becomes "georgia_tech_research_institute")
+
+And here is the code block needed to update:
+
+```{r, eval = FALSE}
+site_name <- "Fill in here"
+
+site_path <- paste("../data/", site_name, sep = "")
+dir.create(path = site_name)
+```
+
+#### Stratified Person Query 
+
+**Description:** A compact query to get all persons by race, gender, and age group. 
+For the purpose of this analysis, the subtrahend value for age is calculated based on the latest recorded date found in the `observation_period` table (considered by OHDSI experts to be the table with the latest information in a database).
+
+**Requirements:** This query expects the following tables and their fields to be available:
+
+| Table              | Field                       |
+| ---------------    | ---------------             |
+| observation_period | observation_period_end_date |
+| person             | person_id                   |
+| person             | year_of_birth               |
+| person             | race_concept_id             |
+| person             | gender_concept_id           |
+
+--- 
+
+```{r, eval = FALSE}
+source("sql/stratified_person.R")
+```
+
+Now we can enforce aggregation and patient count suppression per [HITECH standards](https://www.hhs.gov/hipaa/for-professionals/special-topics/hitech-act-enforcement-interim-final-rule/index.html) via filtering:
+
+```{r, eval = FALSE}
+person_stratified_counts <- person_stratified %>% 
+filter(COUNTS > 10)
+```
+
+Now, all we need to do is export the data: 
+
+```{r, eval = FALSE}
+write.table(person_stratified_counts, file = paste(site_path, "/person_stratified_breakdown.csv", sep = ""))
+```
+
+#### Care Site Query
+
+**Description:** Gets counts of distinct care site types present in database.
+
+**Requirements:** This query expects the following tables and their fields to be available:
+
+| Table            | Field               |
+| ---------------  | ---------------     |
+| care_site        | care_site_id        |
+| care_site        | place_of_service_id |
+| visit_occurrence | person_id           |
+| visit_occurrence | care_site_id        |
+
+--- 
+
+```{r, eval = FALSE}
+source("sql/care_sites.R")
+```
+
+For this, all we need to do is export the data: 
+
+```{r, eval = FALSE}
+write.table(care_sites, file = paste(site_path, "/care_site_breakdown.csv", sep = ""))
+```
+
+#### State Person Query
+
+**Description:** Gets counts of persons broken down by state.
+
+**Requirements:** This query expects the following tables and their fields to be available:
+
+| Table           | Field           |
+| --------------- | --------------- |
+| location        | location_id     |
+| location        | state           |
+
+--- 
+
+```{r, eval = FALSE}
+source("sql/state_person.R")
+```
+
+Here we must enforce [HITECH standards](https://www.hhs.gov/hipaa/for-professionals/special-topics/hitech-act-enforcement-interim-final-rule/index.html) for filtering:
+
+```{r, eval = FALSE}
+location <- location %>% 
+filter(COUNT > 10)
+```
+
+Now, all we need to do is export the data: 
+
+```{r, eval = FALSE}
+write.table(location, file = paste(site_path, "/location_breakdown.csv", sep = ""))
+```
+
+#### Visit Type Query 
+
+**Description:** Count of unique visits across types of visits.
+
+**Requirements:** This query expects the following tables and their fields to be available:
+
+| Table            | Field            |
+| ---------------  | ---------------  |
+| visit_occurrence | person_id        |
+| visit_occurrence | visit_concept_id |
+
+--- 
+
+```{r, eval = FALSE}
+source("sql/visit_type.R")
+```
+
+For this, all we need to do is export the data: 
+
+```{r, eval = FALSE}
+write.table(visit_types, file = paste(site_path, "/visit_type_breakdown.csv", sep = ""))
+```
+
+## Conclusion
+
+### Next Steps
+
+With this feasibility analysis done, please share the results back to us at GTRI. 
+The way to do that is to upload the folder that was generated for your site in `../data/feasibility/`.
+It should be a folder with your site's name and contains CSV extracts.
+This can then be uploaded to the Box link that we provided you over email.
+Feel free to contact us at `jacob.zelko@gtri.gatech.edu` and we can discuss further steps!
+
+### THANK YOU! 
+
+If you completed this entire feasibility assessment, **THANK YOU** -- you are incredible!
+You are making this network study possible and my team and I at GTRI fully understand how difficult getting these assessments to run can be!
+We look forward to collaborating further!
+
+## Appendix 
+
+### Packages Details
+
+- [`renv`](https://rstudio.github.io/renv/index.html) - create reproducible environments for R projects
+- [`dplyr`](https://dplyr.tidyverse.org) - grammar for data manipulation
+- [`tibble`](https://tibble.tidyverse.org) - improved data.frame functionality
+- [`SqlRender`](https://ohdsi.github.io/SqlRender/) - package for rendering parameterized SQL
+- [`DatabaseConnector`](http://ohdsi.github.io/DatabaseConnector/) - package for connecting to databases using JDBC
+- [`lubridate`](https://lubridate.tidyverse.org) - makes it easier to work with date times
+- [`readr`](https://readr.tidyverse.org) - a fast and friendly way to read rectangular data
