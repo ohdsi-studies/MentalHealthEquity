@@ -133,7 +133,7 @@ And here is the code block needed to update:
 ```{r, eval = FALSE}
 site_name <- "Fill in here"
 
-site_path <- paste("../data/", site_name, sep = "")
+site_path <- paste("../data/", site_name, sep = ""), row.names = FALSE
 dir.create(path = site_name)
 ```
 
@@ -168,7 +168,7 @@ filter(COUNTS > 10)
 Now, all we need to do is export the data: 
 
 ```{r, eval = FALSE}
-write.table(person_stratified_counts, file = paste(site_path, "/person_stratified_breakdown.csv", sep = ""))
+write.table(person_stratified_counts, file = paste(site_path, "/person_stratified_breakdown.csv", sep = ""), row.names = FALSE)
 ```
 
 #### Care Site Query
@@ -193,7 +193,7 @@ source("sql/care_sites.R")
 For this, all we need to do is export the data: 
 
 ```{r, eval = FALSE}
-write.table(care_sites, file = paste(site_path, "/care_site_breakdown.csv", sep = ""))
+write.table(care_sites, file = paste(site_path, "/care_site_breakdown.csv", sep = ""), row.names = FALSE)
 ```
 
 #### State Person Query
@@ -223,7 +223,7 @@ filter(COUNT > 10)
 Now, all we need to do is export the data: 
 
 ```{r, eval = FALSE}
-write.table(location, file = paste(site_path, "/location_breakdown.csv", sep = ""))
+write.table(location, file = paste(site_path, "/location_breakdown.csv", sep = ""), row.names = FALSE)
 ```
 
 #### Visit Type Query 
@@ -246,7 +246,7 @@ source("sql/visit_type.R")
 For this, all we need to do is export the data: 
 
 ```{r, eval = FALSE}
-write.table(visit_types, file = paste(site_path, "/visit_type_breakdown.csv", sep = ""))
+write.table(visit_types, file = paste(site_path, "/visit_type_breakdown.csv", sep = ""), row.names = FALSE)
 ```
 
 ## Conclusion
