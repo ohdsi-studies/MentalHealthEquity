@@ -14,7 +14,7 @@ library(SqlRender)
 
 cat("Testing Eunomia Connection Test Suite\n")
 
-eunomia_details <- Eunomia::getEunomiaConnectionDetails(databaseFile = "eunomia.sqlite")
+eunomia_details <- Eunomia::getEunomiaConnectionDetails(databaseFile = "tests/eunomia.sqlite")
 
 test_that("Eunomia Connection", {
         expect_equal(object = length(eunomia_details), expected = 9)
