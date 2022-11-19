@@ -1,27 +1,44 @@
 db_year_range_sql <- render(
-'SELECT
+        'SELECT
   MIN("observation_period_1"."observation_period_end_date") AS "first_year",
   MAX("observation_period_1"."observation_period_end_date") AS "last_year"
 FROM @schema."observation_period" AS "observation_period_1";',
-schema = schema)
+        schema = schema
+)
 db_year_range_sql <- translate(sql = db_year_range_sql, targetDialect = dbms)
 
 db_year_range <- querySql(connection, db_year_range_sql)
 
 # Determine earliest year data is recorded for
-first_year <- db_year_range$FIRST_YEAR %>% 
-	as.character %>%
-	parse_datetime("%Y-%m-%d") %>%
-	year
+first_year <- db_year_range$FIRST_YEAR %>%
+        as.character() %>%
+        parse_datetime("%Y-%m-%d") %>%
+        year()
+
+if (is.na(first_year)) {
+        first_year <- db_year_range$FIRST_YEAR %>%
+                as_datetime() %>%
+                as.character() %>%
+                parse_datetime("%Y-%m-%d") %>%
+                year()
+}
 
 # Determine latest year data is recorded for
-last_year <- db_year_range$LAST_YEAR %>% 
-	as.character %>%
-	parse_datetime("%Y-%m-%d") %>%
-	year
+last_year <- db_year_range$LAST_YEAR %>%
+        as.character() %>%
+        parse_datetime("%Y-%m-%d") %>%
+        year()
+
+if (is.na(last_year)) {
+        last_year <- db_year_range$LAST_YEAR %>%
+                as_datetime() %>%
+                as.character() %>%
+                parse_datetime("%Y-%m-%d") %>%
+                year()
+}
 
 person_stratified_sql <- render(
-                             'SELECT
+        'SELECT
                              COUNT(DISTINCT ages.person_id) as counts,
                              ages.race_concept_id,
                              ages.gender_concept_id,
@@ -37,8 +54,10 @@ FROM (SELECT
     "PERSON_1"."race_concept_id" AS "race_concept_id",
     "PERSON_1"."gender_concept_id" AS "gender_concept_id"
   FROM @schema.person AS "PERSON_1") AS "PERSON_2") ages
-GROUP BY ages.age_group,ages.race_concept_id, ages.gender_concept_id;', schema = schema, subtrahend = last_year)
+GROUP BY ages.age_group,ages.race_concept_id, ages.gender_concept_id;',
+        schema = schema, subtrahend = last_year
+)
 
 person_stratified_sql <- translate(sql = person_stratified_sql, targetDialect = dbms)
- 
+
 person_stratified <- querySql(connection, person_stratified_sql)
