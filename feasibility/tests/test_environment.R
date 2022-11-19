@@ -6,6 +6,8 @@ library(testthat)
 
 library(DatabaseConnector)
 library(Eunomia)
+library(lubridate)
+library(readr)
 library(SqlRender)
 
 ##############################################################
@@ -40,10 +42,29 @@ test_that("Rendering queries", {
 cat("\nTesting Eunomia Queries and Results\n")
 
 # Creating connection to Eunomia
-conn <- DatabaseConnector::connect(eunomia_details)
+connection <- DatabaseConnector::connect(eunomia_details)
 
 query <- render('SELECT DISTINCT \"PERSON_1\".\"person_id\" FROM @schema.\"PERSON\" AS \"PERSON_1\" LIMIT 1', schema = "main")
 
 test_that("Running query", {
+        expect_equal(object = querySql(connection, query)$PERSON_ID, expected = 6)
+})
+
+
+##############################################################
+# Testing feasibility assessment queries
+##############################################################
+
+connection <- DatabaseConnector::connect(eunomia_details)
+
+schema <- "main"
+dbms <- "sqlite"
+
+source("../sql/stratified_person.R")
+source("../sql/visit_type.R")
+
+test_that("Running query", {
         expect_equal(object = querySql(conn, query)$PERSON_ID, expected = 6)
+        expect_equal(object = person_stratified, expected = data.frame(read_csv("ref_stratified_person.csv")))
+        expect_equal(object = data.frame(visit_types), expected = data.frame(read_csv("ref_visit_type.csv")))
 })
