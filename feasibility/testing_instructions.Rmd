@@ -6,7 +6,7 @@
 
 **Date:** 2022-11-18
 
-**Summary:** This is a small instructional that ensures the environment set-up ran correctly
+**Summary:** A small instructional that ensures the environment set-up ran correctly
 
 ## Environment Set-Up
 
