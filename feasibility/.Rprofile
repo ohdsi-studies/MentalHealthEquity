@@ -1,1 +1,4 @@
-source("renv/activate.R")
+sub_path <- getwd()
+setwd("../")
+source(".Rprofile")
+setwd(sub_path)
