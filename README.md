@@ -1,4 +1,5 @@
-# Assessing Health Equity in Mental Healthcare Delivery Using a Federated Network Research Model
+Assessing Health Equity in Mental Healthcare Delivery Using a Federated Network Research Model
+==============================================================================================
 
 <img src="https://img.shields.io/badge/Study%20Status-Started-blue.svg" alt="Study Status: Started">
 
@@ -17,7 +18,8 @@ For this effort, we conduct a federated network research study utilizing claims 
 Through this analysis, we will develop clinical phenotypes around mental health conditions and build analytics packages to uncover unknown relationships between claims, EHR, and survey data.
 This effort could lead health officials to implement better informed interventions that will increase equitable access to mental healthcare across vulnerable populations, supports efforts to decrease acute mental health-related morbidities, and improve the efficacy of health spending.
 
-# Instructions
+Instructions
+==============
 
 This study has a few different components to run.
 To get started, visit the directory `feasibility`, to run a feasibility assessment.
