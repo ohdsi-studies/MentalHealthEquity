@@ -1,7 +1,7 @@
 Package: MentalHealthEquity
 Title: Assessing Health Equity in Mental Healthcare Delivery Using a
     Federated Network Research Model
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person("Jacob", "Zelko", , "jacobszelko@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4531-1614"))
@@ -10,6 +10,6 @@ Description: This is a network research package which assesses health
     components in this package: a feasibility component (to assess site
     feasibility) and a study component (to generate statistics of interest
     at each site).
-License: MIT + file LICENSE
+License: MIT file LICENSE
 Encoding: UTF-8
 Language: en
