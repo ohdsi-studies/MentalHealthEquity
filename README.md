@@ -3,7 +3,7 @@ Assessing Health Equity in Mental Healthcare Delivery Using a Federated Network 
 
 <img src="https://img.shields.io/badge/Study%20Status-Started-blue.svg" alt="Study Status: Started">
 
-- Analytics use case(s): **Characterization, Population-Level Estimation**
+- Analytics use case(s): **Characterization**
 - Study type: **Methods Research**
 - Tags: **Mental Health, Equity, Depression, Bipolar Disorder, Suicide, Characterization**
 - Study lead: **Jacob S. Zelko**
