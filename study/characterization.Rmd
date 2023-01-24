@@ -1,0 +1,188 @@
+# Feasibility Assessment
+
+## Executive Summary
+
+*Date:* 2022-11-02
+
+*Summary:* A feasibility assessment to assess candidacy of partner site location
+
+## Running Feasbility Assessment
+
+### Packages
+
+The following packages will be loaded to conduct the feasibility assessment:
+
+```{r, eval = FALSE, message = FALSE}
+library(DatabaseConnector)
+library(dplyr)
+library(lubridate)
+library(readr)
+library(SqlRender)
+library(tibble)
+```
+
+To learn more about these packages, see the [Appendix](#appendix).
+
+### Defining Connection Details
+
+Here, we need to set-up connection to the OMOP CDM database we will assess.
+To do so, we need to define some constants that will be used for the connection.
+The following list of constants:
+
+- dbms - the database management system that is used to host your database; common options include (see all options [here](http://ohdsi.github.io/DatabaseConnector/reference/createConnectionDetails.html))
+	- `"postgresql"`
+	- `"sqlserver"`
+- server - name of the server; could be localhost, an address like 123.0.1.5, etc.
+- user - your username to access the server
+- password - the password you use to access the server
+- port - the port where the database is hosted
+- schema - name of the database schema used
+
+Must be defined in this code block:
+
+```{r, eval = FALSE}
+dbms <- "Fill in here"
+server <- "Fill in here"
+user <- "Fill in here"
+password <- "Fill in here"
+port <- "Fill in here"
+schema <- "Fill in here"
+```
+
+An additional step needed is to configure the required driver to connect to the database as follows:
+
+1. Determine the name of your database management system based on the list [here](http://ohdsi.github.io/DatabaseConnector/reference/downloadJdbcDrivers.html)
+2. Download the drivers by running the following:
+	
+```{r, eval = FALSE}
+pathToDriver <- "/location/that/you/want"
+downloadJdbcDrivers(dbms = dbms, pathToDriver = pathToDriver, method = "auto")
+```
+
+Once this is done, we can create the connection to the database:
+
+```{r, eval = FALSE} 
+connectionDetails <- createConnectionDetails(dbms=dbms, 
+                                             server=server,
+                                             user=user,
+					     password=password,
+					     port=port,
+					     pathToDriver=pathToDriver)
+
+connection <- connect(connectionDetails)
+```
+
+If there were no errors, then we should be able to continue with the analysis!
+
+> WARN: As you proceed with this analysis, if you encounter a Java issue like this: "Insufficient java heap memory", please run the following code block:
+>
+> ````{r, eval = FALSE}
+> options(java.parameters = c("-XX:+UseConcMarkSweepGC", "-Xmx8192m"))
+> ````
+>
+> This is only an emergency work around and should be removed when a better solution is found.
+
+#### Example Connection
+
+If any of this was confusing, here is an example of how to fill out the above connection information, download drivers, and create a connection:
+
+```{r, eval = F}
+dbms <- "postgresql"
+server <- "test.data.americus.edu/mimic_omop"
+user <- "mimic"
+password <- "omoprocks"
+port <- 5042
+schema <- "mimic.omop"
+
+pathToDriver = "utils"
+downloadJdbcDrivers(dbms = dbms, pathToDriver = pathToDriver, method = "auto")
+
+connectionDetails <- createConnectionDetails(dbms=dbms, 
+                                             server=server,
+                                             user=user,
+                                             password=password,
+					     port=port,
+					     pathToDriver=pathToDriver)
+
+connection <- connect(connectionDetails)
+```
+
+### Queries
+
+TODO: Load condition concept set for specific condition from `phenotypes` directory (the CSVs and in particular the CONCEPT ID field to)
+
+1. Load condition_concept_ids for a condition
+
+```{r}
+concept_ids <- # Load concept ids here
+```
+
+
+2. Filter database patients to those captured by a concept set
+
+```{r, eval = FALSE}
+condition_patients <- occ$ConditionFilterPersonIDs(28060, conn)
+condition_patients <- strep_patients$person_id
+```
+
+#### Stratified Person Query
+
+TODO: More clearly write-up each task as a separate subsection
+TODO: Write final output to CSV; adapt from feasibility script
+
+1 - 3. Looking at patients in database, begin to stratify by race, gender, and age group.
+
+*Task: Find the race of patients with depression*
+```{r}
+depression_patients_race <- occ$GetPatientRace(depression_patients, conn)
+```
+
+*Task: Find the gender of patients with depression*
+
+```{r}
+depression_patients_gender <- occ$GetPatientGender(strep_patients, conn)
+```
+
+*Task: Create Age Groupings of Patients with Depression*
+
+For this task, for every single person who has a diagnosis of depression, we need to assign them an age group. For this demo, age groupings will be made along 55 year intervals when assigned to a person up to `100` years of age (e.g. `[0, 4], [5, 9], ..., [95,100]`).
+
+```{r}
+age_groups <- list(
+	list(0, 4),
+	list(5, 9),
+	list(10, 14),
+	list(15, 19),
+	list(20, 24),
+	list(25, 29),
+	list(30, 34),
+	list(35, 39),
+	list(40, 44),
+	list(45, 49),
+	list(50, 54),
+	list(55, 59),
+	list(60, 64),
+	list(65, 69),
+	list(70, 74),
+	list(75, 79),
+	list(80, 84),
+	list(85, 89),
+	list(90, 94),
+	list(95, 99))
+
+strep_patients_age_group <- occ$GetPatientAgeGroup(strep_patients, conn, age_groupings = age_groups)
+```
+
+4. *Create Patient Groupings: Join the tables together !*
+
+Often with characterization style studies, it is extremely important to aggregate patient populations. This is to protect the anonymity of patients with perhaps severely sensitive conditions (e.g. mental illnesses, sexually transmitted diseases, etc.) from possible repercussions from accidental disclosure of this patient information.
+
+```{r}
+final_df <- full_join(strep_patients, strep_patients_race, by = c("person_id" = "person_id")) %>% 
+full_join(strep_patients_age_group, by = c("person_id" = "person_id")) %>%
+full_join(strep_patients_gender, by = c("person_id" = "person_id")) %>%
+select(-person_id) %>% 
+count(race_concept_id, age_group, gender_concept_id) %>%
+rename(count = "n") %>%
+filter(count > 10)
+```
