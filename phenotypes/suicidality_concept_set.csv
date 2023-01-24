@@ -1,0 +1,35 @@
+"","CONCEPT_ID","CONCEPT_NAME","STANDARD_CONCEPT","STANDARD_CONCEPT_CAPTION","INVALID_REASON","INVALID_REASON_CAPTION","CONCEPT_CODE","DOMAIN_ID","VOCABULARY_ID","CONCEPT_CLASS_ID","VALID_START_DATE","VALID_END_DATE"
+"1",3091619,"Suicidal","N","Non-Standard","U","Invalid","139483003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"2",3091711,"Suicidal thoughts","N","Non-Standard","U","Invalid","139586008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"3",3091713,"Planning suicide","N","Non-Standard","U","Invalid","139588009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"4",3109774,"Suicidal - symptom","N","Non-Standard","U","Invalid","162198003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"5",3109834,"Planning suicide","N","Non-Standard","U","Invalid","162316008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"6",3143915,"Suicidal thoughts","N","Non-Standard","U","Invalid","271950009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"7",3174841,"Passive suicidal ideations","S","Standard","V","Valid","23000001000004101","Condition","Nebraska Lexicon","Clinical Finding",1453939200000,4102358400000
+"8",3185257,"Suicidal thoughts","N","Non-Standard","V","Valid","6471006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"9",3218671,"Suicidal behaviour","N","Non-Standard","V","Valid","425104003","Condition","Nebraska Lexicon","Clinical Finding",1170201600000,4102358400000
+"10",3227998,"Suicidal","N","Non-Standard","V","Valid","267073005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"11",3272204,"Has access to planned means of suicide","N","Non-Standard","V","Valid","711561004","Condition","Nebraska Lexicon","Clinical Finding",1438300800000,4102358400000
+"12",3312803,"Planning suicide","N","Non-Standard","V","Valid","247650009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"13",3330529,"Suicidal intent","N","Non-Standard","V","Valid","304594002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"14",4092095,"Planning suicide","S","Standard","V","Valid","247650009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"15",4119967,"Suicidal intent","S","Standard","V","Valid","304594002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"16",4143064,"Suicidal","S","Standard","V","Valid","267073005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"17",4273391,"Suicidal thoughts","S","Standard","V","Valid","6471006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"18",4322252,"Suicidal behavior","S","Standard","V","Valid","425104003","Condition","SNOMED","Clinical Finding",1170201600000,4102358400000
+"19",40305056,"Suicidal (& [symptom])","N","Non-Standard","U","Invalid","139483003","Condition","SNOMED","Clinical Finding",0,1012435200000
+"20",40305620,"Suicidal thoughts","N","Non-Standard","U","Invalid","139586008","Condition","SNOMED","Clinical Finding",0,1012435200000
+"21",40305622,"Planning suicide","N","Non-Standard","U","Invalid","139588009","Condition","SNOMED","Clinical Finding",0,1012435200000
+"22",40326368,"Suicidal (& [symptom])","N","Non-Standard","D","Invalid","162198003","Condition","SNOMED","Clinical Finding",0,1012435200000
+"23",40326923,"Planning suicide","N","Non-Standard","U","Invalid","162316008","Condition","SNOMED","Clinical Finding",0,1012435200000
+"24",40352124,"Suicidal thoughts","N","Non-Standard","U","Invalid","271950009","Condition","SNOMED","Clinical Finding",0,1012435200000
+"25",44828587,"Suicidal ideation","N","Non-Standard","V","Valid","V62.84","Condition","ICD9CM","5-dig billing V code",0,4102358400000
+"26",45428386,"Suicidal - symptom","N","Non-Standard","V","Valid","1B19.11","Condition","Read","Read",0,4102358400000
+"27",45454898,"Suicidal plans","N","Non-Standard","V","Valid","1BD3.00","Condition","Read","Read",0,4102358400000
+"28",45491748,"Suicidal","N","Non-Standard","V","Valid","1B19.00","Condition","Read","Read",0,4102358400000
+"29",45504973,"Suicidal ideation","N","Non-Standard","V","Valid","1BD1.00","Condition","Read","Read",0,4102358400000
+"30",45524871,"SUICIDAL IDEATION","N","Non-Standard","V","Valid","3009BN","Condition","OXMIS","OXMIS",0,4102358400000
+"31",45530870,"SUICIDAL PLANS","N","Non-Standard","V","Valid","3009BP","Condition","OXMIS","OXMIS",0,4102358400000
+"32",45531935,"SUICIDAL THOUGHTS","N","Non-Standard","V","Valid","3009BT","Condition","OXMIS","OXMIS",0,4102358400000
+"33",45582713,"Suicidal ideations","N","Non-Standard","V","Valid","R45.851","Condition","ICD10CM","6-char billing code",0,4102358400000
+"34",46273080,"Has access to planned means of suicide","S","Standard","V","Valid","711561004","Condition","SNOMED","Clinical Finding",1438300800000,4102358400000
