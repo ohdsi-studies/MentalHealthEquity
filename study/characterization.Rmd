@@ -12,6 +12,8 @@
 
 The following packages will be loaded to conduct the feasibility assessment:
 
+TODO: These packages might need to be updated
+
 ```{r, eval = FALSE, message = FALSE}
 library(DatabaseConnector)
 library(dplyr)
@@ -48,6 +50,8 @@ password <- "Fill in here"
 port <- "Fill in here"
 schema <- "Fill in here"
 ```
+
+TODO: This section will need to be replaced with this (or something similar): https://juliahealth.org/OMOPCDMCohortCreator.jl/dev/tutorials/r_tutorial/#Create-Database-Connection-to-Eunomia 
 
 An additional step needed is to configure the required driver to connect to the database as follows:
 
