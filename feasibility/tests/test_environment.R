@@ -55,7 +55,7 @@ test_that("Running query", {
 # Testing feasibility assessment queries
 ##############################################################
 
-connection <- DatabaseConnector::connect(eunomia_details)
+conn <- DatabaseConnector::connect(eunomia_details)
 
 schema <- "main"
 dbms <- "sqlite"
