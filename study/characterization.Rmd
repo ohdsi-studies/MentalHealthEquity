@@ -4,41 +4,110 @@
 
 *Date:* 2022-11-02
 
-*Summary:* A feasibility assessment to assess candidacy of partner site location
+*Summary:* A feasibility assessment to assess candidacy of partner site
+location
 
 ## Running Feasbility Assessment
 
 ### Packages
 
-The following packages will be loaded to conduct the feasibility assessment:
+The following packages will be loaded to conduct the feasibility
+assessment:
 
-TODO: These packages might need to be updated
+#### R Packages
+
+You will need the following packages for this tutorial which you can install with `install.packages()`:
+
+- `dplyr`
+- `tibble`
+- `JuliaConnectoR`
 
 ```{r, eval = FALSE, message = FALSE}
-library(DatabaseConnector)
 library(dplyr)
-library(lubridate)
-library(readr)
-library(SqlRender)
 library(tibble)
+library(JuliaConnectoR)
 ```
 
 To learn more about these packages, see the [Appendix](#appendix).
 
-### Defining Connection Details
+#### Julia Packages
 
-Here, we need to set-up connection to the OMOP CDM database we will assess.
-To do so, we need to define some constants that will be used for the connection.
-The following list of constants:
+You will need the following packages for this tutorial:
 
-- dbms - the database management system that is used to host your database; common options include (see all options [here](http://ohdsi.github.io/DatabaseConnector/reference/createConnectionDetails.html))
-	- `"postgresql"`
-	- `"sqlserver"`
-- server - name of the server; could be localhost, an address like 123.0.1.5, etc.
-- user - your username to access the server
-- password - the password you use to access the server
-- port - the port where the database is hosted
-- schema - name of the database schema used
+-   `HealthSampleData`
+-   `OMOPCDMDatabaseConnector`
+-   `OMOPCDMCohortCreator`
+-   `SQLite`
+-   `DBInterface`
+-   `LibPQ`
+
+To install the Julia packages and activate our analysis environment, we
+can run the following code:
+
+```{r Installing Julia Packages, eval = F}
+pkg <- juliaImport("Pkg")
+
+pkg$activate("TUTORIAL", shared = TRUE) 
+# NOTE: You could specify the path to where your project is or any other path you want; set `shared` to `FALSE` if you do
+
+pkg$add(c("OMOPCDMCohortCreator", "OMOPCDMDatabaseConnector", 
+          "HealthSampleData", "SQLite", "DBInterface", "LibPQ"))
+```
+
+To learn more about these packages, see the [Appendix](#appendix).
+
+##### Activating Analysis Environment
+
+Now within R, anytime you want to use these installed packages, do the
+following:
+
+```{r Activating Julia, eval = F}
+library(JuliaConnectoR)
+
+pkg <- juliaImport("Pkg")
+pkg$activate("TUTORIAL", shared = TRUE) 
+```
+
+### Data
+
+For this tutorial, we will work with the data from Eunomia that is
+stored in an SQLite format.
+
+```{r Loading Eunomia, eval = F}
+hsd <- juliaImport("HealthSampleData")
+
+eunomia <- hsd$Eunomia()
+```
+
+### Defining Connection Details to Eunomia
+
+After you have finished your set up in R, we need to establish a
+connection to the Eunomia SQLite database that we will use for the rest
+of the tutorial:
+
+```{r Eunomia Connection, eval = F}
+slt <- juliaImport("SQLite")
+
+conn <- slt$DB(eunomia)
+```
+
+### Defining Connection Details to Other Databases
+
+Here, we need to set-up connection to the OMOP CDM database we will
+assess. To do so, we need to define some constants that will be used for
+the connection. The following list of constants:
+
+-   dbms - the database management system that is used to host your
+    database; common options include (see all options
+    [here](http://ohdsi.github.io/DatabaseConnector/reference/createConnectionDetails.html))
+    -   `"postgresql"`
+    -   `"sqlserver"`
+-   server - name of the server; could be localhost, an address like
+    123.0.1.5, etc.
+-   user - your username to access the server
+-   password - the password you use to access the server
+-   port - the port where the database is hosted
+-   schema - name of the database schema used
 
 Must be defined in this code block:
 
@@ -51,44 +120,40 @@ port <- "Fill in here"
 schema <- "Fill in here"
 ```
 
-TODO: This section will need to be replaced with this (or something similar): https://juliahealth.org/OMOPCDMCohortCreator.jl/dev/tutorials/r_tutorial/#Create-Database-Connection-to-Eunomia 
 
-An additional step needed is to configure the required driver to connect to the database as follows:
+Additionally, we will need import the Julia packages and activate our
+analysis environment:
 
-1. Determine the name of your database management system based on the list [here](http://ohdsi.github.io/DatabaseConnector/reference/downloadJdbcDrivers.html)
-2. Download the drivers by running the following:
-	
-```{r, eval = FALSE}
-pathToDriver <- "/location/that/you/want"
-downloadJdbcDrivers(dbms = dbms, pathToDriver = pathToDriver, method = "auto")
+```{r Other Connections, eval = F}
+library(JuliaConnectoR)
+
+pkg <- juliaImport("Pkg")
+pkg$activate("TUTORIAL", shared = TRUE)
+
+dbi <- juliaImport("DBInterface")
+lq <- juliaImport("LibPQ")
+juliaImport("OMOPCDMDatabaseConnector")
+
 ```
 
-Once this is done, we can create the connection to the database:
+Now, we can create our connection string using the defined constants
+above. The connection string will be in the format of:
 
-```{r, eval = FALSE} 
-connectionDetails <- createConnectionDetails(dbms=dbms, 
-                                             server=server,
-                                             user=user,
-					     password=password,
-					     port=port,
-					     pathToDriver=pathToDriver)
-
-connection <- connect(connectionDetails)
+```{r, eval = F}
+connectionString <- "host=[your host] port=[your port] user=[your user] password=[your password]"
 ```
 
-If there were no errors, then we should be able to continue with the analysis!
+With the connection string, we can create the connection to the
+database:
 
-> WARN: As you proceed with this analysis, if you encounter a Java issue like this: "Insufficient java heap memory", please run the following code block:
->
-> ````{r, eval = FALSE}
-> options(java.parameters = c("-XX:+UseConcMarkSweepGC", "-Xmx8192m"))
-> ````
->
-> This is only an emergency work around and should be removed when a better solution is found.
+```{r, eval = F}
+conn <- dbi$connect(lq$Connection, connectionString)
+```
 
 #### Example Connection
 
-If any of this was confusing, here is an example of how to fill out the above connection information, download drivers, and create a connection:
+If any of this was confusing, here is an example of how to fill out the
+above connection information, activate our environment, and create a connection:
 
 ```{r, eval = F}
 dbms <- "postgresql"
@@ -98,60 +163,157 @@ password <- "omoprocks"
 port <- 5042
 schema <- "mimic.omop"
 
-pathToDriver = "utils"
-downloadJdbcDrivers(dbms = dbms, pathToDriver = pathToDriver, method = "auto")
+library(JuliaConnectoR)
 
-connectionDetails <- createConnectionDetails(dbms=dbms, 
-                                             server=server,
-                                             user=user,
-                                             password=password,
-					     port=port,
-					     pathToDriver=pathToDriver)
+pkg <- juliaImport("Pkg")
+pkg$activate("TUTORIAL", shared = TRUE)
 
-connection <- connect(connectionDetails)
+dbi <- juliaImport("DBInterface")
+lq <- juliaImport("LibPQ")
+juliaImport("OMOPCDMDatabaseConnector")
+
+connectionString <- paste0("host=", server, " "
+                           "port=", port, " "
+                           "user=", user, " "
+                           "password=", password)
+
+conn <- dbi$connect(lq$Connection, connectionString)
+
 ```
 
-### Queries
+### Connecting to the Database and Testing Connection
 
-TODO: Load condition concept set for specific condition from `phenotypes` directory (the CSVs and in particular the CONCEPT ID field to)
+With Eunomia, the database's schema is simply called "main". We will use
+this to generate database connection details that `OMOPCDMCohortCreator`
+will use internally. For this step, we will use `OMOPCDMCohortCreator`:
 
-1. Load condition_concept_ids for a condition
+```{r, eval = F}
+occ <- juliaImport("OMOPCDMCohortCreator")
 
-```{r}
-concept_ids <- # Load concept ids here
+occ$GenerateDatabaseDetails(juliaEval(":sqlite"), "main")
 ```
 
+Finally, we will generate internal representations of each table found
+within Eunomia for `OMOPCDMCohortCreator` to use:
 
-2. Filter database patients to those captured by a concept set
+```{r, eval = F}
+occ$GenerateTables(conn)
+```
 
-```{r, eval = FALSE}
-condition_patients <- occ$ConditionFilterPersonIDs(28060, conn)
-condition_patients <- strep_patients$person_id
+As a check to make sure everything was correctly installed and works
+properly, the following block should work and return a list of all
+person ids in this data:
+
+```{r, eval = F}
+occ$GetDatabasePersonIDs(conn) 
+```
+
+### Characterization Analysis and Queries
+
+#### Background for Analysis
+
+As all the tools are working properly, let's do what is called a
+characterization study - a study that *characterizes* a group of
+patients with a certain condition (or conditions) across various
+attributes like race, age, and combinations thereof.
+
+#### Task: Find All Patients by Condition Concept ID
+
+For this task, we want to load the concept set and get all of the
+concept IDs for each condition: bipolar disorder, depression, and
+suicidality.
+
+1.  Load condition_concept_ids for a condition
+
+```{r, eval = F}
+pathToPhenotype_bipolar <- system.file("phenotypes", "bipolar_concept_set.csv", package ="MentalHealthEquity")
+bipolar_concept_ids <- read.csv(pathToPhenotype_bipolar)$CONCEPT_ID
+
+pathToPhenotype_depression <- system.file("phenotypes", "depression_concept_set.csv", package ="MentalHealthEquity")
+depression_concept_ids <- read.csv(pathToPhenotype_depression)$CONCEPT_ID
+
+pathToPhenotype_suicidality <- system.file("phenotypes", "suicidality_concept_set.csv", package ="MentalHealthEquity")
+suicidality_concept_ids <- read.csv(pathToPhenotype_suicidality)$CONCEPT_ID
+
+```
+
+2.  Filter database patients to those captured by a concept set
+
+```{r, eval = F}
+bipolar_patients <- occ$ConditionFilterPersonIDs(bipolar_concept_ids, conn)
+bipolar_patients <- bipolar_patients$person_id
+
+depression_patients <- occ$ConditionFilterPersonIDs(depression_concept_ids, conn)
+depression_patients <- depression_patients$person_id
+
+suicidality_patients <- occ$ConditionFilterPersonIDs(suicidality_concept_ids, conn)
+suicidality_patients <- suicidality_patients$person_id
 ```
 
 #### Stratified Person Query
 
-TODO: More clearly write-up each task as a separate subsection
-TODO: Write final output to CSV; adapt from feasibility script
+Now, we have all the person IDs of database patients captured by each
+condition concept set. This next part of the tutorial focuses on
+stratifying our database patients by race, gender, and age group. We
+will be using the Julia package `OMOPCDMCohortCreator` to characterize
+each person, and we will store this information in a tibble to be
+exported as a csv.
 
-1 - 3. Looking at patients in database, begin to stratify by race, gender, and age group.
 
-*Task: Find the race of patients with depression*
-```{r}
+#### Task 1: Find the race of patients
+
+For this task, we will be using the `GetPatientRace()` function from the `OMOPCDMCohortCreator` package. 
+
+**Bipolar Disorder**
+
+```{r, eval = F}
+bipolar_patients_race <- occ$GetPatientRace(bipolar_patients, conn)
+```
+
+**Depression**
+
+```{r, eval = F}
 depression_patients_race <- occ$GetPatientRace(depression_patients, conn)
 ```
 
-*Task: Find the gender of patients with depression*
+**Suicidality**
 
-```{r}
-depression_patients_gender <- occ$GetPatientGender(strep_patients, conn)
+```{r, eval = F}
+suicidality_patients_race <- occ$GetPatientRace(suicidality_patients, conn)
 ```
 
-*Task: Create Age Groupings of Patients with Depression*
 
-For this task, for every single person who has a diagnosis of depression, we need to assign them an age group. For this demo, age groupings will be made along 55 year intervals when assigned to a person up to `100` years of age (e.g. `[0, 4], [5, 9], ..., [95,100]`).
+#### Task 2: Find the gender of patients
 
-```{r}
+For this task, we will be using the `GetPatientGender()` function from the `OMOPCDMCohortCreator` package. 
+
+**Bipolar Disorder**
+
+```{r, eval = F}
+bipolar_patients_gender <- occ$GetPatientGender(bipolar_patients, conn)
+```
+
+**Depression**
+
+```{r, eval = F}
+depression_patients_gender <- occ$GetPatientGender(depression_patients, conn)
+```
+
+**Suicidality**
+
+```{r, eval = F}
+suicidality_patients_gender <- occ$GetPatientGender(suicidality_patients, conn)
+```
+
+
+#### Task 3: Create Age Groupings of Patients
+
+For this task, for every single person who has a diagnosis of
+depression, we need to assign them an age group. For this demo, age
+groupings will be made along 55 year intervals when assigned to a person
+up to `100` years of age (e.g. `[0, 4], [5, 9], ..., [95,100]`).
+
+```{r, eval = F}
 age_groups <- list(
 	list(0, 4),
 	list(5, 9),
@@ -174,19 +336,136 @@ age_groups <- list(
 	list(90, 94),
 	list(95, 99))
 
-strep_patients_age_group <- occ$GetPatientAgeGroup(strep_patients, conn, age_groupings = age_groups)
 ```
 
-4. *Create Patient Groupings: Join the tables together !*
+**Bipolar Disorder**
 
-Often with characterization style studies, it is extremely important to aggregate patient populations. This is to protect the anonymity of patients with perhaps severely sensitive conditions (e.g. mental illnesses, sexually transmitted diseases, etc.) from possible repercussions from accidental disclosure of this patient information.
-
-```{r}
-final_df <- full_join(strep_patients, strep_patients_race, by = c("person_id" = "person_id")) %>% 
-full_join(strep_patients_age_group, by = c("person_id" = "person_id")) %>%
-full_join(strep_patients_gender, by = c("person_id" = "person_id")) %>%
-select(-person_id) %>% 
-count(race_concept_id, age_group, gender_concept_id) %>%
-rename(count = "n") %>%
-filter(count > 10)
+```{r, eval = F}
+bipolar_patients_age_group <- occ$GetPatientAgeGroup(bipolar_patients, conn, age_groupings = age_groups)
 ```
+
+**Depression**
+
+```{r, eval = F}
+depression_patients_age_group <- occ$GetPatientAgeGroup(depression_patients, conn, age_groupings = age_groups)
+```
+
+
+**Suicidality**
+
+```{r, eval = F}
+suicidality_patients_age_group <- occ$GetPatientAgeGroup(suicidality_patients, conn, age_groupings = age_groups)
+```
+
+#### Task 4: Characterize Each Person by Race, Gender, and Age Group
+
+With the previous tasks, we now know patients' gender, race, and age group. Using this information, we can combine these features to create a final table showing each patient's person_id, gender, race, and age group per row. To do this combining, we will use the `dplyr` and `tibble` packages:
+
+**Bipolar Disorder**
+
+```{r, eval = F}
+library(dplyr)
+library(tibble)
+
+bipolar_patients <- tibble(data.frame(person_id=bipolar_patients))
+bipolar_patients_race <- tibble(data.frame(bipolar_patients_race))
+bipolar_patients_gender <- tibble(data.frame(bipolar_patients_gender))
+bipolar_patients_age_group <- tibble(data.frame(bipolar_patients_age_group))
+```
+
+
+**Depression**
+
+```{r, eval = F}
+library(dplyr)
+library(tibble)
+
+depression_patients <- tibble(data.frame(person_id=depression_patients))
+depression_patients_race <- tibble(data.frame(depression_patients_race))
+depression_patients_gender <- tibble(data.frame(depression_patients_gender))
+depression_patients_age_group <- tibble(data.frame(depression_patients_age_group))
+```
+
+**Suicidality**
+
+```{r, eval = F}
+library(dplyr)
+library(tibble)
+
+suicidality_patients <- tibble(data.frame(person_id=suicidality_patients))
+suicidality_patients_race <- tibble(data.frame(suicidality_patients_race))
+suicidality_patients_gender <- tibble(data.frame(suicidality_patients_gender))
+suicidality_patients_age_group <- tibble(data.frame(suicidality_patients_age_group))
+```
+
+
+#### Task 5: Create Patient Groupings: Join the tables together 
+
+Often with characterization style studies, it is extremely important to
+aggregate patient populations. This is to protect the anonymity of
+patients with perhaps severely sensitive conditions (e.g. mental
+illnesses, sexually transmitted diseases, etc.) from possible
+repercussions from accidental disclosure of this patient information.
+
+**Bipolar Disorder**
+
+```{r, eval = F}
+bipolar_final_df <- full_join(bipolar_patients, bipolar_patients_race, by = c("person_id" = "person_id")) %>% 
+  full_join(bipolar_patients_age_group, by = c("person_id" = "person_id")) %>%
+  full_join(bipolar_patients_gender, by = c("person_id" = "person_id")) %>%
+  select(-person_id) %>% 
+  count(race_concept_id, age_group, gender_concept_id) %>%
+  rename(count = "n") %>%
+  filter(count > 10)
+```
+
+
+**Depression**
+
+```{r, eval = F}
+depression_final_df <- full_join(depression_patients, depression_patients_race, by = c("person_id" = "person_id")) %>% 
+  full_join(depression_patients_age_group, by = c("person_id" = "person_id")) %>%
+  full_join(depression_patients_gender, by = c("person_id" = "person_id")) %>%
+  select(-person_id) %>% 
+  count(race_concept_id, age_group, gender_concept_id) %>%
+  rename(count = "n") %>%
+  filter(count > 10)
+```
+
+**Suicidality**
+
+```{r, eval = F}
+suicidality_final_df <- full_join(suicidality_patients, suicidality_patients_race, by = c("person_id" = "person_id")) %>% 
+  full_join(suicidality_patients_age_group, by = c("person_id" = "person_id")) %>%
+  full_join(suicidality_patients_gender, by = c("person_id" = "person_id")) %>%
+  select(-person_id) %>% 
+  count(race_concept_id, age_group, gender_concept_id) %>%
+  rename(count = "n") %>%
+  filter(count > 10)
+```
+
+
+### Conclusion
+
+This concludes the tutorial for our characterization study in Eunomia. This mini characterization study that we just conducted on this dataset opens up a whole new avenue for a researcher to pursue. For example, we could now calculate prevalence rates across different patient characteristics or compare and contrast multiple conditions at once. It should also be apparent that the API is set up in a very particular way: it is functional meaning that each function does one thing only. This gives a lot of flexibility to a user to build together a study incrementally using `OMOPCDMCohortCreator.`
+
+
+### Appendix
+
+#### Packages Used in Analysis:
+
+##### R Packages Used:
+
+- `dplyr` - grammar of data manipulation
+- `tibble` - modern reimagining of the data.frame
+- `JuliaConnectoR` - a functionally oriented interface for calling Julia from R
+
+
+##### Julia Packages Used:
+
+-   `HealthSampleData` - Sample health data for a variety of health formats and use cases
+-   `OMOPCDMDatabaseConnector` - Connect to databases utilizing the OMOP CDM 
+-   `OMOPCDMCohortCreator` - Create cohorts from databases utilizing the OMOP CDM
+-   `SQLite` - Julia interface to the SQLite library
+-   `DBInterface` - Julia interface for common database operations and methods
+-   `LibPQ` - Julia interface to the PostgreSQL library
