@@ -1,13 +1,14 @@
-# Feasibility Assessment
+# Baseline Characterization of [DISEASE]
+TODO: Add in disease name for analysis
 
 ## Executive Summary
 
 *Date:* 2022-11-02
 
-*Summary:* A feasibility assessment to assess candidacy of partner site
-location
+*Summary:* Characterization to assess prevalence of [DISEASE] 
+TODO: Add in disease name for analysis
 
-## Running Feasbility Assessment
+## Running Characterization
 
 ### Packages
 
@@ -16,11 +17,7 @@ assessment:
 
 #### R Packages
 
-You will need the following packages for this tutorial which you can install with `install.packages()`:
-
-- `dplyr`
-- `tibble`
-- `JuliaConnectoR`
+The following R packages will be loaded to conduct the feasibility assessment:
 
 ```{r, eval = FALSE, message = FALSE}
 library(dplyr)
@@ -32,64 +29,39 @@ To learn more about these packages, see the [Appendix](#appendix).
 
 #### Julia Packages
 
-You will need the following packages for this tutorial:
+The following Julia packages will be loaded to conduct the feasibility assessment:
 
--   `HealthSampleData`
--   `OMOPCDMDatabaseConnector`
--   `OMOPCDMCohortCreator`
--   `SQLite`
--   `DBInterface`
--   `LibPQ`
+```{r, eval = FALSE, message = FALSE}
+library(JuliaConnectoR)
 
+pkg <- juliaImport("Pkg")
+pkg$activate("STUDY", shared = TRUE) 
+
+juliaImport("OMOPCDMDatabaseConnector")
+
+dbi <- juliaImport("DBInterface")
+lq <- juliaImport("LibPQ")
+occ <- juliaImport("OMOPCDMCohortCreator")
+```
+
+To learn more about these packages, see the [Appendix](#appendix).
+
+TODO: Move the following lines to the set-up document
 To install the Julia packages and activate our analysis environment, we
 can run the following code:
 
 ```{r Installing Julia Packages, eval = F}
 pkg <- juliaImport("Pkg")
 
-pkg$activate("TUTORIAL", shared = TRUE) 
+pkg$activate("STUDY", shared = TRUE) 
 # NOTE: You could specify the path to where your project is or any other path you want; set `shared` to `FALSE` if you do
 
 pkg$add(c("OMOPCDMCohortCreator", "OMOPCDMDatabaseConnector", 
           "HealthSampleData", "SQLite", "DBInterface", "LibPQ"))
 ```
 
-To learn more about these packages, see the [Appendix](#appendix).
-
-##### Activating Analysis Environment
-
 Now within R, anytime you want to use these installed packages, do the
 following:
-
-```{r Activating Julia, eval = F}
-library(JuliaConnectoR)
-
-pkg <- juliaImport("Pkg")
-pkg$activate("TUTORIAL", shared = TRUE) 
-```
-
-### Data
-
-For this tutorial, we will work with the data from Eunomia that is
-stored in an SQLite format.
-
-```{r Loading Eunomia, eval = F}
-hsd <- juliaImport("HealthSampleData")
-
-eunomia <- hsd$Eunomia()
-```
-
-### Defining Connection Details to Eunomia
-
-After you have finished your set up in R, we need to establish a
-connection to the Eunomia SQLite database that we will use for the rest
-of the tutorial:
-
-```{r Eunomia Connection, eval = F}
-slt <- juliaImport("SQLite")
-
-conn <- slt$DB(eunomia)
-```
 
 ### Defining Connection Details to Other Databases
 
@@ -120,25 +92,7 @@ port <- "Fill in here"
 schema <- "Fill in here"
 ```
 
-
-Additionally, we will need import the Julia packages and activate our
-analysis environment:
-
-```{r Other Connections, eval = F}
-library(JuliaConnectoR)
-
-pkg <- juliaImport("Pkg")
-pkg$activate("TUTORIAL", shared = TRUE)
-
-dbi <- juliaImport("DBInterface")
-lq <- juliaImport("LibPQ")
-juliaImport("OMOPCDMDatabaseConnector")
-
-```
-
-Now, we can create our connection string using the defined constants
-above. The connection string will be in the format of:
-
+TODO: Write interpolation for the connection string here to pass along to the connectionString variable
 ```{r, eval = F}
 connectionString <- "host=[your host] port=[your port] user=[your user] password=[your password]"
 ```
@@ -163,22 +117,12 @@ password <- "omoprocks"
 port <- 5042
 schema <- "mimic.omop"
 
-library(JuliaConnectoR)
-
-pkg <- juliaImport("Pkg")
-pkg$activate("TUTORIAL", shared = TRUE)
-
-dbi <- juliaImport("DBInterface")
-lq <- juliaImport("LibPQ")
-juliaImport("OMOPCDMDatabaseConnector")
-
 connectionString <- paste0("host=", server, " "
                            "port=", port, " "
                            "user=", user, " "
                            "password=", password)
 
 conn <- dbi$connect(lq$Connection, connectionString)
-
 ```
 
 ### Connecting to the Database and Testing Connection
@@ -187,9 +131,9 @@ With Eunomia, the database's schema is simply called "main". We will use
 this to generate database connection details that `OMOPCDMCohortCreator`
 will use internally. For this step, we will use `OMOPCDMCohortCreator`:
 
+TODO: Add code block for what SQL flavor to use (like :sqlite, :postgresql, and :redshift)
+TODO: Swap "main" with the schema variable
 ```{r, eval = F}
-occ <- juliaImport("OMOPCDMCohortCreator")
-
 occ$GenerateDatabaseDetails(juliaEval(":sqlite"), "main")
 ```
 
@@ -200,28 +144,11 @@ within Eunomia for `OMOPCDMCohortCreator` to use:
 occ$GenerateTables(conn)
 ```
 
-As a check to make sure everything was correctly installed and works
-properly, the following block should work and return a list of all
-person ids in this data:
-
-```{r, eval = F}
-occ$GetDatabasePersonIDs(conn) 
-```
+TODO: Could you break this script into three different scripts for each disease? 
 
 ### Characterization Analysis and Queries
 
-#### Background for Analysis
-
-As all the tools are working properly, let's do what is called a
-characterization study - a study that *characterizes* a group of
-patients with a certain condition (or conditions) across various
-attributes like race, age, and combinations thereof.
-
-#### Task: Find All Patients by Condition Concept ID
-
-For this task, we want to load the concept set and get all of the
-concept IDs for each condition: bipolar disorder, depression, and
-suicidality.
+For this task, we want to load the concept set and get all of the concept IDs for each condition: bipolar disorder, depression, and suicidality.
 
 1.  Load condition_concept_ids for a condition
 
@@ -304,7 +231,6 @@ depression_patients_gender <- occ$GetPatientGender(depression_patients, conn)
 ```{r, eval = F}
 suicidality_patients_gender <- occ$GetPatientGender(suicidality_patients, conn)
 ```
-
 
 #### Task 3: Create Age Groupings of Patients
 
