@@ -1,0 +1,115 @@
+# Set-Up Instructions
+
+## Executive Summary 
+
+**Author:** Jacob S. Zelko
+
+**Date:** 2022-11-12
+
+**Summary:** Instructions on setting up environment for analysis with necessary installation instructions
+
+## Environment Set-Up
+
+### R and RStudio Requirements
+
+For this characterizatopm assessment, you will need: 
+
+- **R version 4.2.1**
+	- [Windows](https://cran.r-project.org/bin/windows/base/old/4.2.1/)
+		- [Install R 4.2.1](https://cran.r-project.org/bin/windows/base/old/4.2.1/R-4.2.1-win.exe)
+	- [Mac OSX Big Sur](https://cran.r-project.org/bin/macosx/big-sur-arm64/base/)
+	  	- [Install R 4.2.1](https://cran.r-project.org/bin/macosx/big-sur-arm64/base/R-4.2.1-arm64.pkg)
+	- [Linux](https://cran.r-project.org/src/base/R-4/)
+	  	- [Install R 4.2.1](https://cran.r-project.org/src/base/R-4/R-4.2.1.tar.gz)
+- [**RStudio**](https://posit.co/download/rstudio-desktop/)
+
+Furthermore, **I am assuming that RStudio is the client being used** for this assessment.
+As RStudio can be configured very differently depending on what sort of operating system you are using, please see this [RStudio guide on how to switch the version of R being used in RStudio](https://support.rstudio.com/hc/en-us/articles/200486138-Changing-R-versions-for-the-RStudio-Desktop-IDE).
+
+> **NOTE:** If you do not want to manually deal with multiple versions of R on your system, I suggest checking out the great Rust tool, [rig](https://github.com/r-lib/rig) which allows you to have multiple R versions on the same machine simultaneously and switch between them seamlessly.
+
+### Install RTools42 (Windows Only Requirement)
+
+For Windows only users, one will need to download the tool RTools42. 
+To do this, click [this link](https://cran.r-project.org/bin/windows/Rtools/rtools42/files/rtools42-5355-5357.exe) which will download the installer.
+Execute the installer and follow the instructions there.
+Make sure after you have installed the tool, restart RStudio if it is running on your computer!
+
+### Java Installation
+
+Java is required to be installed for this to work.
+In practical deployment, I have found Java 1.8 to be sufficient for assessments:
+
+- Java version 1.8
+	- [Windows](https://www.java.com/en/download/manual.jsp)
+	- [Max OSX Big Sur](https://www.java.com/en/download/manual.jsp)
+	- [Linux](https://www.java.com/en/download/manual.jsp)
+
+I have left out specific installation instructions for which executable to use due to the instructions and types differing between operating systems.
+
+### Julia Installation
+
+You will need to have Julia installed on your computer. The Julia version must be greater than or equal to version 1.7. Furthermore, the Julia executable must be available from the system `PATH` or you can set the `JULIA_BINDER` R environmental variable to where the Julia `bin`directory is on your computer like this: 
+
+```{r}
+# For Windows
+Sys.setenv(JULIA_BINDIR = "C:/Users/user/AppData/Local/Programs/Julia-1.7.1/bin")
+
+# For Linux or OSX
+Sys.setenv(JULIA_BINDIR = "~/path/to/Julia-1.7.1/bin")
+```
+
+## Configuring Julia Environment
+
+To install Julia packages and activate our analysis environment, we can run the following code:
+
+```{r Installing Julia Packages, eval = F}
+library(JuliaConnectoR)
+pkg <- juliaImport("Pkg")
+
+pkg$activate("STUDY", shared = TRUE) 
+# NOTE: You could specify the path to where your project is or any other path you want; set `shared` to `FALSE` if you do
+
+pkg$add(c("OMOPCDMCohortCreator", "OMOPCDMDatabaseConnector", 
+          "HealthSampleData", "SQLite", "DBInterface", "LibPQ"))
+```
+
+Now within R, anytime you want to use these installed packages, do the following:
+
+```{r}
+library(JuliaConnectoR)
+
+pkg <- juliaImport("Pkg")
+pkg$activate("STUDY", shared = TRUE) 
+```
+
+
+### Configuring R Environment
+
+For this tutorial, you will need the `renv` package installed into your main R environment (for more information about this package, refer to the [Appendix](#appendix)).
+This can be done via: 
+
+```{r, eval = FALSE}
+install.packages("renv")
+```
+
+> **NOTE:** For steps 2, 3 and 4, RStudio may have already done or attempted to do this for you. If it did, you may not see anything when you run these steps in the console.
+
+Then, from within RStudio, navigate to the folder `MentalHealthEquity/study`.
+Within that directory, do the following steps within the RStudio console: 
+
+1. Load the RStudio project within the `MentalHealthEquity` folder or run `devtools::load_all()` to load the package
+2. Load the `renv` package: `library(renv)` 
+3. Activate the `renv` environment: `renv::activate()`
+4. Restore the needed project packages by running: `renv::restore()` and accepting 
+
+The following code block shows how this would run:
+
+```{r, eval = FALSE}
+library(renv)
+
+renv::activate()
+renv::restore()
+```
+
+If everything worked correctly up to this point, you should be prepared to run the study!

@@ -1,12 +1,10 @@
-# Baseline Characterization of [DISEASE]
-TODO: Add in disease name for analysis
+# Baseline Characterization of Bipolar Disorder, Depresssion, and Suicidality
 
 ## Executive Summary
 
 *Date:* 2022-11-02
 
-*Summary:* Characterization to assess prevalence of [DISEASE] 
-TODO: Add in disease name for analysis
+*Summary:* Characterization to assess prevalence of Bipolar Disorder, Depresssion, and Suicidality
 
 ## Running Characterization
 
@@ -46,23 +44,6 @@ occ <- juliaImport("OMOPCDMCohortCreator")
 
 To learn more about these packages, see the [Appendix](#appendix).
 
-TODO: Move the following lines to the set-up document
-To install the Julia packages and activate our analysis environment, we
-can run the following code:
-
-```{r Installing Julia Packages, eval = F}
-pkg <- juliaImport("Pkg")
-
-pkg$activate("STUDY", shared = TRUE) 
-# NOTE: You could specify the path to where your project is or any other path you want; set `shared` to `FALSE` if you do
-
-pkg$add(c("OMOPCDMCohortCreator", "OMOPCDMDatabaseConnector", 
-          "HealthSampleData", "SQLite", "DBInterface", "LibPQ"))
-```
-
-Now within R, anytime you want to use these installed packages, do the
-following:
-
 ### Defining Connection Details to Other Databases
 
 Here, we need to set-up connection to the OMOP CDM database we will
@@ -92,9 +73,10 @@ port <- "Fill in here"
 schema <- "Fill in here"
 ```
 
-TODO: Write interpolation for the connection string here to pass along to the connectionString variable
+Now, we can define our connection string here using the defined constants: 
+
 ```{r, eval = F}
-connectionString <- "host=[your host] port=[your port] user=[your user] password=[your password]"
+connectionString <- sprintf("host=%s port=%s user=%s password=%s", server, port, user, password)
 ```
 
 With the connection string, we can create the connection to the
@@ -117,62 +99,72 @@ password <- "omoprocks"
 port <- 5042
 schema <- "mimic.omop"
 
-connectionString <- paste0("host=", server, " "
-                           "port=", port, " "
-                           "user=", user, " "
-                           "password=", password)
+connectionString <- sprintf("host=%s port=%s user=%s password=%s", server, port, user, password)
 
 conn <- dbi$connect(lq$Connection, connectionString)
 ```
 
 ### Connecting to the Database and Testing Connection
 
-With Eunomia, the database's schema is simply called "main". We will use
-this to generate database connection details that `OMOPCDMCohortCreator`
-will use internally. For this step, we will use `OMOPCDMCohortCreator`:
+With our connection details defined, we can generate the database connection details that `OMOPCDMCohortCreator` will use internally. For this step, we will use `OMOPCDMCohortCreator`, and we will need the name of the database management system and the database schema used, which were defined above.
 
-TODO: Add code block for what SQL flavor to use (like :sqlite, :postgresql, and :redshift)
-TODO: Swap "main" with the schema variable
 ```{r, eval = F}
-occ$GenerateDatabaseDetails(juliaEval(":sqlite"), "main")
+occ$GenerateDatabaseDetails(juliaEval(paste0(":", dbms)), schema)
 ```
 
-Finally, we will generate internal representations of each table found
-within Eunomia for `OMOPCDMCohortCreator` to use:
+Finally, we will generate internal representations of each table found for `OMOPCDMCohortCreator` to use:
 
 ```{r, eval = F}
 occ$GenerateTables(conn)
 ```
 
-TODO: Could you break this script into three different scripts for each disease? 
-
 ### Characterization Analysis and Queries
 
-For this task, we want to load the concept set and get all of the concept IDs for each condition: bipolar disorder, depression, and suicidality.
+For this task, we want to load the concept set and get all of the concept IDs for our depression concept set.
 
 1.  Load condition_concept_ids for a condition
 
+**Bipolar Disorder**
 ```{r, eval = F}
 pathToPhenotype_bipolar <- system.file("phenotypes", "bipolar_concept_set.csv", package ="MentalHealthEquity")
 bipolar_concept_ids <- read.csv(pathToPhenotype_bipolar)$CONCEPT_ID
-
-pathToPhenotype_depression <- system.file("phenotypes", "depression_concept_set.csv", package ="MentalHealthEquity")
-depression_concept_ids <- read.csv(pathToPhenotype_depression)$CONCEPT_ID
-
-pathToPhenotype_suicidality <- system.file("phenotypes", "suicidality_concept_set.csv", package ="MentalHealthEquity")
-suicidality_concept_ids <- read.csv(pathToPhenotype_suicidality)$CONCEPT_ID
-
 ```
 
+**Depression**
+
+```{r, eval = F}
+pathToPhenotype_depression <- system.file("phenotypes", "depression_concept_set.csv", package ="MentalHealthEquity")
+depression_concept_ids <- read.csv(pathToPhenotype_depression)$CONCEPT_ID
+```
+
+**Suicidality**
+
+```{r, eval = F}
+pathToPhenotype_suicidality <- system.file("phenotypes", "suicidality_concept_set.csv", package ="MentalHealthEquity")
+suicidality_concept_ids <- read.csv(pathToPhenotype_suicidality)$CONCEPT_ID
+```
+
+
+
 2.  Filter database patients to those captured by a concept set
+
+**Bipolar Disorder**
 
 ```{r, eval = F}
 bipolar_patients <- occ$ConditionFilterPersonIDs(bipolar_concept_ids, conn)
 bipolar_patients <- bipolar_patients$person_id
+```
 
+**Depression**
+
+```{r, eval = F}
 depression_patients <- occ$ConditionFilterPersonIDs(depression_concept_ids, conn)
 depression_patients <- depression_patients$person_id
+```
 
+**Suicidality**
+
+```{r, eval = F}
 suicidality_patients <- occ$ConditionFilterPersonIDs(suicidality_concept_ids, conn)
 suicidality_patients <- suicidality_patients$person_id
 ```
@@ -209,7 +201,6 @@ depression_patients_race <- occ$GetPatientRace(depression_patients, conn)
 suicidality_patients_race <- occ$GetPatientRace(suicidality_patients, conn)
 ```
 
-
 #### Task 2: Find the gender of patients
 
 For this task, we will be using the `GetPatientGender()` function from the `OMOPCDMCohortCreator` package. 
@@ -231,6 +222,7 @@ depression_patients_gender <- occ$GetPatientGender(depression_patients, conn)
 ```{r, eval = F}
 suicidality_patients_gender <- occ$GetPatientGender(suicidality_patients, conn)
 ```
+
 
 #### Task 3: Create Age Groupings of Patients
 
@@ -276,7 +268,6 @@ bipolar_patients_age_group <- occ$GetPatientAgeGroup(bipolar_patients, conn, age
 depression_patients_age_group <- occ$GetPatientAgeGroup(depression_patients, conn, age_groupings = age_groups)
 ```
 
-
 **Suicidality**
 
 ```{r, eval = F}
@@ -287,8 +278,8 @@ suicidality_patients_age_group <- occ$GetPatientAgeGroup(suicidality_patients, c
 
 With the previous tasks, we now know patients' gender, race, and age group. Using this information, we can combine these features to create a final table showing each patient's person_id, gender, race, and age group per row. To do this combining, we will use the `dplyr` and `tibble` packages:
 
-**Bipolar Disorder**
 
+**Bipolar Disorder**
 ```{r, eval = F}
 library(dplyr)
 library(tibble)
@@ -298,7 +289,6 @@ bipolar_patients_race <- tibble(data.frame(bipolar_patients_race))
 bipolar_patients_gender <- tibble(data.frame(bipolar_patients_gender))
 bipolar_patients_age_group <- tibble(data.frame(bipolar_patients_age_group))
 ```
-
 
 **Depression**
 
@@ -334,7 +324,6 @@ illnesses, sexually transmitted diseases, etc.) from possible
 repercussions from accidental disclosure of this patient information.
 
 **Bipolar Disorder**
-
 ```{r, eval = F}
 bipolar_final_df <- full_join(bipolar_patients, bipolar_patients_race, by = c("person_id" = "person_id")) %>% 
   full_join(bipolar_patients_age_group, by = c("person_id" = "person_id")) %>%
@@ -344,7 +333,6 @@ bipolar_final_df <- full_join(bipolar_patients, bipolar_patients_race, by = c("p
   rename(count = "n") %>%
   filter(count > 10)
 ```
-
 
 **Depression**
 
@@ -371,9 +359,42 @@ suicidality_final_df <- full_join(suicidality_patients, suicidality_patients_rac
 ```
 
 
+#### Task 6: Writing final output to CSV
+
+**Bipolar Disorder**
+
+```{r, eval = F}
+exportFolder <- system.file("data", package = "MentalHealthEquity")
+
+write.csv(bipolar_final_df, 
+          file = file.path(exportFolder, "bipolar_person_stratified_breakdown.csv"), 
+          row.names = FALSE)
+```
+
+**Depression**
+
+```{r, eval = F}
+exportFolder <- system.file("data", package = "MentalHealthEquity")
+
+write.csv(depression_final_df, 
+          file = file.path(exportFolder, "depression_person_stratified_breakdown.csv"), 
+          row.names = FALSE)
+```
+
+**Suicidality**
+
+```{r, eval = F}
+exportFolder <- system.file("data", package = "MentalHealthEquity")
+
+write.csv(suicidality_final_df, 
+          file = file.path(exportFolder, "suicidality_person_stratified_breakdown.csv"), 
+          row.names = FALSE)
+```
+
+
 ### Conclusion
 
-This concludes the tutorial for our characterization study in Eunomia. This mini characterization study that we just conducted on this dataset opens up a whole new avenue for a researcher to pursue. For example, we could now calculate prevalence rates across different patient characteristics or compare and contrast multiple conditions at once. It should also be apparent that the API is set up in a very particular way: it is functional meaning that each function does one thing only. This gives a lot of flexibility to a user to build together a study incrementally using `OMOPCDMCohortCreator.`
+This concludes the tutorial for our characterization study. This mini characterization study that we just conducted on this dataset opens up a whole new avenue for a researcher to pursue. For example, we could now calculate prevalence rates across different patient characteristics or compare and contrast multiple conditions at once. It should also be apparent that the API is set up in a very particular way: it is functional meaning that each function does one thing only. This gives a lot of flexibility to a user to build together a study incrementally using `OMOPCDMCohortCreator.`
 
 
 ### Appendix

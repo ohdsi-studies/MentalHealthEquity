@@ -1,0 +1,43 @@
+# Testing Instructions
+
+## Executive Summary 
+
+**Author:** Jacob S. Zelko
+
+**Date:** 2022-11-18
+
+**Summary:** A small instructional that ensures the environment set-up ran correctly
+
+## Environment Set-Up
+
+### Configuring R Environment
+
+Open RStudio and navigate to the folder `MentalHealthEquity/study`.
+Within that directory, do the following steps within the RStudio console: 
+
+1. Load an RStudio project within the `MentalHealthEquity/study` folder or run `devtools::load_all()` to load the package
+2. Load the `renv` package: `library(renv)` 
+3. Activate the `renv` environment: `renv::activate()`
+4. Restore the needed project packages by running: `renv::restore()` and accepting 
+
+The following code block shows how this would run:
+
+```{r, eval = FALSE}
+library(renv)
+
+renv::activate()
+renv::restore()
+```
+
+### Executing Tests
+
+From within the project, run the following cell:
+
+```{r, eval = FALSE}
+source("tests/test_environment.R")
+```
+
+You should see some output from this cell and announcements about tests running.
+If everything ran correctly on your machine, then you should see messages about the tests passing as well as celebratory emojis!
+You will then be able to continue to the next step of the assessment!
+
