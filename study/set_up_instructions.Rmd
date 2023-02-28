@@ -4,9 +4,9 @@
 
 **Author:** Jacob S. Zelko
 
-**Date:** 2022-11-12
+**Date:** 2023-02-20
 
-**Summary:** Instructions on setting up environment for analysis with necessary installation instructions
+**Summary:** Instructions on setting up the environment for analysis with necessary installation instructions
 
 ## Environment Set-Up
 
@@ -46,43 +46,6 @@ In practical deployment, I have found Java 1.8 to be sufficient for assessments:
 	- [Linux](https://www.java.com/en/download/manual.jsp)
 
 I have left out specific installation instructions for which executable to use due to the instructions and types differing between operating systems.
-
-### Julia Installation
-
-You will need to have Julia installed on your computer. The Julia version must be greater than or equal to version 1.7. Furthermore, the Julia executable must be available from the system `PATH` or you can set the `JULIA_BINDER` R environmental variable to where the Julia `bin`directory is on your computer like this: 
-
-```{r}
-# For Windows
-Sys.setenv(JULIA_BINDIR = "C:/Users/user/AppData/Local/Programs/Julia-1.7.1/bin")
-
-# For Linux or OSX
-Sys.setenv(JULIA_BINDIR = "~/path/to/Julia-1.7.1/bin")
-```
-
-## Configuring Julia Environment
-
-To install Julia packages and activate our analysis environment, we can run the following code:
-
-```{r Installing Julia Packages, eval = F}
-library(JuliaConnectoR)
-pkg <- juliaImport("Pkg")
-
-pkg$activate("STUDY", shared = TRUE) 
-# NOTE: You could specify the path to where your project is or any other path you want; set `shared` to `FALSE` if you do
-
-pkg$add(c("OMOPCDMCohortCreator", "OMOPCDMDatabaseConnector", 
-          "HealthSampleData", "SQLite", "DBInterface", "LibPQ"))
-```
-
-Now within R, anytime you want to use these installed packages, do the following:
-
-```{r}
-library(JuliaConnectoR)
-
-pkg <- juliaImport("Pkg")
-pkg$activate("STUDY", shared = TRUE) 
-```
-
 
 ### Configuring R Environment
 
