@@ -1,0 +1,225 @@
+# Baseline Characterization of Bipolar Disorder, Depresssion, and Suicidality
+
+## Executive Summary
+
+*Date:* 2023-02-20
+
+*Summary:* Characterization to assess prevalence of Bipolar Disorder, Depresssion, and Suicidality
+
+## Running Characterization
+
+### Packages 
+
+The following packages will be loaded to conduct the characterization:
+
+```{r, eval = FALSE, message = FALSE}
+library(DatabaseConnector)
+library(dplyr)
+library(lubridate)
+library(readr)
+library(SqlRender)
+library(tibble)
+```
+
+To learn more about these packages, see the [Appendix](#appendix).
+
+### Defining Connection Details
+
+Here, we need to set-up connection to the OMOP CDM database we will assess.
+To do so, we need to define some constants that will be used for the connection.
+The following list of constants:
+
+- `dbms` - the database management system that is used to host your database; common options include (see all options [here](http://ohdsi.github.io/DatabaseConnector/reference/createConnectionDetails.html)):
+	- `"postgresql"`
+	- `"sql server"`
+- `server` - name of the server; could be `localhost`, an address like `123.0.1.5`, etc. 
+- `user` - your username to access the server 
+- `password` - the password you use to access the server 
+- `port` - the port where the database is hosted
+- `schema` - name of the database schema used
+
+Must be defined in this code block: 
+
+```{r, eval = FALSE}
+dbms <- "Fill in here"
+server <- "Fill in here"
+user <- "Fill in here"
+password <- "Fill in here"
+port <- "Fill in here"
+schema <- "Fill in here"
+```
+
+An additional step needed is to configure the required driver to connect to the database as follows: 
+
+1. Determine the name of your database management system based on the list [here](http://ohdsi.github.io/DatabaseConnector/reference/downloadJdbcDrivers.html)
+2. Download the drivers by running the following code block after following instructions:
+
+This is accomplished in the following codeblock (change `eval = FALSE` to `eval = FALSE` when you have set these variables correctly):
+	
+```{r, eval = FALSE}
+pathToDriver <- "/location/that/you/want"
+downloadJdbcDrivers(dbms = dbms, pathToDriver = pathToDriver, method = "auto")
+```
+
+Once this is done, we can create the connection to the database (change `eval = FALSE` to `eval = FALSE` when you have set these variables correctly): 
+
+```{r, eval = FALSE} 
+connectionDetails <- createConnectionDetails(dbms=dbms, 
+                                             server=server,
+                                             user=user,
+					     password=password,
+					     port=port,
+					     pathToDriver=pathToDriver)
+
+connection <- connect(connectionDetails)
+```
+
+If there were no errors, then we should be able to continue with the analysis! 
+
+> WARN: As you proceed with this analysis, if you encounter a Java issue like this: "Insufficient java heap memory", please run the following code block:
+> 
+> ````{r, eval = FALSE}
+> options(java.parameters = c("-XX:+UseConcMarkSweepGC", "-Xmx8192m"))
+> ````
+> This is only an emergency work around and should be removed when a better solution is found.
+
+#### Example Connection 
+
+If any of this was confusing, here is an example of how to fill out the above connection information:
+
+```r
+dbms <- "postgresql"
+server <- "test.data.americus.edu/mimic_omop"
+user <- "mimic"
+password <- "omoprocks"
+port <- 5042
+schema <- "mimic.omop"
+
+pathToDriver = "utils"
+downloadJdbcDrivers(dbms = dbms, pathToDriver = pathToDriver, method = "auto")
+
+connectionDetails <- createConnectionDetails(dbms=dbms, 
+                                             server=server,
+                                             user=user,
+                                             password=password,
+					     port=port,
+					     pathToDriver=pathToDriver)
+
+connection <- connect(connectionDetails)
+```
+
+### Load `condition_concept_ids` for a Given Condition
+
+For this task, we want to load the concept set and get all of the concept IDs for the diseases being studied: 
+
+#### Bipolar Disorder
+
+```{r, eval = F}
+pathToPhenotype_bipolar <- "../phenotypes/bipolar_concept_set.csv"
+bipolar_concept_ids <- read.csv(pathToPhenotype_bipolar)$CONCEPT_ID
+```
+
+#### Depression
+
+```{r, eval = F}
+pathToPhenotype_depression <- "../phenotypes/depression_concept_set.csv"
+depression_concept_ids <- read.csv(pathToPhenotype_depression)$CONCEPT_ID
+```
+
+#### Suicidality
+
+```{r, eval = F}
+pathToPhenotype_suicidality <- "../phenotypes/suicidality_concept_set.csv"
+suicidality_concept_ids <- read.csv(pathToPhenotype_suicidality)$CONCEPT_ID
+```
+
+### Filter Database Patients To Those Captured by a Concept Set
+
+Here, we find every patient that has a history of one of the diseases we are studying (at least one diagnosis):
+
+```{r, eval = F}
+source("./sql/condition_filter.R")
+
+bipolar_patients <- condition_filter(schema, bipolar_concept_ids, dbms, connection)
+
+depression_patients <- condition_filter(schema, depression_concept_ids, dbms, connection)
+
+suicidality_patients <- condition_filter(schema, suicidality_concept_ids, dbms, connection)
+```
+
+#### Characterize Each Person by Race, Gender, and Age Group
+
+Now we run a query for these patient populations to get their stratification by the axes of race, gender, and age group:
+
+```{r, eval = F}
+source("./sql/stratified_person.R")
+
+bipolar_patients <- stratify_persons(schema, bipolar_patients, dbms, connection)
+
+depression_patients <- stratify_persons(schema, depression_patients, dbms, connection)
+
+suicidality_patients <- stratify_persons(schema, suicidality_patients, dbms, connection)
+```
+
+#### Filter Patient Counts
+
+To maintain patient privacy and security, we will follow HITECH standards to filter out any patient subpopulation that has a count less than 11 from this dataset.
+
+##### Bipolar Disorder
+
+```{r, eval = F}
+bipolar_patients <- bipolar_patients %>%
+  filter(COUNTS > 10)
+```
+
+##### Depression
+
+```{r, eval = F}
+depression_patients <- depression_patients %>%
+  filter(COUNTS > 10)
+```
+
+##### Suicidality
+
+```{r, eval = F}
+suicidality_patients <- suicidality_patients %>%
+  filter(COUNTS > 10)
+```
+
+### Finalize Outputs
+
+Here we now finally save this data to the `data` directory in the root of the study:
+
+```{r, eval = F}
+exportFolder <- "../data/baseline"
+
+write.csv(bipolar_patients, 
+          file = file.path(exportFolder, "bipolar_person_stratified_breakdown.csv"), 
+          row.names = FALSE)
+
+write.csv(depression_final_df, 
+          file = file.path(exportFolder, "depression_person_stratified_breakdown.csv"), 
+          row.names = FALSE)
+
+write.csv(suicidality_final_df, 
+          file = file.path(exportFolder, "suicidality_person_stratified_breakdown.csv"), 
+          row.names = FALSE)
+```
+
+### Conclusion
+
+This concludes the steps required for generating the baseline of our characterization study.
+Please take the folder named `baseline` located in the root of the study in the `data` folder and send it to us at GTRI at jacob.zelko@gtri.gatech.edu.
+Thank you very much for participating in this study!
+
+### Appendix
+
+### Packages Details
+
+- [`renv`](https://rstudio.github.io/renv/index.html) - create reproducible environments for R projects
+- [`dplyr`](https://dplyr.tidyverse.org) - grammar for data manipulation
+- [`tibble`](https://tibble.tidyverse.org) - improved data.frame functionality
+- [`SqlRender`](https://ohdsi.github.io/SqlRender/) - package for rendering parameterized SQL
+- [`DatabaseConnector`](http://ohdsi.github.io/DatabaseConnector/) - package for connecting to databases using JDBC
+- [`lubridate`](https://lubridate.tidyverse.org) - makes it easier to work with date times
+- [`readr`](https://readr.tidyverse.org) - a fast and friendly way to read rectangular data
