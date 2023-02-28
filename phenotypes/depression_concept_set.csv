@@ -1,0 +1,765 @@
+"","CONCEPT_ID","CONCEPT_NAME","STANDARD_CONCEPT","STANDARD_CONCEPT_CAPTION","INVALID_REASON","INVALID_REASON_CAPTION","CONCEPT_CODE","DOMAIN_ID","VOCABULARY_ID","CONCEPT_CLASS_ID","VALID_START_DATE","VALID_END_DATE"
+"1",432284,"Single major depressive episode","N","Non-Standard","U","Invalid","268620009","Condition","SNOMED","Clinical Finding",1012435200000,1517356800000
+"2",432285,"Recurrent major depressive episodes","S","Standard","V","Valid","268621008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"3",432883,"Recurrent major depressive episodes, moderate","S","Standard","V","Valid","191611001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"4",433440,"Dysthymia","S","Standard","V","Valid","78667006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"5",433750,"Single major depressive episode, in full remission","N","Non-Standard","U","Invalid","191606003","Condition","SNOMED","Clinical Finding",1012435200000,1517356800000
+"6",433991,"Recurrent major depression in remission","S","Standard","V","Valid","68019004","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"7",434911,"Recurrent major depressive episodes, severe, with psychosis","S","Standard","V","Valid","191613003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"8",435220,"Severe recurrent major depression without psychotic features","S","Standard","V","Valid","36474008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"9",435520,"Reactive depressive psychosis","S","Standard","V","Valid","191676002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"10",436945,"Single major depressive episode, mild","N","Non-Standard","U","Invalid","191601008","Condition","SNOMED","Clinical Finding",1012435200000,1517356800000
+"11",437528,"Bipolar affective disorder, currently depressed, moderate","S","Standard","V","Valid","191630001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"12",437837,"Single major depressive episode, moderate","N","Non-Standard","U","Invalid","191602001","Condition","SNOMED","Clinical Finding",1012435200000,1517356800000
+"13",438406,"Severe major depression, single episode, with psychotic features","S","Standard","V","Valid","430852001","Condition","SNOMED","Clinical Finding",1217462400000,4102358400000
+"14",438727,"Atypical depressive disorder","S","Standard","V","Valid","191659001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"15",438998,"Recurrent major depressive episodes, mild","S","Standard","V","Valid","191610000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"16",439243,"Bipolar affective disorder, currently depressed, severe, with psychosis","N","Non-Standard","D","Invalid","191632009","Condition","SNOMED","Clinical Finding",1012435200000,1532995200000
+"17",439244,"Bipolar affective disorder, currently depressed, severe, without mention of psychosis","N","Non-Standard","U","Invalid","191631002","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"18",439251,"Bipolar affective disorder, currently depressed, in full remission","S","Standard","V","Valid","191634005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"19",439252,"Recurrent major depressive episodes, severe, without mention of psychosis","N","Non-Standard","U","Invalid","191612008","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"20",439253,"Bipolar affective disorder, currently depressed, mild","S","Standard","V","Valid","191629006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"21",439254,"Bipolar affective disorder, current episode depression","S","Standard","V","Valid","191627008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"22",439259,"Single major depressive episode, severe, with psychosis","S","Standard","V","Valid","191604000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"23",439260,"Single major depressive episode, severe, without mention of psychosis","N","Non-Standard","U","Invalid","191603006","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"24",440075,"Recurrent major depressive episodes, in full remission","N","Non-Standard","U","Invalid","191615005","Condition","SNOMED","Clinical Finding",1012435200000,1532995200000
+"25",440383,"Depressive disorder","S","Standard","V","Valid","35489007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"26",441534,"Severe major depression, single episode, without psychotic features","S","Standard","V","Valid","76441001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"27",443864,"Multi-infarct dementia with depression","S","Standard","V","Valid","14070001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"28",607540,"Treatment resistant depression","S","Standard","V","Valid","1153570009","Condition","SNOMED","Clinical Finding",1627689600000,4102358400000
+"29",607543,"Persistent depressive disorder","S","Standard","V","Valid","1153575004","Condition","SNOMED","Clinical Finding",1627689600000,4102358400000
+"30",766349,"Depression, unspecified","N","Non-Standard","V","Valid","F32.A","Condition","ICD10CM","4-char billing code",1633046400000,4102358400000
+"31",1340305,"Exacerbation of depressive disorder","S","Standard","V","Valid","OMOP5165960","Condition","OMOP Extension","Clinical Finding",1651795200000,4102358400000
+"32",1340392,"Exacerbation of major depressive disorder","S","Standard","V","Valid","OMOP5166047","Condition","OMOP Extension","Clinical Finding",1651795200000,4102358400000
+"33",1410543,"Post-schizophrenic depression","N","Non-Standard","V","Valid","F20.4","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"34",1410544,"Post-schizophrenic depression","N","Non-Standard","V","Valid","F20.400","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"35",1410593,"Schizoaffective disorder, depressive type","N","Non-Standard","V","Valid","F25.1","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"36",1410594,"Schizoaffective disorder, depressive type","N","Non-Standard","V","Valid","F25.100","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"37",1410627,"Bipolar affective disorder, current episode mild or moderate depression","N","Non-Standard","V","Valid","F31.3","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"38",1410628,"Bipolar affective disorder, current episode mild or moderate depression","N","Non-Standard","V","Valid","F31.300","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"39",1410629,"Bipolar disorder, currently moderate depressive episode (machine translation)","N","Non-Standard","V","Valid","F31.301","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"40",1410630,"Bipolar affective disorder, current episode severe depression without psychotic symptoms","N","Non-Standard","V","Valid","F31.4","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"41",1410631,"Bipolar affective disorder, current episode severe depression without psychotic symptoms","N","Non-Standard","V","Valid","F31.400","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"42",1410632,"Bipolar affective disorder, current episode severe depression with psychotic symptoms","N","Non-Standard","V","Valid","F31.5","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"43",1410633,"Bipolar affective disorder, current episode severe depression with psychotic symptoms","N","Non-Standard","V","Valid","F31.500","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"44",1410646,"Depressive episode","N","Non-Standard","V","Valid","F32","Condition","ICD10CN","ICD10 Hierarchy",1451606400000,4102358400000
+"45",1410647,"Mild depressive episode","N","Non-Standard","V","Valid","F32.0","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"46",1410648,"Mild depressive episode","N","Non-Standard","V","Valid","F32.000","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"47",1410649,"Moderate depressive episode","N","Non-Standard","V","Valid","F32.1","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"48",1410650,"Moderate depressive episode","N","Non-Standard","V","Valid","F32.100","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"49",1410651,"Severe depressive episode without psychotic symptoms","N","Non-Standard","V","Valid","F32.2","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"50",1410652,"Severe depressive episode without psychotic symptoms","N","Non-Standard","V","Valid","F32.200","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"51",1410653,"Severe depressive episode with psychotic symptoms","N","Non-Standard","V","Valid","F32.3","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"52",1410654,"Severe depressive episode with psychotic symptoms","N","Non-Standard","V","Valid","F32.300","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"53",1410655,"Depressive psychosis (machine translation)","N","Non-Standard","V","Valid","F32.301","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"54",1410656,"Other depressive episodes","N","Non-Standard","V","Valid","F32.8","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"55",1410657,"Other depressive episodes","N","Non-Standard","V","Valid","F32.800","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"56",1410658,"Menopause depression (machine translation)","N","Non-Standard","V","Valid","F32.801","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"57",1410659,"Atypical depression (machine translation)","N","Non-Standard","V","Valid","F32.802","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"58",1410660,"Depressive episode, unspecified","N","Non-Standard","V","Valid","F32.9","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"59",1410661,"Depressive episode, unspecified","N","Non-Standard","V","Valid","F32.900","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"60",1410662,"Depression (machine translation)","N","Non-Standard","V","Valid","F32.901","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"61",1410663,"Reactive depression (machine translation)","N","Non-Standard","V","Valid","F32.902","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"62",1410664,"Recurrent depressive disorder","N","Non-Standard","V","Valid","F33","Condition","ICD10CN","ICD10 Hierarchy",1451606400000,4102358400000
+"63",1410665,"Recurrent depressive disorder, current episode mild","N","Non-Standard","V","Valid","F33.0","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"64",1410666,"Recurrent depressive disorder, current episode mild","N","Non-Standard","V","Valid","F33.000","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"65",1410667,"Recurrent depressive disorder, current episode moderate","N","Non-Standard","V","Valid","F33.1","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"66",1410668,"Recurrent depressive disorder, current episode moderate","N","Non-Standard","V","Valid","F33.100","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"67",1410669,"Recurrent depressive disorder, current episode severe without psychotic symptoms","N","Non-Standard","V","Valid","F33.2","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"68",1410670,"Recurrent depressive disorder, current episode severe without psychotic symptoms","N","Non-Standard","V","Valid","F33.200","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"69",1410671,"Recurrent depressive disorder, current episode severe with psychotic symptoms","N","Non-Standard","V","Valid","F33.3","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"70",1410672,"Recurrent depressive disorder, current episode severe with psychotic symptoms","N","Non-Standard","V","Valid","F33.300","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"71",1410673,"Recurrent depressive disorder, currently in remission","N","Non-Standard","V","Valid","F33.4","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"72",1410674,"Recurrent depressive disorder, currently in remission","N","Non-Standard","V","Valid","F33.400","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"73",1410675,"Other recurrent depressive disorders","N","Non-Standard","V","Valid","F33.8","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"74",1410676,"Other recurrent depressive disorders","N","Non-Standard","V","Valid","F33.800","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"75",1410677,"Recurrent depressive disorder, unspecified","N","Non-Standard","V","Valid","F33.9","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"76",1410678,"Recurrent depressive disorder, unspecified","N","Non-Standard","V","Valid","F33.900","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"77",1410684,"Dysthymia","N","Non-Standard","V","Valid","F34.1","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"78",1410685,"Dysthymia","N","Non-Standard","V","Valid","F34.100","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"79",1410686,"Neurotic depression (machine translation)","N","Non-Standard","V","Valid","F34.101","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"80",1410687,"Depressive personality disorder (machine translation)","N","Non-Standard","V","Valid","F34.102","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"81",1410718,"Mixed anxiety and depressive disorder","N","Non-Standard","V","Valid","F41.2","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"82",1410719,"Mixed anxiety and depressive disorder","N","Non-Standard","V","Valid","F41.200","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"83",1410720,"Anxiety and depression (machine translation)","N","Non-Standard","V","Valid","F41.201","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"84",1411144,"Depressive conduct disorder","N","Non-Standard","V","Valid","F92.0","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"85",1411145,"Depressive conduct disorder","N","Non-Standard","V","Valid","F92.000","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"86",1568213,"Bipolar disorder, current episode depressed, mild or moderate severity","N","Non-Standard","V","Valid","F31.3","Condition","ICD10CM","4-char nonbill code",1.325376e+12,4102358400000
+"87",1568217,"Depressive episode","N","Non-Standard","V","Valid","F32","Condition","ICD10CM","3-char nonbill code",1.325376e+12,4102358400000
+"88",1568218,"Major depressive disorder, recurrent","N","Non-Standard","V","Valid","F33","Condition","ICD10CM","3-char nonbill code",1.325376e+12,4102358400000
+"89",1568219,"Major depressive disorder, recurrent, in remission","N","Non-Standard","V","Valid","F33.4","Condition","ICD10CM","4-char nonbill code",1.325376e+12,4102358400000
+"90",1595539,"Postpartum depression","N","Non-Standard","V","Valid","F53.0","Condition","ICD10CM","4-char billing code",1546300800000,4102358400000
+"91",3098772,"Postnatal depressive disorder","N","Non-Standard","U","Invalid","147016002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"92",3105255,"Endogenous depression","N","Non-Standard","U","Invalid","154873003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"93",3105258,"Seasonal affective disorder","N","Non-Standard","U","Invalid","154876006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"94",3105271,"Depression - postnatal","N","Non-Standard","U","Invalid","154889000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"95",3105299,"Moderate depression","N","Non-Standard","U","Invalid","154919005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"96",3105337,"Depression NOS","N","Non-Standard","U","Invalid","154963001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1217462400000
+"97",3105338,"Mixed anxiety and depressive disorder","N","Non-Standard","U","Invalid","154964007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"98",3105339,"Mild depression","N","Non-Standard","U","Invalid","154965008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"99",3105340,"Moderate depression","N","Non-Standard","U","Invalid","154966009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"100",3105341,"Severe depression","N","Non-Standard","U","Invalid","154967000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"101",3105343,"Seasonal affective disorder","N","Non-Standard","U","Invalid","154969002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"102",3105344,"Recurrent depression","N","Non-Standard","U","Invalid","154970001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"103",3122533,"Endogenous depression first episode","N","Non-Standard","U","Invalid","191599006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"104",3122534,"Single major depressive episode, mild","N","Non-Standard","U","Invalid","191601008","Condition","Nebraska Lexicon","Clinical Finding",1501372800000,1501459200000
+"105",3122535,"Single major depressive episode, moderate","N","Non-Standard","U","Invalid","191602001","Condition","Nebraska Lexicon","Clinical Finding",1501372800000,1501459200000
+"106",3122536,"Single major depressive episode, severe, without mention of psychosis","N","Non-Standard","U","Invalid","191603006","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"107",3122537,"Single major depressive episode, in partial or unspecified remission","N","Non-Standard","U","Invalid","191605004","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"108",3122538,"Single major depressive episode, in full remission","N","Non-Standard","U","Invalid","191606003","Condition","Nebraska Lexicon","Clinical Finding",1501372800000,1501459200000
+"109",3122539,"Single major depressive episode NOS","N","Non-Standard","U","Invalid","191607007","Condition","Nebraska Lexicon","Clinical Finding",1012348800000,1012435200000
+"110",3122540,"Recurrent depression: [major episode] or [endogenous]","N","Non-Standard","U","Invalid","191608002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"111",3122541,"Recurrent major depressive episodes, unspecified","N","Non-Standard","U","Invalid","191609005","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"112",3122542,"Recurrent major depressive episodes, severe, without mention of psychosis","N","Non-Standard","U","Invalid","191612008","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"113",3122543,"Recurrent major depressive episodes, in partial or unspecified remission","N","Non-Standard","U","Invalid","191614009","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"114",3122544,"Recurrent major depressive episodes, in full remission","N","Non-Standard","U","Invalid","191615005","Condition","Nebraska Lexicon","Clinical Finding",1501372800000,1501459200000
+"115",3122545,"Recurrent major depressive episode NOS","N","Non-Standard","U","Invalid","191617002","Condition","Nebraska Lexicon","Clinical Finding",1012348800000,1012435200000
+"116",3122550,"Bipolar affective disorder, currently depressed, unspecified","N","Non-Standard","U","Invalid","191628003","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"117",3122551,"Bipolar affective disorder, currently depressed, severe, without mention of psychosis","N","Non-Standard","U","Invalid","191631002","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"118",3122552,"Bipolar affective disorder, currently depressed, severe, with psychosis","N","Non-Standard","U","Invalid","191632009","Condition","Nebraska Lexicon","Clinical Finding",1501372800000,1501459200000
+"119",3122553,"Bipolar affective disorder, currently depressed, in partial or unspecified remission","N","Non-Standard","U","Invalid","191633004","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"120",3122554,"Bipolar affective disorder, currently depressed, NOS","N","Non-Standard","U","Invalid","191635006","Condition","Nebraska Lexicon","Clinical Finding",1012348800000,1012435200000
+"121",3122569,"Seasonal affective disorder","N","Non-Standard","U","Invalid","191655007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"122",3122576,"Masked depression","N","Non-Standard","U","Invalid","191665001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"123",3122585,"Agitated depression","N","Non-Standard","U","Invalid","191681006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"124",3122601,"Mixed anxiety and depressive disorder","N","Non-Standard","U","Invalid","191707004","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"125",3122620,"Neurotic depression reactive type","N","Non-Standard","U","Invalid","191740008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"126",3122804,"Depressive disorder NEC","N","Non-Standard","U","Invalid","192078003","Condition","Nebraska Lexicon","Clinical Finding",1012348800000,1012435200000
+"127",3122880,"Post-schizophrenic depression","N","Non-Standard","U","Invalid","192323004","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"128",3122890,"Schizoaffective disorder, depressive type","N","Non-Standard","U","Invalid","192342000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"129",3122895,"Bipolar affective disorder, currently depressed, severe, with psychosis","N","Non-Standard","U","Invalid","192361001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"130",3122896,"Single major depressive episode","N","Non-Standard","U","Invalid","192366006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"131",3122898,"[X]Depression without psychotic symptoms: [recurrent: [major] or [manic-depressive psychosis, depressed type] or [vital] or [current severe episode]] or [endogenous]","N","Non-Standard","U","Invalid","192377000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1217462400000
+"132",3122899,"[X]Recurrent depressive disorder, current episode severe with psychotic symptoms","N","Non-Standard","U","Invalid","192378005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1217462400000
+"133",3122901,"Dysthymia","N","Non-Standard","U","Invalid","192384008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"134",3122906,"[X]Mixed anxiety and depressive disorder","N","Non-Standard","U","Invalid","192402009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1217462400000
+"135",3122922,"Neurasthaenia","N","Non-Standard","U","Invalid","192439005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"136",3122983,"Depressive conduct disorder","N","Non-Standard","U","Invalid","192605002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"137",3132802,"Mood disorder with depressive feature","N","Non-Standard","U","Invalid","21061000119107","Condition","Nebraska Lexicon","Clinical Finding",1485820800000,1501459200000
+"138",3137636,"Schizoaffective disorder, depressive type","N","Non-Standard","U","Invalid","231492002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"139",3137639,"Endogenous depression","N","Non-Standard","U","Invalid","231498003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"140",3142939,"Single major depressive episode","N","Non-Standard","U","Invalid","268620009","Condition","Nebraska Lexicon","Clinical Finding",1501372800000,1501459200000
+"141",3142947,"Neurasthaenia","N","Non-Standard","U","Invalid","268631001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"142",3142974,"Depression - postnatal","N","Non-Standard","U","Invalid","268753005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"143",3144604,"Atypical depressive disorder","N","Non-Standard","U","Invalid","277538003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"144",3146674,"Depression NOS","N","Non-Standard","U","Invalid","307537002","Condition","Nebraska Lexicon","Clinical Finding",1012348800000,1012435200000
+"145",3154950,"Mild depression","N","Non-Standard","U","Invalid","390717003","Condition","Nebraska Lexicon","Clinical Finding",1043971200000,1501459200000
+"146",3161606,"Major depression, melancholic type","N","Non-Standard","U","Invalid","62951006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"147",3169957,"Mood disorder with depressive symptoms caused by hypnotic","N","Non-Standard","V","Valid","724677009","Condition","Nebraska Lexicon","Clinical Finding",1501459200000,4102358400000
+"148",3179952,"Chronic depression","N","Non-Standard","V","Valid","192080009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"149",3180531,"Moderate recurrent major depression","N","Non-Standard","V","Valid","18818009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"150",3184802,"Depressive neurosis","N","Non-Standard","V","Valid","78667006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"151",3188258,"Perinatal depression","N","Non-Standard","V","Valid","10211000132109","Condition","Nebraska Lexicon","Clinical Finding",1485820800000,4102358400000
+"152",3190777,"Mild depression","N","Non-Standard","V","Valid","310495003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"153",3201548,"Nervous debility -neurasthenia","N","Non-Standard","U","Invalid","154890009","Observation","Nebraska Lexicon","Undefined",1012435200000,1501459200000
+"154",3201703,"Nervous debility -neurasthenia","N","Non-Standard","U","Invalid","268754004","Observation","Nebraska Lexicon","Undefined",1012435200000,1501459200000
+"155",3213858,"Moderate major depression","N","Non-Standard","V","Valid","832007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"156",3214749,"Depressive disorder in mother complicating childbirth","N","Non-Standard","V","Valid","10835871000119104","Condition","Nebraska Lexicon","Clinical Finding",1406764800000,4102358400000
+"157",3215928,"Recurrent major depressive disorder with postpartum onset","N","Non-Standard","V","Valid","71336009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"158",3218839,"Bipolar affective disorder, current episode depression","N","Non-Standard","V","Valid","191627008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"159",3222523,"Mood disorder with depressive symptoms caused by cocaine","N","Non-Standard","V","Valid","724690002","Condition","Nebraska Lexicon","Clinical Finding",1501459200000,4102358400000
+"160",3225113,"Mood disorder with depressive symptoms caused by sedative","N","Non-Standard","V","Valid","724676000","Condition","Nebraska Lexicon","Clinical Finding",1501459200000,4102358400000
+"161",3225440,"Depressive disorder in mother complicating pregnancy","N","Non-Standard","V","Valid","94631000119100","Condition","Nebraska Lexicon","Clinical Finding",1454198400000,4102358400000
+"162",3225882,"Severe recurrent major depression with psychotic features, mood-incongruent","N","Non-Standard","V","Valid","15193003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"163",3228513,"Recurrent depression","N","Non-Standard","V","Valid","191616006","Condition","Nebraska Lexicon","Clinical Finding",1.122768e+12,4102358400000
+"164",3229191,"Major depression, single episode, in complete remission","N","Non-Standard","V","Valid","19527009","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"165",3229335,"Major depressive disorder, single episode, severe with psychotic features","N","Non-Standard","V","Valid","430852001","Condition","Nebraska Lexicon","Clinical Finding",1217462400000,4102358400000
+"166",3231850,"Postpartum major depression in remission","N","Non-Standard","V","Valid","104851000119103","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"167",3232059,"Bipolar affective disorder, currently depressed, in full remission","N","Non-Standard","V","Valid","191634005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"168",3237831,"Mood disorder of depressed type","N","Non-Standard","V","Valid","35489007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"169",3238258,"Chronic depressive personality disorder","N","Non-Standard","V","Valid","442057004","Condition","Nebraska Lexicon","Clinical Finding",1248998400000,4102358400000
+"170",3239300,"Mood disorder with depressive symptoms caused by alcohol","N","Non-Standard","V","Valid","723928009","Condition","Nebraska Lexicon","Clinical Finding",1501459200000,4102358400000
+"171",3244134,"Moderate depression","N","Non-Standard","V","Valid","310496002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"172",3244235,"Mixed anxiety and depressive disorder","N","Non-Standard","V","Valid","231504006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"173",3244930,"Third day blues","N","Non-Standard","V","Valid","279225001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"174",3245479,"Recurrent major depressive disorder with atypical features","N","Non-Standard","V","Valid","38694004","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"175",3247243,"Major depressive disorder, single episode with melancholic features","N","Non-Standard","V","Valid","63778009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"176",3247632,"Secondary dysthymia","N","Non-Standard","V","Valid","85080004","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"177",3248415,"Single major depressive episode, severe, with psychosis","N","Non-Standard","V","Valid","191604000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"178",3249194,"Mild postnatal depression","N","Non-Standard","V","Valid","237349002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"179",3250090,"Recurrent major depressive disorder","N","Non-Standard","V","Valid","66344007","Condition","Nebraska Lexicon","Clinical Finding",1.122768e+12,4102358400000
+"180",3250138,"Severe recurrent major depression with psychotic features","N","Non-Standard","V","Valid","28475009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"181",3253807,"Mood disorder with depressive symptoms caused by anxiolytic","N","Non-Standard","V","Valid","724678004","Condition","Nebraska Lexicon","Clinical Finding",1501459200000,4102358400000
+"182",3255154,"Chronic recurrent major depressive disorder","N","Non-Standard","V","Valid","2618002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"183",3257539,"Minimal recurrent major depression","N","Non-Standard","V","Valid","720451004","Condition","Nebraska Lexicon","Clinical Finding",1485820800000,4102358400000
+"184",3257981,"Endogenous depression","N","Non-Standard","V","Valid","300706003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"185",3258175,"Recurrent major depression in partial remission","N","Non-Standard","V","Valid","33135002","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"186",3259451,"Major depression, in remission","N","Non-Standard","V","Valid","42810003","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"187",3259996,"Severe major depression with psychotic features, mood-incongruent","N","Non-Standard","V","Valid","60099002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"188",3260658,"Mood disorder with depressive symptoms caused by dissociative drug","N","Non-Standard","V","Valid","762345001","Condition","Nebraska Lexicon","Clinical Finding",1517356800000,4102358400000
+"189",3261258,"Severe recurrent major depression","N","Non-Standard","V","Valid","281000119103","Condition","Nebraska Lexicon","Clinical Finding",1375228800000,4102358400000
+"190",3262650,"Severe major depression","N","Non-Standard","V","Valid","450714000","Condition","Nebraska Lexicon","Clinical Finding",1343692800000,4102358400000
+"191",3264031,"Major depression, melancholic type","N","Non-Standard","V","Valid","320751009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"192",3264745,"Bipolar affective disorder, currently depressed, moderate","N","Non-Standard","V","Valid","191630001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"193",3265406,"Minimal major depression","N","Non-Standard","V","Valid","720455008","Condition","Nebraska Lexicon","Clinical Finding",1485820800000,4102358400000
+"194",3267271,"Severe recurrent major depression without psychotic features","N","Non-Standard","V","Valid","36474008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"195",3268569,"Generalised neuromuscular exhaustion syndrome","N","Non-Standard","V","Valid","87842000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"196",3271585,"Recurrent major depressive episodes","N","Non-Standard","V","Valid","268621008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"197",3271940,"Mood disorder with depressive symptoms caused by hallucinogen","N","Non-Standard","V","Valid","762336002","Condition","Nebraska Lexicon","Clinical Finding",1517356800000,4102358400000
+"198",3272611,"Severe postnatal depression","N","Non-Standard","V","Valid","237350002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"199",3274335,"Postmenopausal depression","N","Non-Standard","V","Valid","84788008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"200",3275617,"Acute depression","N","Non-Standard","V","Valid","712823008","Condition","Nebraska Lexicon","Clinical Finding",1454198400000,4102358400000
+"201",3276000,"Major depressive disorder in mother complicating childbirth","N","Non-Standard","V","Valid","10811121000119102","Condition","Nebraska Lexicon","Clinical Finding",1406764800000,4102358400000
+"202",3278473,"Mood disorder with depressive symptoms caused by volatile inhalant","N","Non-Standard","V","Valid","762339009","Condition","Nebraska Lexicon","Clinical Finding",1517356800000,4102358400000
+"203",3282050,"Premenstrual dysphoric disorder in remission","N","Non-Standard","V","Valid","426578000","Condition","Nebraska Lexicon","Clinical Finding",1.18584e+12,4102358400000
+"204",3291404,"Moderately severe major depression single episode","N","Non-Standard","V","Valid","720453001","Condition","Nebraska Lexicon","Clinical Finding",1485820800000,4102358400000
+"205",3291745,"Severe depression","N","Non-Standard","V","Valid","310497006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"206",3296749,"Agitated depression","N","Non-Standard","V","Valid","83458005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"207",3299096,"Major depressive disorder","N","Non-Standard","V","Valid","370143000","Condition","Nebraska Lexicon","Clinical Finding",1028073600000,4102358400000
+"208",3299169,"Severe recurrent major depression with psychotic features, mood-congruent","N","Non-Standard","V","Valid","33078009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"209",3300282,"Recurrent mild major depressive disorder co-occurrent with anxiety","N","Non-Standard","V","Valid","16264621000119109","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"210",3301596,"Severe seasonal affective disorder","N","Non-Standard","V","Valid","133121000119109","Condition","Nebraska Lexicon","Clinical Finding",1391126400000,4102358400000
+"211",3302676,"Moderately severe depression","N","Non-Standard","V","Valid","719593009","Condition","Nebraska Lexicon","Clinical Finding",1485820800000,4102358400000
+"212",3303720,"Mild recurrent major depression","N","Non-Standard","V","Valid","40379007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"213",3307096,"Stuporous depression","N","Non-Standard","V","Valid","79842004","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"214",3308445,"Moderate major depression, single episode","N","Non-Standard","V","Valid","15639000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"215",3308740,"Involutional depression","N","Non-Standard","V","Valid","321717001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"216",3309255,"Bipolar affective disorder, currently depressed, mild","N","Non-Standard","V","Valid","191629006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"217",3311994,"Drug-induced depressive state","N","Non-Standard","V","Valid","191495003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"218",3313713,"Secondary dysthymia early onset","N","Non-Standard","V","Valid","3109008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"219",3314505,"Major depressive disorder in mother complicating pregnancy","N","Non-Standard","V","Valid","10811161000119107","Condition","Nebraska Lexicon","Clinical Finding",1406764800000,4102358400000
+"220",3314811,"Seasonal affective disorder","N","Non-Standard","V","Valid","247803002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"221",3315169,"Severe major depression with psychotic features, mood-congruent","N","Non-Standard","V","Valid","33736005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"222",3316999,"Major depression with psychotic features","N","Non-Standard","V","Valid","726772006","Condition","Nebraska Lexicon","Clinical Finding",1501459200000,4102358400000
+"223",3317873,"Depressive disorder in remission","N","Non-Standard","V","Valid","698957003","Condition","Nebraska Lexicon","Clinical Finding",1391126400000,4102358400000
+"224",3320197,"Mood disorder with depressive symptoms caused by opioid","N","Non-Standard","V","Valid","762321000","Condition","Nebraska Lexicon","Clinical Finding",1517356800000,4102358400000
+"225",3322191,"Premenstrual dysphoric disorder","N","Non-Standard","V","Valid","596004","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"226",3322236,"Psychotic reactive depression","N","Non-Standard","V","Valid","191676002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"227",3325377,"Recurrent major depressive disorder co-occurrent with anxiety in full remission","N","Non-Standard","V","Valid","16265061000119105","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"228",3328760,"Atypical depressive disorder","N","Non-Standard","V","Valid","191659001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"229",3329608,"Recurrent major depressive disorder with melancholic features","N","Non-Standard","V","Valid","319768000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"230",3330367,"Major depression, single episode, in partial remission","N","Non-Standard","V","Valid","70747007","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"231",3331143,"Major depressive disorder, single episode with atypical features","N","Non-Standard","V","Valid","42925002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"232",3334851,"Postpartum depression","N","Non-Standard","V","Valid","58703003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"233",3334937,"Recurrent major depression in remission","N","Non-Standard","V","Valid","68019004","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"234",3337202,"Secondary dysthymia late onset","N","Non-Standard","V","Valid","36170009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"235",3337398,"Reactive depressive psychosis, single episode","N","Non-Standard","V","Valid","288751000119101","Condition","Nebraska Lexicon","Clinical Finding",1359590400000,4102358400000
+"236",3338199,"Recurrent moderate major depressive disorder co-occurrent with anxiety","N","Non-Standard","V","Valid","16264901000119109","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"237",3338793,"Recurrent major depressive episodes, moderate","N","Non-Standard","V","Valid","191611001","Condition","Nebraska Lexicon","Clinical Finding",1.154304e+12,4102358400000
+"238",3339300,"Severe major depression, single episode, without psychotic features","N","Non-Standard","V","Valid","76441001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"239",3345804,"Severe major depression, single episode","N","Non-Standard","V","Valid","251000119105","Condition","Nebraska Lexicon","Clinical Finding",1343692800000,4102358400000
+"240",3348252,"Severe major depression, single episode, with psychotic features, mood-incongruent","N","Non-Standard","V","Valid","20250007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"241",3353371,"Mild major depression, single episode","N","Non-Standard","V","Valid","79298009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"242",3354998,"Depressive conduct disorder","N","Non-Standard","V","Valid","231542000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"243",3357102,"Vascular dementia, with depressive mood","N","Non-Standard","V","Valid","14070001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"244",3358364,"Primary dysthymia late onset","N","Non-Standard","V","Valid","67711008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"245",3360574,"Major depressive disorder, single episode with catatonic features","N","Non-Standard","V","Valid","69392006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"246",3360991,"Primary dysthymia early onset","N","Non-Standard","V","Valid","38451003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"247",3365463,"Postoperative depression","N","Non-Standard","V","Valid","82218004","Condition","Nebraska Lexicon","Clinical Finding",1201737600000,4102358400000
+"248",3365652,"Minimal major depression single episode","N","Non-Standard","V","Valid","720454007","Condition","Nebraska Lexicon","Clinical Finding",1485820800000,4102358400000
+"249",3366370,"Moderately severe major depression","N","Non-Standard","V","Valid","719592004","Condition","Nebraska Lexicon","Clinical Finding",1485820800000,4102358400000
+"250",3369800,"Moderate major depressive disorder co-occurrent with anxiety single episode","N","Non-Standard","V","Valid","16266831000119100","Condition","Nebraska Lexicon","Clinical Finding",1501459200000,4102358400000
+"251",3370936,"Major depression in complete remission","N","Non-Standard","V","Valid","63412003","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"252",3371321,"Severe major depression with psychotic features","N","Non-Standard","V","Valid","73867007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"253",3373534,"Recurrent major depressive disorder with catatonic features","N","Non-Standard","V","Valid","39809009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"254",3373939,"Minor depressive disorder","N","Non-Standard","V","Valid","48589009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"255",3374363,"Mood disorder with depressive symptoms caused by stimulant","N","Non-Standard","V","Valid","762329003","Condition","Nebraska Lexicon","Clinical Finding",1517356800000,4102358400000
+"256",3375213,"Moderately severe recurrent major depression","N","Non-Standard","V","Valid","720452006","Condition","Nebraska Lexicon","Clinical Finding",1485820800000,4102358400000
+"257",3375528,"Bipolar I disorder, most recent episode depressed with atypical features","N","Non-Standard","V","Valid","29929003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"258",3376903,"Recurrent major depression in complete remission","N","Non-Standard","V","Valid","46244001","Condition","Nebraska Lexicon","Clinical Finding",1.122768e+12,4102358400000
+"259",3379356,"Minimal depression","N","Non-Standard","V","Valid","718636001","Condition","Nebraska Lexicon","Clinical Finding",1485820800000,4102358400000
+"260",3381511,"Endogenous depression - recurrent","N","Non-Standard","V","Valid","274948002","Condition","Nebraska Lexicon","Clinical Finding",1.122768e+12,4102358400000
+"261",3384025,"Late onset dysthymia","N","Non-Standard","V","Valid","19694002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"262",3385936,"Severe major depressive disorder co-occurrent with anxiety single episode","N","Non-Standard","V","Valid","16266991000119108","Condition","Nebraska Lexicon","Clinical Finding",1501459200000,4102358400000
+"263",3388959,"Major depression in partial remission","N","Non-Standard","V","Valid","30605009","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"264",3390691,"Masked depression","N","Non-Standard","V","Valid","231500002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"265",3392194,"Severe major depression, single episode, with psychotic features, mood-congruent","N","Non-Standard","V","Valid","77911002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"266",3394983,"Post-schizophrenic depression","N","Non-Standard","V","Valid","231485007","Condition","Nebraska Lexicon","Clinical Finding",1028073600000,4102358400000
+"267",3395458,"Chronic major depressive disorder, single episode","N","Non-Standard","V","Valid","14183003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"268",3396704,"Recurrent brief depressive disorder","N","Non-Standard","V","Valid","40568001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"269",3399213,"Primary dysthymia","N","Non-Standard","V","Valid","83176005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"270",3401558,"Recurrent major depressive episodes, severe, with psychosis","N","Non-Standard","V","Valid","191613003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"271",3401605,"Recurrent severe major depressive disorder co-occurrent with anxiety","N","Non-Standard","V","Valid","16264821000119108","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"272",3403112,"Major depressive disorder, single episode with postpartum onset","N","Non-Standard","V","Valid","25922000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"273",3405847,"Endogenous depression first episode","N","Non-Standard","V","Valid","231499006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"274",3406255,"Mood disorder with depressive symptoms caused by synthetic cathinone","N","Non-Standard","V","Valid","762512002","Condition","Nebraska Lexicon","Clinical Finding",1517356800000,4102358400000
+"275",3407695,"Mild major depression","N","Non-Standard","V","Valid","87512008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"276",3408042,"Recurrent major depressive episodes, mild","N","Non-Standard","V","Valid","191610000","Condition","Nebraska Lexicon","Clinical Finding",1.154304e+12,4102358400000
+"277",3408131,"Psychosis and severe depression co-occurrent and due to bipolar affective disorder","N","Non-Standard","V","Valid","765176007","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"278",3408712,"Schizophreniform psychosis, depressive type","N","Non-Standard","V","Valid","84760002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"279",3408889,"Major depressive disorder, single episode","N","Non-Standard","V","Valid","36923009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"280",3410323,"Mild major depressive disorder co-occurrent with anxiety single episode","N","Non-Standard","V","Valid","16265951000119109","Condition","Nebraska Lexicon","Clinical Finding",1501459200000,4102358400000
+"281",3414163,"Severe major depression without psychotic features","N","Non-Standard","V","Valid","75084000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"282",3416109,"Early onset dysthymia","N","Non-Standard","V","Valid","2506003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"283",3417490,"Reactive depression","N","Non-Standard","V","Valid","87414006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"284",3417771,"Postviral depression","N","Non-Standard","V","Valid","192079006","Condition","Nebraska Lexicon","Clinical Finding",1028073600000,4102358400000
+"285",3418172,"Recurrent major depressive disorder in partial remission co-occurrent with anxiety","N","Non-Standard","V","Valid","16265301000119106","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"286",3424067,"Mood disorder with mixed manic and depressive symptoms caused by alcohol","N","Non-Standard","V","Valid","723930006","Condition","Nebraska Lexicon","Clinical Finding",1501459200000,4102358400000
+"287",3519330,"Major depressive disorder","N","Non-Standard","U","Invalid","507521000000101","Condition","SNOMED","Clinical Finding",0,1254355200000
+"288",3519331,"Mild major depression","N","Non-Standard","U","Invalid","507531000000104","Condition","SNOMED","Clinical Finding",0,1254355200000
+"289",3519332,"Moderate major depression","N","Non-Standard","U","Invalid","507541000000108","Condition","SNOMED","Clinical Finding",0,1254355200000
+"290",3520673,"Single major depressive episode, unspecified","N","Non-Standard","U","Invalid","633681000000107","Condition","SNOMED","Clinical Finding",1.27008e+12,1333238400000
+"291",3520674,"Single major depressive episode, in partial or unspecified remission","N","Non-Standard","U","Invalid","633691000000109","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"292",3520675,"Single major depressive episode NOS","N","Non-Standard","U","Invalid","633701000000109","Condition","SNOMED","Clinical Finding",1.27008e+12,1333238400000
+"293",3520676,"Recurrent major depressive episodes, in partial or unspecified remission","N","Non-Standard","U","Invalid","633711000000106","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"294",3528869,"[X] Severe depressive episode with psychotic symptoms: (& single episode of [major depression] or [psychogenic depressive psychosis] or [psychotic depression] or [reactive depressive psychosis])","N","Non-Standard","D","Invalid","401761000000100","Condition","SNOMED","Clinical Finding",0,1.238544e+12
+"295",3528972,"[X] Depression: [other episodes] or [atypical] or [single episode masked NOS]","N","Non-Standard","D","Invalid","419311000000100","Condition","SNOMED","Clinical Finding",0,1.238544e+12
+"296",3529029,"[X]Recurrent depressive disorder (& [episodes of depressive reaction] or [episodes of psychogenic depression] or [episodes of reactive depression] or [seasonal depressive disorder])","N","Non-Standard","D","Invalid","431821000000108","Condition","SNOMED","Clinical Finding",0,1.238544e+12
+"297",3529170,"[X] Depression recurrent: [unspecified] or [monopolar NOS]","N","Non-Standard","D","Invalid","455421000000106","Condition","SNOMED","Clinical Finding",0,1.238544e+12
+"298",3529911,"Severe major depression without psychotic features","N","Non-Standard","U","Invalid","507851000000109","Condition","SNOMED","Clinical Finding",0,1254355200000
+"299",3529912,"Severe major depression with psychotic features","N","Non-Standard","U","Invalid","507861000000107","Condition","SNOMED","Clinical Finding",0,1254355200000
+"300",3530008,"Severe major depression without psychotic features","N","Non-Standard","U","Invalid","509781000000103","Observation","SNOMED","Undefined",1254355200000,1459468800000
+"301",3530009,"Severe major depression with psychotic features","N","Non-Standard","U","Invalid","509791000000101","Observation","SNOMED","Undefined",1254355200000,1459468800000
+"302",3530033,"Mild major depression","N","Non-Standard","U","Invalid","510371000000107","Observation","SNOMED","Undefined",1254355200000,1459468800000
+"303",3530034,"Moderate major depression","N","Non-Standard","U","Invalid","510381000000109","Observation","SNOMED","Undefined",1254355200000,1459468800000
+"304",3530384,"Premenstrual dysphoric disorder","N","Non-Standard","U","Invalid","522301000000106","Condition","SNOMED","Clinical Finding",0,1.27008e+12
+"305",3530714,"Recurrent major depressive episodes, severe, without mention of psychosis","N","Non-Standard","U","Invalid","530291000000106","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"306",3536127,"Bipolar affective disorder, currently depressed, unspecified","N","Non-Standard","U","Invalid","615941000000103","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"307",3536128,"Bipolar affective disorder, currently depressed, in partial or unspecified remission","N","Non-Standard","U","Invalid","615951000000100","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"308",3542484,"Premenstrual dysphoric disorder","N","Non-Standard","U","Invalid","707781000000108","Observation","SNOMED","Undefined",0,1.27008e+12
+"309",3543596,"Recurrent major depressive episodes, severe, with psychosis, psychosis in remission","N","Non-Standard","U","Invalid","758021000000102","Observation","SNOMED","Undefined",0,1285891200000
+"310",3545074,"Antenatal depression","N","Non-Standard","D","Invalid","808721000000109","Observation","SNOMED","Undefined",0,1643241600000
+"311",3563107,"Single major depressive episode, severe, without mention of psychosis","N","Non-Standard","U","Invalid","530281000000109","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"312",3566276,"Bipolar affective disorder, currently depressed, severe, without mention of psychosis","N","Non-Standard","U","Invalid","530311000000107","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"313",3573776,"Single major depressive episode, severe, with psychosis, psychosis in remission","N","Non-Standard","U","Invalid","758011000000108","Observation","SNOMED","Undefined",0,1285891200000
+"314",3654788,"Mood disorder with depressive symptoms caused by amphetamine and amphetamine derivative","S","Standard","V","Valid","838530009","Condition","SNOMED","Clinical Finding",1596153600000,4102358400000
+"315",4025677,"Single episode of major depression in full remission","S","Standard","V","Valid","19527009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"316",4031328,"Chronic major depressive disorder, single episode","S","Standard","V","Valid","14183003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"317",4034842,"Severe recurrent major depression with psychotic features, mood-incongruent","S","Standard","V","Valid","15193003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"318",4049623,"Moderate major depression, single episode","S","Standard","V","Valid","15639000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"319",4057218,"Late onset dysthymia","S","Standard","V","Valid","19694002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"320",4067409,"Severe major depression, single episode, with psychotic features, mood-incongruent","S","Standard","V","Valid","20250007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"321",4077577,"Moderate recurrent major depression","S","Standard","V","Valid","18818009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"322",4092239,"Seasonal affective disorder","S","Standard","V","Valid","247803002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"323",4093584,"Major depressive disorder, single episode with postpartum onset","S","Standard","V","Valid","25922000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"324",4094358,"Chronic recurrent major depressive disorder","S","Standard","V","Valid","2618002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"325",4096229,"Early onset dysthymia","S","Standard","V","Valid","2506003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"326",4098301,"Recurrent major depressive episodes, in partial or unspecified remission","N","Non-Standard","U","Invalid","191614009","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"327",4098302,"Recurrent depression","S","Standard","V","Valid","191616006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"328",4098306,"Bipolar affective disorder, currently depressed, in partial or unspecified remission","N","Non-Standard","U","Invalid","191633004","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"329",4100371,"Single major depressive episode NOS","N","Non-Standard","U","Invalid","191607007","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"330",4102664,"Single major depressive episode, in partial or unspecified remission","N","Non-Standard","U","Invalid","191605004","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"331",4102665,"Recurrent major depressive episode NOS","N","Non-Standard","U","Invalid","191617002","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"332",4102973,"Postviral depression","S","Standard","V","Valid","192079006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"333",4103126,"Drug-induced depressive state","S","Standard","V","Valid","191495003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"334",4103260,"Recurrent major depressive episodes, unspecified","N","Non-Standard","U","Invalid","191609005","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"335",4103261,"Bipolar affective disorder, currently depressed, unspecified","N","Non-Standard","U","Invalid","191628003","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"336",4103262,"Bipolar affective disorder, currently depressed, NOS","N","Non-Standard","U","Invalid","191635006","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"337",4103573,"Depressive disorder NEC","N","Non-Standard","U","Invalid","192078003","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"338",4103574,"Chronic depression","S","Standard","V","Valid","192080009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"339",4107538,"Bipolar I disorder, most recent episode depressed with atypical features","S","Standard","V","Valid","29929003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"340",4114950,"Endogenous depression","S","Standard","V","Valid","300706003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"341",4129184,"Severe postnatal depression","S","Standard","V","Valid","237350002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"342",4129842,"Mild postnatal depression","S","Standard","V","Valid","237349002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"343",4133073,"Maternity blues","S","Standard","V","Valid","279225001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"344",4141235,"Depression NOS","N","Non-Standard","U","Invalid","307537002","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"345",4141292,"Severe recurrent major depression with psychotic features, mood-congruent","S","Standard","V","Valid","33078009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"346",4141454,"Recurrent major depression in partial remission","S","Standard","V","Valid","33135002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"347",4144233,"Severe major depression with psychotic features, mood-congruent","S","Standard","V","Valid","33736005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"348",4145216,"Premenstrual dysphoric disorder in remission","S","Standard","V","Valid","426578000","Condition","SNOMED","Clinical Finding",1.18584e+12,4102358400000
+"349",4148630,"Major depression in partial remission","S","Standard","V","Valid","30605009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"350",4149320,"Mild depression","S","Standard","V","Valid","310495003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"351",4149321,"Severe depression","S","Standard","V","Valid","310497006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"352",4150047,"Secondary dysthymia early onset","S","Standard","V","Valid","3109008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"353",4151170,"Moderate depression","S","Standard","V","Valid","310496002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"354",4152280,"Major depressive disorder","S","Standard","V","Valid","370143000","Condition","SNOMED","Clinical Finding",1028073600000,4102358400000
+"355",4154309,"Severe recurrent major depression with psychotic features","S","Standard","V","Valid","28475009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"356",4154391,"Major depression, melancholic type","S","Standard","V","Valid","320751009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"357",4154805,"Involutional depression","S","Standard","V","Valid","321717001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"358",4168858,"Endogenous depression - recurrent","S","Standard","V","Valid","274948002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"359",4174987,"Minor depressive disorder","S","Standard","V","Valid","48589009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"360",4176002,"Major depression in remission","S","Standard","V","Valid","42810003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"361",4181807,"Major depressive disorder, single episode with atypical features","S","Standard","V","Valid","42925002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"362",4195572,"Mild major depression, single episode","S","Standard","V","Valid","79298009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"363",4195680,"Primary dysthymia late onset","S","Standard","V","Valid","67711008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"364",4197222,"Stuporous depression","S","Standard","V","Valid","79842004","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"365",4205471,"Recurrent major depressive disorder with melancholic features","S","Standard","V","Valid","319768000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"366",4220023,"Recurrent major depressive disorder with catatonic features","S","Standard","V","Valid","39809009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"367",4223090,"Menopausal depression","S","Standard","V","Valid","84788008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"368",4224639,"Secondary dysthymia","S","Standard","V","Valid","85080004","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"369",4224940,"Schizoaffective disorder, depressive type","S","Standard","V","Valid","84760002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"370",4226155,"Recurrent brief depressive disorder","S","Standard","V","Valid","40568001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"371",4228802,"Mild recurrent major depression","S","Standard","V","Valid","40379007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"372",4239471,"Postpartum depression","S","Standard","V","Valid","58703003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"373",4242733,"Premenstrual dysphoric disorder","S","Standard","V","Valid","596004","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"374",4243308,"Primary dysthymia early onset","S","Standard","V","Valid","38451003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"375",4243822,"Severe major depression with psychotic features, mood-incongruent","S","Standard","V","Valid","60099002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"376",4250023,"Severe major depression with psychotic features","S","Standard","V","Valid","73867007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"377",4263748,"Recurrent major depression in full remission","S","Standard","V","Valid","46244001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"378",4263770,"Secondary dysthymia late onset","S","Standard","V","Valid","36170009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"379",4269493,"Major depression in full remission","S","Standard","V","Valid","63412003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"380",4270907,"Major depressive disorder, single episode with melancholic features","S","Standard","V","Valid","63778009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"381",4282096,"Major depression, single episode","S","Standard","V","Valid","36923009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"382",4282316,"Recurrent major depression","S","Standard","V","Valid","66344007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"383",4287238,"Major depressive disorder, single episode with catatonic features","S","Standard","V","Valid","69392006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"384",4299785,"Severe major depression, single episode, with psychotic features, mood-congruent","S","Standard","V","Valid","77911002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"385",4304140,"Recurrent major depressive disorder with atypical features","S","Standard","V","Valid","38694004","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"386",4305966,"Postoperative depression","S","Standard","V","Valid","82218004","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"387",4307111,"Moderate major depression","S","Standard","V","Valid","832007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"388",4307951,"Primary dysthymia","S","Standard","V","Valid","83176005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"389",4308866,"Agitated depression","S","Standard","V","Valid","83458005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"390",4314692,"Reactive depression (situational)","S","Standard","V","Valid","87414006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"391",4323418,"Major depression single episode, in partial remission","S","Standard","V","Valid","70747007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"392",4324959,"Recurrent major depressive disorder with postpartum onset","S","Standard","V","Valid","71336009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"393",4327337,"Severe major depression without psychotic features","S","Standard","V","Valid","75084000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"394",4332994,"Post-schizophrenic depression","S","Standard","V","Valid","231485007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"395",4333679,"Endogenous depression first episode","S","Standard","V","Valid","231499006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"396",4333687,"Depressive conduct disorder","S","Standard","V","Valid","231542000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"397",4336957,"Mild major depression","S","Standard","V","Valid","87512008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"398",4336980,"Generalized neuromuscular exhaustion syndrome","S","Standard","V","Valid","87842000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"399",4338029,"Masked depression","S","Standard","V","Valid","231500002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"400",4338031,"Mixed anxiety and depressive disorder","S","Standard","V","Valid","231504006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"401",35207137,"Schizoaffective disorder, depressive type","N","Non-Standard","V","Valid","F25.1","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"402",35207147,"Bipolar disorder, current episode depressed, severe, without psychotic features","N","Non-Standard","V","Valid","F31.4","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"403",35207148,"Bipolar disorder, current episode depressed, severe, with psychotic features","N","Non-Standard","V","Valid","F31.5","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"404",35207150,"Major depressive disorder, single episode, mild","N","Non-Standard","V","Valid","F32.0","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"405",35207151,"Major depressive disorder, single episode, moderate","N","Non-Standard","V","Valid","F32.1","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"406",35207152,"Major depressive disorder, single episode, severe without psychotic features","N","Non-Standard","V","Valid","F32.2","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"407",35207153,"Major depressive disorder, single episode, severe with psychotic features","N","Non-Standard","V","Valid","F32.3","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"408",35207154,"Other depressive episodes","N","Non-Standard","V","Valid","F32.8","Condition","ICD10CM","4-char nonbill code",1167609600000,4102358400000
+"409",35207155,"Major depressive disorder, single episode, unspecified","N","Non-Standard","V","Valid","F32.9","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"410",35207156,"Major depressive disorder, recurrent, mild","N","Non-Standard","V","Valid","F33.0","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"411",35207157,"Major depressive disorder, recurrent, moderate","N","Non-Standard","V","Valid","F33.1","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"412",35207158,"Major depressive disorder, recurrent severe without psychotic features","N","Non-Standard","V","Valid","F33.2","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"413",35207159,"Major depressive disorder, recurrent, severe with psychotic symptoms","N","Non-Standard","V","Valid","F33.3","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"414",35207160,"Other recurrent depressive disorders","N","Non-Standard","V","Valid","F33.8","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"415",35207161,"Major depressive disorder, recurrent, unspecified","N","Non-Standard","V","Valid","F33.9","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"416",35207163,"Dysthymic disorder","N","Non-Standard","V","Valid","F34.1","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"417",35609824,"Recurrent reactive depressive episodes, severe, with psychosis","S","Standard","V","Valid","1086471000000103","Condition","SNOMED","Clinical Finding",1.506816e+12,4102358400000
+"418",35609842,"Reactive depression, prolonged single episode","S","Standard","V","Valid","1086661000000108","Condition","SNOMED","Clinical Finding",1.506816e+12,4102358400000
+"419",35609843,"Reactive depression, single episode","S","Standard","V","Valid","1086671000000101","Condition","SNOMED","Clinical Finding",1.506816e+12,4102358400000
+"420",35609844,"Reactive depression, recurrent","S","Standard","V","Valid","1086681000000104","Condition","SNOMED","Clinical Finding",1.506816e+12,4102358400000
+"421",35609845,"Reactive depression, first episode","S","Standard","V","Valid","1086691000000102","Condition","SNOMED","Clinical Finding",1.506816e+12,4102358400000
+"422",35610097,"Recurrent depression with current severe episode and psychotic features","S","Standard","V","Valid","1089511000000100","Condition","SNOMED","Clinical Finding",1522540800000,4102358400000
+"423",35610108,"Recurrent depression with current severe episode without psychotic features","S","Standard","V","Valid","1089631000000109","Condition","SNOMED","Clinical Finding",1522540800000,4102358400000
+"424",35610109,"Recurrent depression with current moderate episode","S","Standard","V","Valid","1089641000000100","Condition","SNOMED","Clinical Finding",1522540800000,4102358400000
+"425",35615151,"Recurrent mild major depressive disorder co-occurrent with anxiety","S","Standard","V","Valid","16264621000119109","Condition","SNOMED","Clinical Finding",1532995200000,4102358400000
+"426",35615152,"Recurrent severe major depressive disorder co-occurrent with anxiety","S","Standard","V","Valid","16264821000119108","Condition","SNOMED","Clinical Finding",1532995200000,4102358400000
+"427",35615153,"Recurrent moderate major depressive disorder co-occurrent with anxiety","S","Standard","V","Valid","16264901000119109","Condition","SNOMED","Clinical Finding",1532995200000,4102358400000
+"428",35615154,"Recurrent major depressive disorder co-occurrent with anxiety in full remission","S","Standard","V","Valid","16265061000119105","Condition","SNOMED","Clinical Finding",1532995200000,4102358400000
+"429",35615155,"Recurrent major depressive disorder in partial remission co-occurrent with anxiety","S","Standard","V","Valid","16265301000119106","Condition","SNOMED","Clinical Finding",1532995200000,4102358400000
+"430",35622934,"Psychosis and severe depression co-occurrent and due to bipolar affective disorder","S","Standard","V","Valid","765176007","Condition","SNOMED","Clinical Finding",1532995200000,4102358400000
+"431",36712668,"Perinatal depression","S","Standard","V","Valid","10211000132109","Condition","SNOMED","Clinical Finding",1485820800000,4102358400000
+"432",36713698,"Minimal depression","S","Standard","V","Valid","718636001","Condition","SNOMED","Clinical Finding",1485820800000,4102358400000
+"433",36714389,"Moderately severe major depression","S","Standard","V","Valid","719592004","Condition","SNOMED","Clinical Finding",1485820800000,4102358400000
+"434",36714997,"Minimal recurrent major depression","S","Standard","V","Valid","720451004","Condition","SNOMED","Clinical Finding",1485820800000,4102358400000
+"435",36714998,"Moderately severe recurrent major depression","S","Standard","V","Valid","720452006","Condition","SNOMED","Clinical Finding",1485820800000,4102358400000
+"436",36714999,"Minimal major depression single episode","S","Standard","V","Valid","720454007","Condition","SNOMED","Clinical Finding",1485820800000,4102358400000
+"437",36715000,"Minimal major depression","S","Standard","V","Valid","720455008","Condition","SNOMED","Clinical Finding",1485820800000,4102358400000
+"438",36717092,"Moderately severe depression","S","Standard","V","Valid","719593009","Condition","SNOMED","Clinical Finding",1485820800000,4102358400000
+"439",36717389,"Moderately severe major depression single episode","S","Standard","V","Valid","720453001","Condition","SNOMED","Clinical Finding",1485820800000,4102358400000
+"440",37016718,"Acute depression","S","Standard","V","Valid","712823008","Condition","SNOMED","Clinical Finding",1454198400000,4102358400000
+"441",37018656,"Depressive disorder in mother complicating pregnancy","S","Standard","V","Valid","94631000119100","Condition","SNOMED","Clinical Finding",1454198400000,4102358400000
+"442",37109052,"Mild major depressive disorder co-occurrent with anxiety single episode","S","Standard","V","Valid","16265951000119109","Condition","SNOMED","Clinical Finding",1501459200000,4102358400000
+"443",37109053,"Moderate major depressive disorder co-occurrent with anxiety single episode","S","Standard","V","Valid","16266831000119100","Condition","SNOMED","Clinical Finding",1501459200000,4102358400000
+"444",37109054,"Severe major depressive disorder co-occurrent with anxiety single episode","S","Standard","V","Valid","16266991000119108","Condition","SNOMED","Clinical Finding",1501459200000,4102358400000
+"445",37109950,"Mood disorder with depressive symptoms caused by alcohol","S","Standard","V","Valid","723928009","Condition","SNOMED","Clinical Finding",1501459200000,4102358400000
+"446",37109952,"Mood disorder with mixed manic and depressive symptoms caused by alcohol","S","Standard","V","Valid","723930006","Condition","SNOMED","Clinical Finding",1501459200000,4102358400000
+"447",37110428,"Mood disorder with depressive symptoms caused by hypnotic","S","Standard","V","Valid","724677009","Condition","SNOMED","Clinical Finding",1501459200000,4102358400000
+"448",37110429,"Mood disorder with depressive symptoms caused by anxiolytic","S","Standard","V","Valid","724678004","Condition","SNOMED","Clinical Finding",1501459200000,4102358400000
+"449",37110438,"Mood disorder with depressive symptoms caused by cocaine","S","Standard","V","Valid","724690002","Condition","SNOMED","Clinical Finding",1501459200000,4102358400000
+"450",37111697,"Major depression with psychotic features","S","Standard","V","Valid","726772006","Condition","SNOMED","Clinical Finding",1501459200000,4102358400000
+"451",37117211,"Mood disorder with depressive symptoms caused by sedative","S","Standard","V","Valid","724676000","Condition","SNOMED","Clinical Finding",1501459200000,4102358400000
+"452",37200319,"Premenstrual dysphoric disorder","N","Non-Standard","V","Valid","F32.81","Condition","ICD10CM","5-char billing code",1483228800000,4102358400000
+"453",37200320,"Other specified depressive episodes","N","Non-Standard","V","Valid","F32.89","Condition","ICD10CM","5-char billing code",1483228800000,4102358400000
+"454",37209503,"Depressive disorder caused by amphetamine","S","Standard","V","Valid","16238181000119101","Condition","SNOMED","Clinical Finding",1564531200000,4102358400000
+"455",37309680,"Depressive disorder caused by methamphetamine","S","Standard","V","Valid","16238221000119109","Condition","SNOMED","Clinical Finding",1580428800000,4102358400000
+"456",37312479,"Antenatal depression","S","Standard","V","Valid","788120007","Condition","SNOMED","Clinical Finding",1580428800000,4102358400000
+"457",40311744,"Postnatal depressive disorder","N","Non-Standard","U","Invalid","147016002","Condition","SNOMED","Clinical Finding",0,1012435200000
+"458",40321768,"Endogenous depression","N","Non-Standard","U","Invalid","154873003","Condition","SNOMED","Clinical Finding",0,1012435200000
+"459",40321771,"Seasonal affective disorder","N","Non-Standard","U","Invalid","154876006","Condition","SNOMED","Clinical Finding",0,1012435200000
+"460",40321785,"Depression: [reactive (neurotic)] or [postnatal]","N","Non-Standard","D","Invalid","154889000","Condition","SNOMED","Clinical Finding",0,1012435200000
+"461",40321786,"(Nervous debility - neurasthenia) or (nervous exhaustion) or (TATT - tired all the time)","N","Non-Standard","D","Invalid","154890009","Observation","SNOMED","Undefined",0,1012435200000
+"462",40321819,"Moderate depression","N","Non-Standard","U","Invalid","154919005","Condition","SNOMED","Clinical Finding",0,1012435200000
+"463",40322275,"Depression NOS","N","Non-Standard","U","Invalid","154963001","Condition","SNOMED","Clinical Finding",0,1012435200000
+"464",40322276,"Mixed anxiety and depressive disorder","N","Non-Standard","U","Invalid","154964007","Condition","SNOMED","Clinical Finding",0,1012435200000
+"465",40322277,"Mild depression","N","Non-Standard","U","Invalid","154965008","Condition","SNOMED","Clinical Finding",0,1012435200000
+"466",40322278,"Moderate depression","N","Non-Standard","U","Invalid","154966009","Condition","SNOMED","Clinical Finding",0,1012435200000
+"467",40322279,"Severe depression","N","Non-Standard","U","Invalid","154967000","Condition","SNOMED","Clinical Finding",0,1012435200000
+"468",40322281,"Seasonal affective disorder","N","Non-Standard","U","Invalid","154969002","Condition","SNOMED","Clinical Finding",0,1012435200000
+"469",40322282,"Recurrent depression","N","Non-Standard","U","Invalid","154970001","Condition","SNOMED","Clinical Finding",0,1012435200000
+"470",40356273,"Neurasthenia","N","Non-Standard","U","Invalid","268631001","Condition","SNOMED","Clinical Finding",0,1012435200000
+"471",40356772,"Depression: [reactive (neurotic)] or [postnatal]","N","Non-Standard","D","Invalid","268753005","Condition","SNOMED","Clinical Finding",0,1012435200000
+"472",40356773,"(Nervous debility - neurasthenia) or (nervous exhaustion) or (TATT - tired all the time)","N","Non-Standard","D","Invalid","268754004","Observation","SNOMED","Undefined",0,1012435200000
+"473",40367102,"Atypical depressive disorder","N","Non-Standard","U","Invalid","277538003","Condition","SNOMED","Clinical Finding",0,1012435200000
+"474",40385036,"Seasonal affective disorder","N","Non-Standard","U","Invalid","191655007","Condition","SNOMED","Clinical Finding",0,1012435200000
+"475",40385047,"Masked depression","N","Non-Standard","U","Invalid","191665001","Condition","SNOMED","Clinical Finding",0,1012435200000
+"476",40385065,"Agitated depression","N","Non-Standard","U","Invalid","191681006","Condition","SNOMED","Clinical Finding",0,1012435200000
+"477",40385094,"Mixed anxiety and depressive disorder","N","Non-Standard","U","Invalid","191707004","Condition","SNOMED","Clinical Finding",0,1012435200000
+"478",40385130,"(Neurotic depression reactive type) or (postnatal depression)","N","Non-Standard","D","Invalid","191740008","Condition","SNOMED","Clinical Finding",0,1012435200000
+"479",40387834,"Post-schizophrenic depression","N","Non-Standard","U","Invalid","192323004","Condition","SNOMED","Clinical Finding",0,1012435200000
+"480",40388242,"Schizoaffective disorder, depressive type","N","Non-Standard","U","Invalid","192342000","Condition","SNOMED","Clinical Finding",0,1012435200000
+"481",40388263,"Bipolar affective disorder, currently depressed, severe, with psychosis","N","Non-Standard","D","Invalid","192361001","Condition","SNOMED","Clinical Finding",0,1012435200000
+"482",40388268,"Single major depressive episode","N","Non-Standard","U","Invalid","192366006","Condition","SNOMED","Clinical Finding",0,1012435200000
+"483",40388280,"[X]Depression without psychotic symptoms: [recurrent: [major] or [manic-depressive psychosis, depressed type] or [vital] or [current severe episode]] or [endogenous]","N","Non-Standard","D","Invalid","192377000","Condition","SNOMED","Clinical Finding",0,1012435200000
+"484",40388281,"[X] Depression with psychotic symptoms: [recurrent: (current episode severe) or (manic-depressive, depressed type) or (severe major episodes) or (severe episodes)] or [endogenous]","N","Non-Standard","D","Invalid","192378005","Condition","SNOMED","Clinical Finding",0,1012435200000
+"485",40388288,"Dysthymia","N","Non-Standard","U","Invalid","192384008","Condition","SNOMED","Clinical Finding",0,1012435200000
+"486",40388309,"[X]Mixed anxiety and depressive disorder (& mild anxiety depression)","N","Non-Standard","D","Invalid","192402009","Condition","SNOMED","Clinical Finding",0,1012435200000
+"487",40388741,"Neurasthenia","N","Non-Standard","U","Invalid","192439005","Condition","SNOMED","Clinical Finding",0,1012435200000
+"488",40389289,"Depressive conduct disorder","N","Non-Standard","U","Invalid","192605002","Condition","SNOMED","Clinical Finding",0,1012435200000
+"489",40391932,"Depression: [single major episode] or [agitated] or [endogenous (including first episode)]","N","Non-Standard","D","Invalid","191599006","Condition","SNOMED","Clinical Finding",0,1012435200000
+"490",40391943,"Recurrent depression: [major episode] or [endogenous]","N","Non-Standard","D","Invalid","191608002","Condition","SNOMED","Clinical Finding",0,1012435200000
+"491",40433637,"Schizoaffective disorder, depressive type","N","Non-Standard","U","Invalid","231492002","Condition","SNOMED","Clinical Finding",0,1012435200000
+"492",40433643,"Endogenous depression","N","Non-Standard","D","Invalid","231498003","Condition","SNOMED","Clinical Finding",0,1012435200000
+"493",40481798,"Chronic depressive personality disorder","S","Standard","V","Valid","442057004","Condition","SNOMED","Clinical Finding",1248998400000,4102358400000
+"494",40560647,"Mild depression","N","Non-Standard","U","Invalid","390717003","Condition","SNOMED","Clinical Finding",0,1043971200000
+"495",40608397,"Major depression, melancholic type","N","Non-Standard","U","Invalid","62951006","Condition","SNOMED","Clinical Finding",0,1643241600000
+"496",42486638,"Post-schizophrenic depression","N","Non-Standard","V","Valid","F20.4","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"497",42486659,"Schizoaffective disorder, depressive type","N","Non-Standard","V","Valid","F25.1","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"498",42486675,"Bipolar affective disorder, current episode mild or moderate depression","N","Non-Standard","V","Valid","F31.3","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"499",42486676,"Bipolar affective disorder, current episode severe depression without psychotic symptoms","N","Non-Standard","V","Valid","F31.4","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"500",42486677,"Bipolar affective disorder, current episode severe depression with psychotic symptoms","N","Non-Standard","V","Valid","F31.5","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"501",42486682,"Depressive episode","N","Non-Standard","V","Valid","F32","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"502",42486683,"Mild depressive episode","N","Non-Standard","V","Valid","F32.0","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"503",42486684,"Moderate depressive episode","N","Non-Standard","V","Valid","F32.1","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"504",42486685,"Severe depressive episode without psychotic symptoms","N","Non-Standard","V","Valid","F32.2","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"505",42486686,"Severe depressive episode with psychotic symptoms","N","Non-Standard","V","Valid","F32.3","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"506",42486687,"Other depressive episodes","N","Non-Standard","V","Valid","F32.8","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"507",42486688,"Depressive episode, unspecified","N","Non-Standard","V","Valid","F32.9","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"508",42486689,"Recurrent depressive disorder","N","Non-Standard","V","Valid","F33","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"509",42486690,"Recurrent depressive disorder, current episode mild","N","Non-Standard","V","Valid","F33.0","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"510",42486691,"Recurrent depressive disorder, current episode moderate","N","Non-Standard","V","Valid","F33.1","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"511",42486692,"Recurrent depressive disorder, current episode severe without psychotic symptoms","N","Non-Standard","V","Valid","F33.2","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"512",42486693,"Recurrent depressive disorder, current episode severe with psychotic symptoms","N","Non-Standard","V","Valid","F33.3","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"513",42486694,"Recurrent depressive disorder, currently in remission","N","Non-Standard","V","Valid","F33.4","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"514",42486695,"Other recurrent depressive disorders","N","Non-Standard","V","Valid","F33.8","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"515",42486696,"Recurrent depressive disorder, unspecified","N","Non-Standard","V","Valid","F33.9","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"516",42486699,"Dysthymia","N","Non-Standard","V","Valid","F34.1","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"517",42486717,"Mixed anxiety and depressive disorder","N","Non-Standard","V","Valid","F41.2","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"518",42486912,"Depressive conduct disorder","N","Non-Standard","V","Valid","F92.0","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"519",42534817,"Postpartum major depression in remission","S","Standard","V","Valid","104851000119103","Condition","SNOMED","Clinical Finding",1517356800000,4102358400000
+"520",42538584,"Mood disorder with depressive symptoms caused by opioid","S","Standard","V","Valid","762321000","Condition","SNOMED","Clinical Finding",1517356800000,4102358400000
+"521",42538590,"Mood disorder with depressive symptoms caused by stimulant","S","Standard","V","Valid","762329003","Condition","SNOMED","Clinical Finding",1517356800000,4102358400000
+"522",42538596,"Mood disorder with depressive symptoms caused by hallucinogen","S","Standard","V","Valid","762336002","Condition","SNOMED","Clinical Finding",1517356800000,4102358400000
+"523",42538599,"Mood disorder with depressive symptoms caused by volatile inhalant","S","Standard","V","Valid","762339009","Condition","SNOMED","Clinical Finding",1517356800000,4102358400000
+"524",42538601,"Mood disorder with depressive symptoms caused by ecstasy type drug","N","Non-Standard","D","Invalid","762342003","Condition","SNOMED","Clinical Finding",1517356800000,1596153600000
+"525",42538604,"Mood disorder with depressive symptoms caused by dissociative drug","S","Standard","V","Valid","762345001","Condition","SNOMED","Clinical Finding",1517356800000,4102358400000
+"526",42538736,"Mood disorder with depressive symptoms caused by synthetic cathinone","S","Standard","V","Valid","762512002","Condition","SNOMED","Clinical Finding",1517356800000,4102358400000
+"527",42872411,"Severe major depression, single episode","S","Standard","V","Valid","251000119105","Condition","SNOMED","Clinical Finding",1343692800000,4102358400000
+"528",42872722,"Severe major depression","S","Standard","V","Valid","450714000","Condition","SNOMED","Clinical Finding",1343692800000,4102358400000
+"529",43020483,"Reactive depressive psychosis, single episode","S","Standard","V","Valid","288751000119101","Condition","SNOMED","Clinical Finding",1359590400000,4102358400000
+"530",43531624,"Severe recurrent major depression","S","Standard","V","Valid","281000119103","Condition","SNOMED","Clinical Finding",1.33056e+12,4102358400000
+"531",44782706,"Mood disorder of depressed type","N","Non-Standard","U","Invalid","21061000119107","Condition","SNOMED","Clinical Finding",1391126400000,1485820800000
+"532",44782720,"Severe seasonal affective disorder","S","Standard","V","Valid","133121000119109","Condition","SNOMED","Clinical Finding",1.33056e+12,4102358400000
+"533",44782943,"Depressive disorder in remission","S","Standard","V","Valid","698957003","Condition","SNOMED","Clinical Finding",1391126400000,4102358400000
+"534",44794370,"[X]Severe depressive episode without psychotic symptoms","N","Non-Standard","U","Invalid","397701000000102","Condition","SNOMED","Clinical Finding",1.238544e+12,1522540800000
+"535",44794371,"[X]Severe depressive episode with psychotic symptoms","N","Non-Standard","D","Invalid","397711000000100","Condition","SNOMED","Clinical Finding",1.238544e+12,1522540800000
+"536",44794775,"[X]Recurrent depressive disorder, current episode severe without psychotic symptoms","N","Non-Standard","U","Invalid","402441000000102","Condition","SNOMED","Clinical Finding",1.238544e+12,1427846400000
+"537",44795104,"[X] Single episode major depression without psychotic symptoms","N","Non-Standard","D","Invalid","401211000000106","Condition","SNOMED","Clinical Finding",1.238544e+12,1522540800000
+"538",44796370,"[X]Other depressive episodes","N","Non-Standard","U","Invalid","415051000000101","Condition","SNOMED","Clinical Finding",1.238544e+12,1427846400000
+"539",44796936,"[X]Other recurrent depressive disorders","N","Non-Standard","U","Invalid","427781000000106","Condition","SNOMED","Clinical Finding",1.238544e+12,1427846400000
+"540",44797200,"[X]Recurrent depressive disorder, currently in remission","N","Non-Standard","U","Invalid","424961000000107","Condition","SNOMED","Clinical Finding",1.238544e+12,1427846400000
+"541",44797315,"[X]Recurrent depressive disorder, current episode mild","N","Non-Standard","U","Invalid","430051000000100","Condition","SNOMED","Clinical Finding",1.238544e+12,1427846400000
+"542",44797412,"[X]Depressive episode, unspecified","N","Non-Standard","U","Invalid","432601000000107","Condition","SNOMED","Clinical Finding",1.238544e+12,1643241600000
+"543",44797421,"[X]Mild depressive episode","N","Non-Standard","U","Invalid","430421000000104","Condition","SNOMED","Clinical Finding",1.238544e+12,1522540800000
+"544",44798442,"[X]Recurrent depressive disorder, current episode severe with psychotic symptoms","N","Non-Standard","U","Invalid","444051000000108","Condition","SNOMED","Clinical Finding",1.238544e+12,1427846400000
+"545",44799035,"[X] Single episode agitated depression without psychotic symptoms","N","Non-Standard","D","Invalid","455731000000100","Condition","SNOMED","Clinical Finding",1.238544e+12,1522540800000
+"546",44800512,"[X]Recurrent depressive disorder, unspecified","N","Non-Standard","U","Invalid","471451000000102","Condition","SNOMED","Clinical Finding",1.238544e+12,1427846400000
+"547",44800606,"[X]Moderate depressive episode","N","Non-Standard","U","Invalid","465441000000108","Condition","SNOMED","Clinical Finding",1.238544e+12,1522540800000
+"548",44800607,"[X]Recurrent depressive disorder, current episode moderate","N","Non-Standard","U","Invalid","465451000000106","Condition","SNOMED","Clinical Finding",1.238544e+12,1427846400000
+"549",44801154,"[X] Manic-depressive psychosis, depressed type without psychotic symptoms","N","Non-Standard","D","Invalid","467361000000105","Condition","SNOMED","Clinical Finding",1.238544e+12,1522540800000
+"550",44805542,"Recurrent major depressive episodes, severe","S","Standard","V","Valid","764611000000100","Condition","SNOMED","Clinical Finding",1.301616e+12,4102358400000
+"551",44805544,"Single major depressive episode, severe","N","Non-Standard","U","Invalid","764631000000108","Condition","SNOMED","Clinical Finding",1.301616e+12,1522540800000
+"552",44805549,"Recurrent major depressive episodes, in partial remission","S","Standard","V","Valid","764691000000109","Condition","SNOMED","Clinical Finding",1.301616e+12,4102358400000
+"553",44805550,"Single major depressive episode, in remission","S","Standard","V","Valid","764711000000106","Condition","SNOMED","Clinical Finding",1.301616e+12,4102358400000
+"554",44805551,"Single major depressive episode, in partial remission","N","Non-Standard","U","Invalid","764721000000100","Condition","SNOMED","Clinical Finding",1.301616e+12,1491004800000
+"555",44805668,"Single major depressive episode, severe, with psychosis, psychosis in remission","S","Standard","V","Valid","755321000000106","Condition","SNOMED","Clinical Finding",1285891200000,4102358400000
+"556",44805669,"Recurrent major depressive episodes, severe, with psychosis, psychosis in remission","S","Standard","V","Valid","755331000000108","Condition","SNOMED","Clinical Finding",1285891200000,4102358400000
+"557",44806193,"Antenatal depression","N","Non-Standard","U","Invalid","790961000000101","Condition","SNOMED","Clinical Finding",1.3176e+12,1643241600000
+"558",44813318,"[X]Recurrent depressive disorder","N","Non-Standard","U","Invalid","456601000000107","Condition","SNOMED","Clinical Finding",1.238544e+12,1427846400000
+"559",44813499,"Recurrent major depressive episodes, in remission","S","Standard","V","Valid","764701000000109","Condition","SNOMED","Clinical Finding",1.301616e+12,4102358400000
+"560",44819545,"Chronic depressive personality disorder","N","Non-Standard","V","Valid","301.12","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"561",44820717,"Major depressive affective disorder, single episode, severe, specified as with psychotic behavior","N","Non-Standard","V","Valid","296.24","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"562",44820721,"Bipolar I disorder, most recent episode (or current) depressed, in partial or unspecified remission","N","Non-Standard","V","Valid","296.55","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"563",44821821,"Major depressive disorder, single episode","N","Non-Standard","V","Valid","296.2","Condition","ICD9CM","4-dig nonbill code",0,4102358400000
+"564",44822975,"Major depressive affective disorder, single episode, unspecified","N","Non-Standard","V","Valid","296.20","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"565",44822976,"Major depressive affective disorder, single episode, in partial or unspecified remission","N","Non-Standard","V","Valid","296.25","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"566",44822977,"Bipolar I disorder, most recent episode (or current) depressed, in full remission","N","Non-Standard","V","Valid","296.56","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"567",44824114,"Major depressive affective disorder, single episode, mild","N","Non-Standard","V","Valid","296.21","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"568",44825293,"Major depressive disorder, recurrent episode","N","Non-Standard","V","Valid","296.3","Condition","ICD9CM","4-dig nonbill code",0,4102358400000
+"569",44826500,"Bipolar I disorder, most recent episode (or current) depressed, mild","N","Non-Standard","V","Valid","296.51","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"570",44827654,"Major depressive affective disorder, single episode, moderate","N","Non-Standard","V","Valid","296.22","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"571",44827655,"Major depressive affective disorder, recurrent episode, severe, specified as with psychotic behavior","N","Non-Standard","V","Valid","296.34","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"572",44827656,"Major depressive affective disorder, recurrent episode, in full remission","N","Non-Standard","V","Valid","296.36","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"573",44829914,"Vascular dementia, with depressed mood","N","Non-Standard","V","Valid","290.43","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"574",44829923,"Major depressive affective disorder, recurrent episode, mild","N","Non-Standard","V","Valid","296.31","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"575",44831089,"Major depressive affective disorder, recurrent episode, unspecified","N","Non-Standard","V","Valid","296.30","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"576",44831090,"Major depressive affective disorder, recurrent episode, moderate","N","Non-Standard","V","Valid","296.32","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"577",44832232,"Major depressive affective disorder, single episode, in full remission","N","Non-Standard","V","Valid","296.26","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"578",44832235,"Atypical depressive disorder","N","Non-Standard","V","Valid","296.82","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"579",44832236,"Depressive type psychosis","N","Non-Standard","V","Valid","298.0","Condition","ICD9CM","4-dig billing code",0,4102358400000
+"580",44833421,"Depressive disorder, not elsewhere classified","N","Non-Standard","V","Valid","311","Condition","ICD9CM","3-dig billing code",0,4102358400000
+"581",44834589,"Major depressive affective disorder, recurrent episode, in partial or unspecified remission","N","Non-Standard","V","Valid","296.35","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"582",44834590,"Bipolar I disorder, most recent episode (or current) depressed","N","Non-Standard","V","Valid","296.5","Condition","ICD9CM","4-dig nonbill code",0,4102358400000
+"583",44835784,"Major depressive affective disorder, single episode, severe, without mention of psychotic behavior","N","Non-Standard","V","Valid","296.23","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"584",44835785,"Major depressive affective disorder, recurrent episode, severe, without mention of psychotic behavior","N","Non-Standard","V","Valid","296.33","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"585",44835786,"Bipolar I disorder, most recent episode (or current) depressed, moderate","N","Non-Standard","V","Valid","296.52","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"586",44836965,"Bipolar I disorder, most recent episode (or current) depressed, unspecified","N","Non-Standard","V","Valid","296.50","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"587",44836972,"Dysthymic disorder","N","Non-Standard","V","Valid","300.4","Condition","ICD9CM","4-dig billing code",0,4102358400000
+"588",45420188,"Endogenous depression first episode","N","Non-Standard","V","Valid","E112.12","Condition","Read","Read",0,4102358400000
+"589",45420225,"[X]Single episode of reactive depression","N","Non-Standard","V","Valid","Eu32.13","Condition","Read","Read",0,4102358400000
+"590",45420226,"[X] Reactive depression NOS","N","Non-Standard","V","Valid","Eu32z14","Condition","Read","Read",0,4102358400000
+"591",45423365,"Single major depressive episode, severe, without mention of psychosis","N","Non-Standard","V","Valid","E112300","Condition","Read","Read",0,4102358400000
+"592",45423401,"[X]Single episode vital depression without psychotic symptoms","N","Non-Standard","V","Valid","Eu32213","Condition","Read","Read",0,4102358400000
+"593",45423402,"[X]Mild depression","N","Non-Standard","V","Valid","Eu32400","Condition","Read","Read",0,4102358400000
+"594",45426631,"Bipolar affective disorder, currently depressed, mild","N","Non-Standard","V","Valid","E115100","Condition","Read","Read",0,4102358400000
+"595",45426671,"[X]Single episode of psychotic depression","N","Non-Standard","V","Valid","Eu32313","Condition","Read","Read",0,4102358400000
+"596",45426672,"[X]Prolonged single episode of reactive depression","N","Non-Standard","V","Valid","Eu32z13","Condition","Read","Read",0,4102358400000
+"597",45429981,"Single major depressive episode, unspecified","N","Non-Standard","V","Valid","E112000","Condition","Read","Read",0,4102358400000
+"598",45429982,"Bipolar affective disorder, currently depressed","N","Non-Standard","V","Valid","E115.00","Condition","Read","Read",0,4102358400000
+"599",45429984,"Atypical depressive disorder","N","Non-Standard","V","Valid","E11y200","Condition","Read","Read",0,4102358400000
+"600",45430022,"[X]Severe depressive episode with psychotic symptoms","N","Non-Standard","V","Valid","Eu32300","Condition","Read","Read",0,4102358400000
+"601",45430023,"[X]Single major depressive episode, severe, with psychosis, psychosis in remission","N","Non-Standard","V","Valid","Eu32900","Condition","Read","Read",0,4102358400000
+"602",45430024,"[X]Premenstrual dysphoric disorder","N","Non-Standard","V","Valid","Eu3y200","Condition","Read","Read",0,4102358400000
+"603",45433260,"Drug-induced depressive state","N","Non-Standard","V","Valid","E02y300","Condition","Read","Read",0,4102358400000
+"604",45433263,"Single major depressive episode","N","Non-Standard","V","Valid","E112.00","Condition","Read","Read",0,4102358400000
+"605",45433264,"Recurrent major depressive episodes, severe, with psychosis","N","Non-Standard","V","Valid","E113400","Condition","Read","Read",0,4102358400000
+"606",45433265,"Bipolar affective disorder, currently depressed, NOS","N","Non-Standard","V","Valid","E115z00","Condition","Read","Read",0,4102358400000
+"607",45433267,"Reactive depressive psychosis","N","Non-Standard","V","Valid","E130.00","Condition","Read","Read",0,4102358400000
+"608",45433289,"[X]Endogenous depression without psychotic symptoms","N","Non-Standard","V","Valid","Eu33211","Condition","Read","Read",0,4102358400000
+"609",45436597,"Agitated depression","N","Non-Standard","V","Valid","E112.11","Condition","Read","Read",0,4102358400000
+"610",45436626,"[X]Persistant anxiety depression","N","Non-Standard","V","Valid","Eu34114","Condition","Read","Read",0,4102358400000
+"611",45439892,"Single major depressive episode, in full remission","N","Non-Standard","V","Valid","E112600","Condition","Read","Read",0,4102358400000
+"612",45439893,"Recurrent major depressive episodes, moderate","N","Non-Standard","V","Valid","E113200","Condition","Read","Read",0,4102358400000
+"613",45439923,"[X]Moderate depressive episode","N","Non-Standard","V","Valid","Eu32100","Condition","Read","Read",0,4102358400000
+"614",45439924,"[X]Single episode major depression without psychotic symptoms","N","Non-Standard","V","Valid","Eu32212","Condition","Read","Read",0,4102358400000
+"615",45443197,"[X]Schizoaffective psychosis, depressive type","N","Non-Standard","V","Valid","Eu25111","Condition","Read","Read",0,4102358400000
+"616",45443200,"[X]Single episode of major depression with psychotic symptoms","N","Non-Standard","V","Valid","Eu32311","Condition","Read","Read",0,4102358400000
+"617",45443201,"[X]Manic-depressive psychosis, depressed type without psychotic symptoms","N","Non-Standard","V","Valid","Eu33213","Condition","Read","Read",0,4102358400000
+"618",45443202,"[X]Manic-depressive psychosis, depressed type with psychotic symptoms","N","Non-Standard","V","Valid","Eu33312","Condition","Read","Read",0,4102358400000
+"619",45443203,"[X]Recurrent depressive disorder, unspecified","N","Non-Standard","V","Valid","Eu33z00","Condition","Read","Read",0,4102358400000
+"620",45446528,"Postnatal depression","N","Non-Standard","V","Valid","E204.11","Condition","Read","Read",0,4102358400000
+"621",45446543,"Postviral depression","N","Non-Standard","V","Valid","E2B0.00","Condition","Read","Read",0,4102358400000
+"622",45446561,"[X]Depressive episode","N","Non-Standard","V","Valid","Eu32.00","Condition","Read","Read",0,4102358400000
+"623",45446562,"[X]Atypical depression","N","Non-Standard","V","Valid","Eu32y11","Condition","Read","Read",0,4102358400000
+"624",45446563,"[X]Recurrent severe episodes of reactive depressive psychosis","N","Non-Standard","V","Valid","Eu33316","Condition","Read","Read",0,4102358400000
+"625",45446565,"[X]Dysthymia","N","Non-Standard","V","Valid","Eu34100","Condition","Read","Read",0,4102358400000
+"626",45446574,"[X]Postnatal depression NOS","N","Non-Standard","V","Valid","Eu53011","Condition","Read","Read",0,4102358400000
+"627",45449846,"Single major depressive episode, severe, with psychosis","N","Non-Standard","V","Valid","E112400","Condition","Read","Read",0,4102358400000
+"628",45449847,"Bipolar affective disorder, currently depressed, unspecified","N","Non-Standard","V","Valid","E115000","Condition","Read","Read",0,4102358400000
+"629",45449850,"Anxiety with depression","N","Non-Standard","V","Valid","E200300","Condition","Read","Read",0,4102358400000
+"630",45449881,"[X]Recurrent severe episodes of psychotic depression","N","Non-Standard","V","Valid","Eu33315","Condition","Read","Read",0,4102358400000
+"631",45449882,"[X]Neurotic depression","N","Non-Standard","V","Valid","Eu34113","Condition","Read","Read",0,4102358400000
+"632",45453174,"Recurrent major depressive episode","N","Non-Standard","V","Valid","E113.00","Condition","Read","Read",0,4102358400000
+"633",45453175,"Recurrent major depressive episodes, mild","N","Non-Standard","V","Valid","E113100","Condition","Read","Read",0,4102358400000
+"634",45453176,"Recurrent depression","N","Non-Standard","V","Valid","E113700","Condition","Read","Read",0,4102358400000
+"635",45453208,"[X]Endogenous depression with psychotic symptoms","N","Non-Standard","V","Valid","Eu33311","Condition","Read","Read",0,4102358400000
+"636",45453209,"[X]Recurrent depressive disorder, currently in remission","N","Non-Standard","V","Valid","Eu33400","Condition","Read","Read",0,4102358400000
+"637",45456548,"Endogenous depression first episode","N","Non-Standard","V","Valid","E112.13","Condition","Read","Read",0,4102358400000
+"638",45456551,"Bipolar affective disorder, currently depressed, in full remission","N","Non-Standard","V","Valid","E115600","Condition","Read","Read",0,4102358400000
+"639",45456581,"[X]Depressive episode, unspecified","N","Non-Standard","V","Valid","Eu32z00","Condition","Read","Read",0,4102358400000
+"640",45456582,"[X]Recurrent brief depressive episodes","N","Non-Standard","V","Valid","Eu3y111","Condition","Read","Read",0,4102358400000
+"641",45459885,"Recurrent major depressive episodes, severe, without mention of psychosis","N","Non-Standard","V","Valid","E113300","Condition","Read","Read",0,4102358400000
+"642",45459890,"Depressive personality disorder","N","Non-Standard","V","Valid","E211200","Condition","Read","Read",0,4102358400000
+"643",45459919,"[X]SAD - Seasonal affective disorder","N","Non-Standard","V","Valid","Eu33.15","Condition","Read","Read",0,4102358400000
+"644",45459920,"[X]Recurrent depressive disorder, current episode mild","N","Non-Standard","V","Valid","Eu33000","Condition","Read","Read",0,4102358400000
+"645",45459921,"[X]Recurrent severe episodes of major depression with psychotic symptoms","N","Non-Standard","V","Valid","Eu33313","Condition","Read","Read",0,4102358400000
+"646",45463351,"[X]Schizophreniform psychosis, depressive type","N","Non-Standard","V","Valid","Eu25112","Condition","Read","Read",0,4102358400000
+"647",45463352,"[X]Major depression, severe without psychotic symptoms","N","Non-Standard","V","Valid","Eu32700","Condition","Read","Read",0,4102358400000
+"648",45463353,"[X]Monopolar depression NOS","N","Non-Standard","V","Valid","Eu33z11","Condition","Read","Read",0,4102358400000
+"649",45466669,"Recurrent major depressive episode NOS","N","Non-Standard","V","Valid","E113z00","Condition","Read","Read",0,4102358400000
+"650",45466714,"[X]Bipolar affective disorder, current episode mild or moderate depression","N","Non-Standard","V","Valid","Eu31300","Condition","Read","Read",0,4102358400000
+"651",45466716,"[X]Severe depressive episode without psychotic symptoms","N","Non-Standard","V","Valid","Eu32200","Condition","Read","Read",0,4102358400000
+"652",45466717,"[X]Other recurrent depressive disorders","N","Non-Standard","V","Valid","Eu33y00","Condition","Read","Read",0,4102358400000
+"653",45470153,"[X]Mild depressive episode","N","Non-Standard","V","Valid","Eu32000","Condition","Read","Read",0,4102358400000
+"654",45470154,"[X]Recurrent depressive disorder","N","Non-Standard","V","Valid","Eu33.00","Condition","Read","Read",0,4102358400000
+"655",45473408,"Psychotic reactive depression","N","Non-Standard","V","Valid","E130.11","Condition","Read","Read",0,4102358400000
+"656",45473436,"[X]Schizoaffective disorder, depressive type","N","Non-Standard","V","Valid","Eu25100","Condition","Read","Read",0,4102358400000
+"657",45473437,"[X]Depression NOS","N","Non-Standard","V","Valid","Eu32z11","Condition","Read","Read",0,4102358400000
+"658",45473438,"[X]Depressive disorder NOS","N","Non-Standard","V","Valid","Eu32z12","Condition","Read","Read",0,4102358400000
+"659",45473439,"[X]Recurrent episodes of psychogenic depression","N","Non-Standard","V","Valid","Eu33.12","Condition","Read","Read",0,4102358400000
+"660",45473440,"[X]Major depression, recurrent without psychotic symptoms","N","Non-Standard","V","Valid","Eu33212","Condition","Read","Read",0,4102358400000
+"661",45476793,"Neurotic depression reactive type","N","Non-Standard","V","Valid","E204.00","Condition","Read","Read",0,4102358400000
+"662",45480095,"Single major depressive episode, mild","N","Non-Standard","V","Valid","E112100","Condition","Read","Read",0,4102358400000
+"663",45480124,"[X]Post-schizophrenic depression","N","Non-Standard","V","Valid","Eu20400","Condition","Read","Read",0,4102358400000
+"664",45480128,"[X]Recurrent depressive disorder, current episode moderate","N","Non-Standard","V","Valid","Eu33100","Condition","Read","Read",0,4102358400000
+"665",45483383,"Bipolar affective disorder, currently depressed, severe, with psychosis","N","Non-Standard","V","Valid","E115400","Condition","Read","Read",0,4102358400000
+"666",45486781,"[X]Major depression, moderately severe","N","Non-Standard","V","Valid","Eu32600","Condition","Read","Read",0,4102358400000
+"667",45486782,"[X]Seasonal depressive disorder","N","Non-Standard","V","Valid","Eu33.14","Condition","Read","Read",0,4102358400000
+"668",45486783,"[X]Recurrent depressive disorder, current episode severe with psychotic symptoms","N","Non-Standard","V","Valid","Eu33300","Condition","Read","Read",0,4102358400000
+"669",45490034,"Endogenous depression - recurrent","N","Non-Standard","V","Valid","E113.11","Condition","Read","Read",0,4102358400000
+"670",45490068,"[X]Single episode agitated depression without psychotic symptoms","N","Non-Standard","V","Valid","Eu32211","Condition","Read","Read",0,4102358400000
+"671",45490069,"[X]Recurrent episodes of reactive depression","N","Non-Standard","V","Valid","Eu33.13","Condition","Read","Read",0,4102358400000
+"672",45490072,"[X]Mixed anxiety and depressive disorder","N","Non-Standard","V","Valid","Eu41200","Condition","Read","Read",0,4102358400000
+"673",45493313,"Bipolar affective disorder, currently depressed, moderate","N","Non-Standard","V","Valid","E115200","Condition","Read","Read",0,4102358400000
+"674",45493337,"Depressive disorder NEC","N","Non-Standard","V","Valid","E2B..00","Condition","Read","Read",0,4102358400000
+"675",45493354,"[X]Major depression, mild","N","Non-Standard","V","Valid","Eu32500","Condition","Read","Read",0,4102358400000
+"676",45496598,"Endogenous depression","N","Non-Standard","V","Valid","E112.14","Condition","Read","Read",0,4102358400000
+"677",45496599,"Recurrent major depressive episodes, in full remission","N","Non-Standard","V","Valid","E113600","Condition","Read","Read",0,4102358400000
+"678",45496601,"Agitated depression","N","Non-Standard","V","Valid","E135.00","Condition","Read","Read",0,4102358400000
+"679",45496621,"Chronic depression","N","Non-Standard","V","Valid","E2B1.00","Condition","Read","Read",0,4102358400000
+"680",45496638,"[X]Single episode of psychogenic depressive psychosis","N","Non-Standard","V","Valid","Eu32312","Condition","Read","Read",0,4102358400000
+"681",45499963,"[X]Bipolar affective disorder, current episode severe depression with psychotic symptoms","N","Non-Standard","V","Valid","Eu31500","Condition","Read","Read",0,4102358400000
+"682",45503243,"Depressive psychoses","N","Non-Standard","V","Valid","E11..12","Condition","Read","Read",0,4102358400000
+"683",45503245,"Recurrent major depressive episodes, in partial or unspecified remission","N","Non-Standard","V","Valid","E113500","Condition","Read","Read",0,4102358400000
+"684",45503283,"[X]Single episode of depressive reaction","N","Non-Standard","V","Valid","Eu32.11","Condition","Read","Read",0,4102358400000
+"685",45503284,"[X]Single episode of reactive depressive psychosis","N","Non-Standard","V","Valid","Eu32314","Condition","Read","Read",0,4102358400000
+"686",45503285,"[X]Major depression, severe with psychotic symptoms","N","Non-Standard","V","Valid","Eu32800","Condition","Read","Read",0,4102358400000
+"687",45503286,"[X]Recurrent episodes of depressive reaction","N","Non-Standard","V","Valid","Eu33.11","Condition","Read","Read",0,4102358400000
+"688",45506529,"Masked depression","N","Non-Standard","V","Valid","E11z200","Condition","Read","Read",0,4102358400000
+"689",45506562,"[X]Vital depression, recurrent without psychotic symptoms","N","Non-Standard","V","Valid","Eu33214","Condition","Read","Read",0,4102358400000
+"690",45506563,"[X]Recurrent severe episodes of psychogenic depressive psychosis","N","Non-Standard","V","Valid","Eu33314","Condition","Read","Read",0,4102358400000
+"691",45506564,"[X]Depressive neurosis","N","Non-Standard","V","Valid","Eu34111","Condition","Read","Read",0,4102358400000
+"692",45506571,"[X]Postpartum depression NOS","N","Non-Standard","V","Valid","Eu53012","Condition","Read","Read",0,4102358400000
+"693",45509875,"Recurrent major depressive episodes, unspecified","N","Non-Standard","V","Valid","E113000","Condition","Read","Read",0,4102358400000
+"694",45509919,"[X]Recurrent depressive disorder, current episode severe without psychotic symptoms","N","Non-Standard","V","Valid","Eu33200","Condition","Read","Read",0,4102358400000
+"695",45509922,"[X]Other mixed anxiety disorders","N","Non-Standard","V","Valid","Eu41300","Condition","Read","Read",0,4102358400000
+"696",45512088,"Puerperal depression","N","Non-Standard","V","Valid","62T1.00","Condition","Read","Read",0,4102358400000
+"697",45513272,"Single major depressive episode, in partial or unspecified remission","N","Non-Standard","V","Valid","E112500","Condition","Read","Read",0,4102358400000
+"698",45513274,"Seasonal affective disorder","N","Non-Standard","V","Valid","E118.00","Condition","Read","Read",0,4102358400000
+"699",45513305,"[X]Recurrent major depressive episodes, severe, with psychosis, psychosis in remission","N","Non-Standard","V","Valid","Eu32A00","Condition","Read","Read",1396310400000,4102358400000
+"700",45513306,"[X]Single episode of masked depression NOS","N","Non-Standard","V","Valid","Eu32y12","Condition","Read","Read",0,4102358400000
+"701",45513309,"[X]Mild anxiety depression","N","Non-Standard","V","Valid","Eu41211","Condition","Read","Read",0,4102358400000
+"702",45513323,"[X]Depressive conduct disorder","N","Non-Standard","V","Valid","Eu92000","Condition","Read","Read",0,4102358400000
+"703",45516680,"Single major depressive episode NOS","N","Non-Standard","V","Valid","E112z00","Condition","Read","Read",0,4102358400000
+"704",45516714,"[X]Single episode of psychogenic depression","N","Non-Standard","V","Valid","Eu32.12","Condition","Read","Read",0,4102358400000
+"705",45518409,"O/E - depressed","N","Non-Standard","V","Valid","2257.00","Condition","Read","Read",0,4102358400000
+"706",45520584,"[D]Postoperative depression","N","Non-Standard","V","Valid","R007z13","Condition","Read","Read",0,4102358400000
+"707",45523216,"Single major depressive episode, moderate","N","Non-Standard","V","Valid","E112200","Condition","Read","Read",0,4102358400000
+"708",45523217,"Manic-depressive - now depressed","N","Non-Standard","V","Valid","E115.11","Condition","Read","Read",0,4102358400000
+"709",45523244,"[X]Antenatal depression","N","Non-Standard","V","Valid","Eu32B00","Condition","Read","Read",1396310400000,4102358400000
+"710",45523245,"[X]Other depressive episodes","N","Non-Standard","V","Valid","Eu32y00","Condition","Read","Read",0,4102358400000
+"711",45524869,"DEPRESSION","N","Non-Standard","V","Valid","3004A","Condition","OXMIS","OXMIS",0,4102358400000
+"712",45525920,"ENDOGENOUS DEPRESSION","N","Non-Standard","V","Valid","2962EN","Condition","OXMIS","OXMIS",0,4102358400000
+"713",45526924,"ANXIETY DEPRESSION","N","Non-Standard","V","Valid","3000E","Condition","OXMIS","OXMIS",0,4102358400000
+"714",45527882,"DEPRESSION CHRONIC","N","Non-Standard","V","Valid","2962A","Condition","OXMIS","OXMIS",0,4102358400000
+"715",45527887,"PUERPERAL DEPRESSION","N","Non-Standard","V","Valid","3004C","Condition","OXMIS","OXMIS",0,4102358400000
+"716",45527889,"NEUROSIS NEURASTHENIC","N","Non-Standard","V","Valid","3005","Condition","OXMIS","OXMIS",0,4102358400000
+"717",45529868,"DEPRESSION AGITATED","N","Non-Standard","V","Valid","2960AD","Condition","OXMIS","OXMIS",0,4102358400000
+"718",45529869,"RECURRENT DEPRESSION","N","Non-Standard","V","Valid","2962R","Condition","OXMIS","OXMIS",0,4102358400000
+"719",45529875,"NEUROSIS DEPRESSIVE","N","Non-Standard","V","Valid","3004","Condition","OXMIS","OXMIS",0,4102358400000
+"720",45529876,"POSTOPERATIVE DEPRESSION","N","Non-Standard","V","Valid","3004PP","Condition","OXMIS","OXMIS",0,4102358400000
+"721",45529877,"NERVOUS BREAKDOWN","N","Non-Standard","V","Valid","3009BD","Condition","OXMIS","OXMIS",0,4102358400000
+"722",45529891,"DEPRESSION POSTVIRAL","N","Non-Standard","V","Valid","3091PL","Condition","OXMIS","OXMIS",0,4102358400000
+"723",45530358,"POSTVIRAL DEPRESSION","N","Non-Standard","V","Valid","7902DC","Condition","OXMIS","OXMIS",0,4102358400000
+"724",45533100,"Recurrent depressive disorder, currently in remission","N","Non-Standard","V","Valid","F33.4","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"725",45538062,"Bipolar disorder, current episode depressed, moderate","N","Non-Standard","V","Valid","F31.32","Condition","ICD10CM","5-char billing code",0,4102358400000
+"726",45538065,"Recurrent depressive disorder, current episode mild","N","Non-Standard","V","Valid","F33.0","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"727",45547704,"Major depressive disorder, single episode, in full remission","N","Non-Standard","V","Valid","F32.5","Condition","ICD10CM","4-char billing code",0,4102358400000
+"728",45547705,"Recurrent depressive disorder, current episode severe without psychotic symptoms","N","Non-Standard","V","Valid","F33.2","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"729",45547706,"Major depressive disorder, recurrent, in remission, unspecified","N","Non-Standard","V","Valid","F33.40","Condition","ICD10CM","5-char billing code",0,4102358400000
+"730",45552476,"Schizoaffective disorder, depressive type","N","Non-Standard","V","Valid","F25.1","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"731",45552478,"Moderate depressive episode","N","Non-Standard","V","Valid","F32.1","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"732",45552479,"Major depressive disorder, recurrent, in partial remission","N","Non-Standard","V","Valid","F33.41","Condition","ICD10CM","5-char billing code",0,4102358400000
+"733",45557202,"Severe depressive episode without psychotic symptoms","N","Non-Standard","V","Valid","F32.2","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"734",45562041,"Mild depressive episode","N","Non-Standard","V","Valid","F32.0","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"735",45562042,"Recurrent depressive disorder, current episode severe with psychotic symptoms","N","Non-Standard","V","Valid","F33.3","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"736",45566833,"Post-schizophrenic depression","N","Non-Standard","V","Valid","F20.4","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"737",45566839,"Bipolar disorder, current episode depressed, mild","N","Non-Standard","V","Valid","F31.31","Condition","ICD10CM","5-char billing code",0,4102358400000
+"738",45566845,"Mixed anxiety and depressive disorder","N","Non-Standard","V","Valid","F41.2","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"739",45571755,"Bipolar affective disorder, current episode mild or moderate depression","N","Non-Standard","V","Valid","F31.3","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"740",45571756,"Bipolar disorder, current episode depressed, mild or moderate severity, unspecified","N","Non-Standard","V","Valid","F31.30","Condition","ICD10CM","5-char billing code",0,4102358400000
+"741",45571759,"Other depressive episodes","N","Non-Standard","V","Valid","F32.8","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"742",45571760,"Depressive episode, unspecified","N","Non-Standard","V","Valid","F32.9","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"743",45571761,"Major depressive disorder, recurrent, in full remission","N","Non-Standard","V","Valid","F33.42","Condition","ICD10CM","5-char billing code",0,4102358400000
+"744",45576541,"Major depressive disorder, single episode, in partial remission","N","Non-Standard","V","Valid","F32.4","Condition","ICD10CM","4-char billing code",0,4102358400000
+"745",45576542,"Recurrent depressive disorder","N","Non-Standard","V","Valid","F33","Condition","ICD10","ICD10 Hierarchy",6.4152e+11,4102358400000
+"746",45576543,"Recurrent depressive disorder, current episode moderate","N","Non-Standard","V","Valid","F33.1","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"747",45581456,"Bipolar affective disorder, current episode severe depression without psychotic symptoms","N","Non-Standard","V","Valid","F31.4","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"748",45581458,"Recurrent depressive disorder, unspecified","N","Non-Standard","V","Valid","F33.9","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"749",45581477,"Depressive conduct disorder","N","Non-Standard","V","Valid","F92.0","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"750",45586236,"Bipolar affective disorder, current episode severe depression with psychotic symptoms","N","Non-Standard","V","Valid","F31.5","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"751",45586238,"Dysthymia","N","Non-Standard","V","Valid","F34.1","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"752",45595904,"Depressive episode","N","Non-Standard","V","Valid","F32","Condition","ICD10","ICD10 Hierarchy",6.4152e+11,4102358400000
+"753",45600739,"Severe depressive episode with psychotic symptoms","N","Non-Standard","V","Valid","F32.3","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"754",45600740,"Other recurrent depressive disorders","N","Non-Standard","V","Valid","F33.8","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"755",45612226,"Seasonal Affective Disorder","N","Non-Standard","V","Valid","D016574","Condition","MeSH","Main Heading",0,4102358400000
+"756",45612290,"Depression, Postpartum","N","Non-Standard","V","Valid","D019052","Condition","MeSH","Main Heading",0,4102358400000
+"757",45614157,"Depression","N","Non-Standard","D","Invalid","D003863","Drug","MeSH","Drug",1.381104e+12,1.431216e+12
+"758",45614158,"Depressive Disorder, Major","N","Non-Standard","V","Valid","D003865","Condition","MeSH","Main Heading",0,4102358400000
+"759",45617140,"Dysthymic Disorder","N","Non-Standard","V","Valid","D019263","Condition","MeSH","Main Heading",0,4102358400000
+"760",45617789,"Depressive Disorder","N","Non-Standard","V","Valid","D003866","Condition","MeSH","Main Heading",0,4102358400000
+"761",45757195,"Major depressive disorder in mother complicating childbirth","S","Standard","V","Valid","10811121000119102","Condition","SNOMED","Clinical Finding",1406764800000,4102358400000
+"762",45757196,"Major depressive disorder in mother complicating pregnancy","S","Standard","V","Valid","10811161000119107","Condition","SNOMED","Clinical Finding",1406764800000,4102358400000
+"763",45757213,"Depressive disorder in mother complicating childbirth","S","Standard","V","Valid","10835871000119104","Condition","SNOMED","Clinical Finding",1406764800000,4102358400000
+"764",46256127,"Premenstrual Dysphoric Disorder","N","Non-Standard","V","Valid","D065446","Condition","MeSH","Main Heading",0,4102358400000

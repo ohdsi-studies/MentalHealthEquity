@@ -1,0 +1,505 @@
+"","CONCEPT_ID","CONCEPT_NAME","STANDARD_CONCEPT","STANDARD_CONCEPT_CAPTION","INVALID_REASON","INVALID_REASON_CAPTION","CONCEPT_CODE","DOMAIN_ID","VOCABULARY_ID","CONCEPT_CLASS_ID","VALID_START_DATE","VALID_END_DATE"
+"1",372599,"Severe mixed bipolar I disorder without psychotic features","S","Standard","V","Valid","46229002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"2",432290,"Mild bipolar I disorder, single manic episode","S","Standard","V","Valid","41552001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"3",432866,"Bipolar I disorder, single manic episode","S","Standard","V","Valid","9340000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"4",432876,"Bipolar I disorder","S","Standard","V","Valid","371596008","Condition","SNOMED","Clinical Finding",1028073600000,4102358400000
+"5",433743,"Mixed bipolar I disorder in remission","S","Standard","V","Valid","35481005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"6",433992,"Bipolar affective disorder, currently manic, moderate","S","Standard","V","Valid","191621009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"7",435225,"Depressed bipolar I disorder in full remission","S","Standard","V","Valid","22121000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"8",435226,"Bipolar affective disorder, current episode mixed","S","Standard","V","Valid","192362008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"9",436072,"Bipolar disorder in partial remission","S","Standard","V","Valid","5703000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"10",436086,"Manic bipolar I disorder in full remission","S","Standard","V","Valid","30935000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"11",436386,"Severe depressed bipolar I disorder with psychotic features","S","Standard","V","Valid","59617007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"12",436665,"Bipolar disorder","S","Standard","V","Valid","13746004","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"13",437250,"Mild depressed bipolar I disorder","S","Standard","V","Valid","74686005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"14",437528,"Bipolar affective disorder, currently depressed, moderate","S","Standard","V","Valid","191630001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"15",437529,"Mixed bipolar I disorder in partial remission","S","Standard","V","Valid","36583000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"16",438129,"Severe manic bipolar I disorder with psychotic features, mood-congruent","S","Standard","V","Valid","78640000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"17",439001,"Severe mixed bipolar I disorder with psychotic features","S","Standard","V","Valid","10981006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"18",439243,"Bipolar affective disorder, currently depressed, severe, with psychosis","N","Non-Standard","D","Invalid","191632009","Condition","SNOMED","Clinical Finding",1012435200000,1532995200000
+"19",439244,"Bipolar affective disorder, currently depressed, severe, without mention of psychosis","N","Non-Standard","U","Invalid","191631002","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"20",439245,"Mixed bipolar affective disorder, in full remission","S","Standard","V","Valid","191643001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"21",439246,"Mixed bipolar affective disorder, severe, with psychosis","S","Standard","V","Valid","191641004","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"22",439247,"Mixed bipolar affective disorder, severe, without mention of psychosis","N","Non-Standard","U","Invalid","191640003","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"23",439248,"Mixed bipolar affective disorder, moderate","S","Standard","V","Valid","191639000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"24",439249,"Mixed bipolar affective disorder, mild","S","Standard","V","Valid","191638008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"25",439250,"Mixed bipolar affective disorder","S","Standard","V","Valid","191636007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"26",439251,"Bipolar affective disorder, currently depressed, in full remission","S","Standard","V","Valid","191634005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"27",439253,"Bipolar affective disorder, currently depressed, mild","S","Standard","V","Valid","191629006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"28",439254,"Bipolar affective disorder, current episode depression","S","Standard","V","Valid","191627008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"29",439255,"Bipolar affective disorder, currently manic, in full remission","S","Standard","V","Valid","191625000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"30",439256,"Bipolar affective disorder, currently manic, severe, with psychosis","S","Standard","V","Valid","191623007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"31",439257,"Bipolar affective disorder, currently manic, severe, without mention of psychosis","N","Non-Standard","U","Invalid","191622002","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"32",439785,"Moderate mixed bipolar I disorder","S","Standard","V","Valid","40926005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"33",440067,"Moderate bipolar I disorder, single manic episode","S","Standard","V","Valid","28884001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"34",440078,"Bipolar affective disorder, current episode manic","S","Standard","V","Valid","191618007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"35",440079,"Mild mixed bipolar I disorder","S","Standard","V","Valid","43769008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"36",441834,"Bipolar affective disorder, currently manic, mild","S","Standard","V","Valid","191620005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"37",441836,"Depressed bipolar I disorder","S","Standard","V","Valid","49468007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"38",442570,"Severe depressed bipolar I disorder without psychotic features","S","Standard","V","Valid","61403008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"39",442600,"Manic bipolar I disorder in partial remission","S","Standard","V","Valid","63249007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"40",443797,"Severe manic bipolar I disorder without psychotic features","S","Standard","V","Valid","162004","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"41",443906,"Mixed bipolar I disorder","S","Standard","V","Valid","16506000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"42",1340265,"Exacerbation of bipolar disorder","S","Standard","V","Valid","OMOP5165920","Condition","OMOP Extension","Clinical Finding",1651795200000,4102358400000
+"43",1410620,"Bipolar affective disorder","N","Non-Standard","V","Valid","F31","Condition","ICD10CN","ICD10 Hierarchy",1451606400000,4102358400000
+"44",1410621,"Bipolar affective disorder, current episode hypomanic","N","Non-Standard","V","Valid","F31.0","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"45",1410622,"Bipolar affective disorder, current episode hypomanic","N","Non-Standard","V","Valid","F31.000","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"46",1410623,"Bipolar affective disorder, current episode manic without psychotic symptoms","N","Non-Standard","V","Valid","F31.1","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"47",1410624,"Bipolar affective disorder, current episode manic without psychotic symptoms","N","Non-Standard","V","Valid","F31.100","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"48",1410625,"Bipolar affective disorder, current episode manic with psychotic symptoms","N","Non-Standard","V","Valid","F31.2","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"49",1410626,"Bipolar affective disorder, current episode manic with psychotic symptoms","N","Non-Standard","V","Valid","F31.200","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"50",1410627,"Bipolar affective disorder, current episode mild or moderate depression","N","Non-Standard","V","Valid","F31.3","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"51",1410628,"Bipolar affective disorder, current episode mild or moderate depression","N","Non-Standard","V","Valid","F31.300","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"52",1410629,"Bipolar disorder, currently moderate depressive episode (machine translation)","N","Non-Standard","V","Valid","F31.301","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"53",1410630,"Bipolar affective disorder, current episode severe depression without psychotic symptoms","N","Non-Standard","V","Valid","F31.4","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"54",1410631,"Bipolar affective disorder, current episode severe depression without psychotic symptoms","N","Non-Standard","V","Valid","F31.400","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"55",1410632,"Bipolar affective disorder, current episode severe depression with psychotic symptoms","N","Non-Standard","V","Valid","F31.5","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"56",1410633,"Bipolar affective disorder, current episode severe depression with psychotic symptoms","N","Non-Standard","V","Valid","F31.500","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"57",1410634,"Bipolar affective disorder, current episode mixed","N","Non-Standard","V","Valid","F31.6","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"58",1410635,"Bipolar affective disorder, current episode mixed","N","Non-Standard","V","Valid","F31.600","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"59",1410636,"Bipolar affective disorder, currently in remission","N","Non-Standard","V","Valid","F31.7","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"60",1410638,"Bipolar affective disorder, currently in remission","N","Non-Standard","V","Valid","F31.700","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"61",1410639,"Other bipolar affective disorders","N","Non-Standard","V","Valid","F31.8","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"62",1410640,"Other bipolar affective disorders","N","Non-Standard","V","Valid","F31.800","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"63",1410641,"Chronic mania (machine translation)","N","Non-Standard","V","Valid","F31.801","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"64",1410642,"Bipolar disorder, rapid cycling (machine translation)","N","Non-Standard","V","Valid","F31.802","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"65",1410643,"Atypical Bipolar Disorder (machine translation)","N","Non-Standard","V","Valid","F31.803","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"66",1410644,"Bipolar affective disorder, unspecified","N","Non-Standard","V","Valid","F31.9","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"67",1410645,"Bipolar affective disorder, unspecified","N","Non-Standard","V","Valid","F31.900","Condition","ICD10CN","ICD10 code",1451606400000,4102358400000
+"68",1568211,"Bipolar disorder","N","Non-Standard","V","Valid","F31","Condition","ICD10CM","3-char nonbill code",1.325376e+12,4102358400000
+"69",1568212,"Bipolar disorder, current episode manic without psychotic features","N","Non-Standard","V","Valid","F31.1","Condition","ICD10CM","4-char nonbill code",1.325376e+12,4102358400000
+"70",1568213,"Bipolar disorder, current episode depressed, mild or moderate severity","N","Non-Standard","V","Valid","F31.3","Condition","ICD10CM","4-char nonbill code",1.325376e+12,4102358400000
+"71",1568214,"Bipolar disorder, current episode mixed","N","Non-Standard","V","Valid","F31.6","Condition","ICD10CM","4-char nonbill code",1.325376e+12,4102358400000
+"72",1568215,"Bipolar disorder, currently in remission","N","Non-Standard","V","Valid","F31.7","Condition","ICD10CM","4-char nonbill code",1.325376e+12,4102358400000
+"73",1568216,"Other bipolar disorders","N","Non-Standard","V","Valid","F31.8","Condition","ICD10CM","4-char nonbill code",1.325376e+12,4102358400000
+"74",3105256,"Other manic-depressive psychos","N","Non-Standard","U","Invalid","154874009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"75",3122546,"Bipolar affective disorder, currently manic, unspecified","N","Non-Standard","U","Invalid","191619004","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"76",3122547,"Bipolar affective disorder, currently manic, severe, without mention of psychosis","N","Non-Standard","U","Invalid","191622002","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"77",3122548,"Bipolar affective disorder, currently manic, in partial or unspecified remission","N","Non-Standard","U","Invalid","191624001","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"78",3122549,"Bipolar affective disorder, currently manic, NOS","N","Non-Standard","U","Invalid","191626004","Condition","Nebraska Lexicon","Clinical Finding",1012348800000,1012435200000
+"79",3122550,"Bipolar affective disorder, currently depressed, unspecified","N","Non-Standard","U","Invalid","191628003","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"80",3122551,"Bipolar affective disorder, currently depressed, severe, without mention of psychosis","N","Non-Standard","U","Invalid","191631002","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"81",3122552,"Bipolar affective disorder, currently depressed, severe, with psychosis","N","Non-Standard","U","Invalid","191632009","Condition","Nebraska Lexicon","Clinical Finding",1501372800000,1501459200000
+"82",3122553,"Bipolar affective disorder, currently depressed, in partial or unspecified remission","N","Non-Standard","U","Invalid","191633004","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"83",3122554,"Bipolar affective disorder, currently depressed, NOS","N","Non-Standard","U","Invalid","191635006","Condition","Nebraska Lexicon","Clinical Finding",1012348800000,1012435200000
+"84",3122555,"Mixed bipolar affective disorder, unspecified","N","Non-Standard","U","Invalid","191637003","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"85",3122556,"Mixed bipolar affective disorder, severe, without mention of psychosis","N","Non-Standard","U","Invalid","191640003","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"86",3122558,"Mixed bipolar affective disorder, in partial or unspecified remission","N","Non-Standard","U","Invalid","191642006","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"87",3122559,"Mixed bipolar affective disorder, NOS","N","Non-Standard","U","Invalid","191644007","Condition","Nebraska Lexicon","Clinical Finding",1012348800000,1012435200000
+"88",3122560,"Unspecified bipolar affective disorder","N","Non-Standard","U","Invalid","191646009","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"89",3122561,"Unspecified bipolar affective disorder, unspecified","N","Non-Standard","U","Invalid","191647000","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"90",3122562,"Unspecified bipolar affective disorder, mild","N","Non-Standard","U","Invalid","191648005","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"91",3122563,"Unspecified bipolar affective disorder, moderate","N","Non-Standard","U","Invalid","191649002","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"92",3122564,"Unspecified bipolar affective disorder, severe, without mention of psychosis","N","Non-Standard","U","Invalid","191650002","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"93",3122565,"Unspecified bipolar affective disorder, severe, with psychosis","N","Non-Standard","U","Invalid","191651003","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"94",3122566,"Unspecified bipolar affective disorder, in partial or unspecified remission","N","Non-Standard","U","Invalid","191652005","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"95",3122567,"Unspecified bipolar affective disorder, in full remission","N","Non-Standard","U","Invalid","191653000","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"96",3122568,"Unspecified bipolar affective disorder, NOS","N","Non-Standard","U","Invalid","191654006","Condition","Nebraska Lexicon","Clinical Finding",1012348800000,1012435200000
+"97",3122570,"Other and unspecified manic-depressive psychoses","N","Non-Standard","U","Invalid","191656008","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"98",3122571,"Unspecified manic-depressive psychoses","N","Non-Standard","U","Invalid","191657004","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"99",3122572,"Other mixed manic-depressive psychoses","N","Non-Standard","U","Invalid","191660006","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"100",3122573,"Other and unspecified manic-depressive psychoses NOS","N","Non-Standard","U","Invalid","191661005","Condition","Nebraska Lexicon","Clinical Finding",1012348800000,1012435200000
+"101",3122894,"Bipolar disorder","N","Non-Standard","U","Invalid","192355004","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"102",3122895,"Bipolar affective disorder, currently depressed, severe, with psychosis","N","Non-Standard","U","Invalid","192361001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"103",3137638,"Bipolar II disorder","N","Non-Standard","U","Invalid","231497008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1217462400000
+"104",3142971,"Affective psychoses: [manic depressive] or [involutional melancholia]","N","Non-Standard","U","Invalid","268749008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,1501459200000
+"105",3146669,"Other manic-depressive psychos","N","Non-Standard","U","Invalid","307525004","Condition","Nebraska Lexicon","Clinical Finding",1.264896e+12,1501459200000
+"106",3161480,"Bipolar 2 disorder, most recent episode rapid cycling","N","Non-Standard","U","Invalid","61771000119106","Condition","Nebraska Lexicon","Clinical Finding",1501372800000,1501459200000
+"107",3169602,"Bipolar disorder, in remission","N","Non-Standard","V","Valid","85248005","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"108",3172581,"Bipolar disease in pregnancy","S","Standard","V","Valid","14530001000004106","Condition","Nebraska Lexicon","Clinical Finding",1453939200000,4102358400000
+"109",3173585,"Moderate bipolar II disorder, most recent episode major depressive","N","Non-Standard","V","Valid","35846004","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"110",3174376,"Bipolar I disorder, most recent episode depressed with postpartum onset","N","Non-Standard","V","Valid","87203005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"111",3176201,"Bipolar I disorder, most recent episode manic, in remission","N","Non-Standard","V","Valid","45479006","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"112",3176801,"Moderate bipolar I disorder, most recent episode mixed","N","Non-Standard","V","Valid","40926005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"113",3177012,"Bipolar I disorder, most recent episode depression","N","Non-Standard","V","Valid","767636002","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"114",3189606,"Severe bipolar I disorder, single manic episode with psychotic features, mood-incongruent","N","Non-Standard","V","Valid","86058007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"115",3217056,"Mixed type bipolar affective disorder","N","Non-Standard","V","Valid","16506000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"116",3218839,"Bipolar affective disorder, current episode depression","N","Non-Standard","V","Valid","191627008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"117",3219292,"Bipolar affective disorder, current episode manic","N","Non-Standard","V","Valid","191618007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"118",3219794,"Severe bipolar disorder with psychotic features, mood-congruent","N","Non-Standard","V","Valid","70546001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"119",3219936,"Bipolar disorder in partial remission","N","Non-Standard","V","Valid","5703000","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"120",3220425,"Mixed bipolar affective disorder, in full remission","N","Non-Standard","V","Valid","191643001","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"121",3220652,"Bipolar 1 disorder","N","Non-Standard","V","Valid","371596008","Condition","Nebraska Lexicon","Clinical Finding",1028073600000,4102358400000
+"122",3221532,"Moderate bipolar I disorder, most recent episode manic","N","Non-Standard","V","Valid","82998009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"123",3221731,"Bipolar affective disorder, current episode hypomanic","N","Non-Standard","V","Valid","31446002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"124",3228602,"Bipolar I disorder, most recent episode mixed, in remission","N","Non-Standard","V","Valid","35481005","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"125",3232059,"Bipolar affective disorder, currently depressed, in full remission","N","Non-Standard","V","Valid","191634005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"126",3234838,"Bipolar I disorder, most recent episode mixed, in full remission","N","Non-Standard","V","Valid","111485001","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"127",3234853,"Bipolar 1 disorder, single manic episode","N","Non-Standard","V","Valid","9340000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"128",3235926,"Moderate bipolar I disorder, single manic episode","N","Non-Standard","V","Valid","28884001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"129",3239169,"Severe bipolar II disorder, most recent episode major depressive without psychotic features","N","Non-Standard","V","Valid","81319007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"130",3241350,"Severe bipolar I disorder, single manic episode with psychotic fearures, mood-congruent","N","Non-Standard","V","Valid","13581000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"131",3244369,"Bipolar II disorder, most recent episode hypomanic","N","Non-Standard","V","Valid","48937005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"132",3245702,"Severe depressed bipolar I disorder","N","Non-Standard","V","Valid","261000119107","Condition","Nebraska Lexicon","Clinical Finding",1343692800000,4102358400000
+"133",3246079,"Bipolar I disorder, most recent episode manic","N","Non-Standard","V","Valid","68569003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"134",3247592,"Bipolar type II disorder currently in full remission","N","Non-Standard","V","Valid","723905008","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"135",3247938,"Bipolar 1 disorder, single manic episode, full remission","N","Non-Standard","V","Valid","3530005","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"136",3248705,"Bipolar I disorder, most recent episode depressed with melancholic features","N","Non-Standard","V","Valid","75752004","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"137",3249196,"Severe bipolar II disorder, most recent episode major depressive with psychotic features, mood-congruent","N","Non-Standard","V","Valid","19300006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"138",3250001,"Bipolar I disorder, single manic episode with postpartum onset","N","Non-Standard","V","Valid","1499003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"139",3252399,"Bipolar I disorder, most recent episode depressed, in full remission","N","Non-Standard","V","Valid","22121000","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"140",3252672,"Bipolar I disorder, most recent episode manic with postpartum onset","N","Non-Standard","V","Valid","55516002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"141",3257052,"Mild bipolar I disorder, most recent episode depressed","N","Non-Standard","V","Valid","74686005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"142",3257343,"Severe bipolar disorder with psychotic features, mood-incongruent","N","Non-Standard","V","Valid","26530004","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"143",3258702,"Bipolar I disorder, most recent episode mixed with postpartum onset","N","Non-Standard","V","Valid","65042007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"144",3259084,"Mild bipolar I disorder, most recent episode mixed","N","Non-Standard","V","Valid","43769008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"145",3259320,"Bipolar I disorder, most recent episode manic, in full remission","N","Non-Standard","V","Valid","30935000","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"146",3264745,"Bipolar affective disorder, currently depressed, moderate","N","Non-Standard","V","Valid","191630001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"147",3266726,"Bipolar I disorder, most recent episode depressed with catatonic features","N","Non-Standard","V","Valid","21900002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"148",3268837,"Bipolar I disorder, most recent episode manic with catatonic features","N","Non-Standard","V","Valid","17782008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"149",3272906,"Schizoaffective disorder, bipolar type","N","Non-Standard","V","Valid","38368003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"150",3278718,"Mixed bipolar affective disorder, mild","N","Non-Standard","V","Valid","191638008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"151",3280461,"Severe bipolar I disorder","N","Non-Standard","V","Valid","371599001","Condition","Nebraska Lexicon","Clinical Finding",1028073600000,4102358400000
+"152",3281321,"Severe bipolar II disorder, most recent episode major depressive with psychotic features, mood-incongruent","N","Non-Standard","V","Valid","20960007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"153",3282238,"Severe bipolar disorder","N","Non-Standard","V","Valid","371600003","Condition","Nebraska Lexicon","Clinical Finding",1028073600000,4102358400000
+"154",3291782,"Severe bipolar I disorder, most recent episode mixed, with psychotic features, mood-incongruent","N","Non-Standard","V","Valid","10875004","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"155",3298010,"Moderate bipolar disorder","N","Non-Standard","V","Valid","79584002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"156",3298224,"Bipolar disorder, most recent episode depression","N","Non-Standard","V","Valid","767631007","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"157",3303540,"Chronic bipolar I disorder, most recent episode depressed","N","Non-Standard","V","Valid","51637008","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"158",3303695,"Severe bipolar I disorder, most recent episode mixed, with psychotic features, mood-congruent","N","Non-Standard","V","Valid","64731001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"159",3304401,"Severe bipolar I disorder, most recent episode depressed with psychotic feature, mood-congruent","N","Non-Standard","V","Valid","54761006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"160",3307215,"Severe bipolar I disorder, most recent episode manic, with psychotic features, mood-incongruent","N","Non-Standard","V","Valid","33380008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"161",3309255,"Bipolar affective disorder, currently depressed, mild","N","Non-Standard","V","Valid","191629006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"162",3311555,"Chronic bipolar II disorder, most recent episode major depressive","N","Non-Standard","V","Valid","1196001","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"163",3311984,"Severe bipolar I disorder, most recent episode depressed without psychotic features","N","Non-Standard","V","Valid","61403008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"164",3312114,"Bipolar type I disorder currently in full remission","N","Non-Standard","V","Valid","723903001","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"165",3312443,"Mixed bipolar affective disorder, moderate","N","Non-Standard","V","Valid","191639000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"166",3312583,"Severe bipolar II disorder, most recent episode major depressive, in full remission","N","Non-Standard","V","Valid","12969000","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"167",3319674,"Severe bipolar I disorder, single manic episode without psychotic features","N","Non-Standard","V","Valid","14495005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"168",3321849,"Bipolar 1 disorder, single manic episode, in partial remission","N","Non-Standard","V","Valid","78269000","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"169",3325775,"Bipolar 2 disorder","N","Non-Standard","V","Valid","83225003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"170",3331771,"Bipolar I disorder, most recent episode depressed","N","Non-Standard","V","Valid","49468007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"171",3332103,"Mild bipolar I disorder, single manic episode","N","Non-Standard","V","Valid","41552001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"172",3332416,"Severe bipolar I disorder, most recent episode manic, with psychotic features","N","Non-Standard","V","Valid","28663008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"173",3333268,"Bipolar affective disorder, currently manic, in full remission","N","Non-Standard","V","Valid","191625000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"174",3333324,"Bipolar I disorder, single manic episode with catatonic features","N","Non-Standard","V","Valid","87950005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"175",3334162,"Severe bipolar disorder with psychotic features","N","Non-Standard","V","Valid","4441000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"176",3336230,"Bipolar II disorder, most recent episode major depressive with atypical features","N","Non-Standard","V","Valid","43568002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"177",3337292,"Mild bipolar II disorder, most recent episode major depressive","N","Non-Standard","V","Valid","71294008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"178",3338632,"Bipolar I disorder, most recent episode mixed with catatonic features","N","Non-Standard","V","Valid","73471000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"179",3340317,"Severe bipolar I disorder, most recent episode manic, without psychotic features","N","Non-Standard","V","Valid","162004","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"180",3340454,"Severe bipolar disorder without psychotic features","N","Non-Standard","V","Valid","53049002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"181",3340963,"Moderate bipolar I disorder, most recent episode depressed","N","Non-Standard","V","Valid","66631006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"182",3341067,"Bipolar I disorder, most recent episode mixed, in partial remission","N","Non-Standard","V","Valid","36583000","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"183",3342037,"Bipolar I disorder, most recent episode depressed, in partial remission","N","Non-Standard","V","Valid","49512000","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"184",3342601,"Bipolar I disorder, most recent episode manic, in partial remission","N","Non-Standard","V","Valid","63249007","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"185",3343883,"Severe bipolar II disorder, most recent episode major depressive with psychotic features","N","Non-Standard","V","Valid","30520009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"186",3345410,"Bipolar affective disorder, currently manic, mild","N","Non-Standard","V","Valid","191620005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"187",3345731,"Bipolar 1 disorder, single manic episode, in remission","N","Non-Standard","V","Valid","75360000","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"188",3356716,"Mixed bipolar affective disorder","N","Non-Standard","V","Valid","191636007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"189",3361648,"Severe bipolar I disorder, most recent episode mixed, with psychotic features","N","Non-Standard","V","Valid","10981006","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"190",3362205,"Severe bipolar I disorder, most recent episode depressed with psychotic features","N","Non-Standard","V","Valid","59617007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"191",3362550,"Severe mixed bipolar I disorder","N","Non-Standard","V","Valid","271000119101","Condition","Nebraska Lexicon","Clinical Finding",1343692800000,4102358400000
+"192",3367215,"Bipolar II disorder, most recent episode major depressive with catatonic features","N","Non-Standard","V","Valid","22407005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"193",3367520,"Severe bipolar I disorder, most recent episode manic, with psychotic features, mood-congruent","N","Non-Standard","V","Valid","78640000","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"194",3369661,"Organic bipolar disorder","N","Non-Standard","V","Valid","231444002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"195",3370326,"Bipolar I disorder, most recent episode depressed, in remission","N","Non-Standard","V","Valid","53607008","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"196",3371266,"Bipolar disorder, most recent episode manic","N","Non-Standard","V","Valid","767632000","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"197",3372503,"Bipolar affective disorder, most recent episode mixed","N","Non-Standard","V","Valid","767633005","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"198",3373465,"Severe bipolar II disorder","N","Non-Standard","V","Valid","371604007","Condition","Nebraska Lexicon","Clinical Finding",1028073600000,4102358400000
+"199",3375528,"Bipolar I disorder, most recent episode depressed with atypical features","N","Non-Standard","V","Valid","29929003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"200",3380158,"Bipolar disorder in full remission","N","Non-Standard","V","Valid","41836007","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"201",3382382,"Severe manic bipolar I disorder","N","Non-Standard","V","Valid","23741000119105","Condition","Nebraska Lexicon","Clinical Finding",1359590400000,4102358400000
+"202",3385542,"Bipolar affective disorder, current episode mixed","N","Non-Standard","V","Valid","192362008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"203",3387000,"Bipolar I disorder, most recent episode manic","N","Non-Standard","V","Valid","767635003","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"204",3395434,"Rapid cycling bipolar I disorder","N","Non-Standard","V","Valid","133091000119105","Condition","Nebraska Lexicon","Clinical Finding",1359590400000,4102358400000
+"205",3398093,"Severe bipolar II disorder, most recent episode major depressive, in partial remission","N","Non-Standard","V","Valid","67002003","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"206",3399726,"Severe bipolar I disorder, single manic episode with psychotic features","N","Non-Standard","V","Valid","41832009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"207",3403203,"Mild bipolar I disorder, most recent episode manic","N","Non-Standard","V","Valid","71984005","Condition","Nebraska Lexicon","Clinical Finding",1.154304e+12,4102358400000
+"208",3408131,"Psychosis and severe depression co-occurrent and due to bipolar affective disorder","N","Non-Standard","V","Valid","765176007","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"209",3409094,"Mild bipolar disorder","N","Non-Standard","V","Valid","13313007","Condition","Nebraska Lexicon","Clinical Finding",1.154304e+12,4102358400000
+"210",3411835,"Severe bipolar I disorder, most recent episode depressed with psychotic features, mood-incongruent","N","Non-Standard","V","Valid","26203008","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"211",3412910,"Bipolar II disorder, most recent episode major depressive","N","Non-Standard","V","Valid","16295005","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"212",3413593,"Mixed bipolar affective disorder, severe, with psychosis","N","Non-Standard","V","Valid","191641004","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"213",3415164,"Bipolar II disorder, most recent episode major depressive with melancholic features","N","Non-Standard","V","Valid","34315001","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"214",3416480,"Severe bipolar I disorder, most recent episode mixed, without psychotic features","N","Non-Standard","V","Valid","46229002","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"215",3417540,"Severe bipolar II disorder, most recent episode major depressive, in remission","N","Non-Standard","V","Valid","35722002","Condition","Nebraska Lexicon","Clinical Finding",1532995200000,4102358400000
+"216",3417877,"Bipolar affective disorder","N","Non-Standard","V","Valid","13746004","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"217",3419203,"Bipolar affective disorder, currently manic, severe, with psychosis","N","Non-Standard","V","Valid","191623007","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"218",3420591,"Bipolar affective disorder, currently manic, moderate","N","Non-Standard","V","Valid","191621009","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"219",3424961,"Bipolar II disorder, most recent episode major depressive with postpartum onset","N","Non-Standard","V","Valid","30687003","Condition","Nebraska Lexicon","Clinical Finding",1012435200000,4102358400000
+"220",3520272,"Mixed bipolar affective disorder, in partial or unspecified remission","N","Non-Standard","U","Invalid","602471000000106","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"221",3520273,"Mixed bipolar affective disorder, NOS","N","Non-Standard","U","Invalid","602481000000108","Condition","SNOMED","Clinical Finding",1.27008e+12,1333238400000
+"222",3520274,"Unspecified bipolar affective disorder, mild","N","Non-Standard","U","Invalid","602521000000108","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"223",3520275,"Unspecified bipolar affective disorder, moderate","N","Non-Standard","U","Invalid","602531000000105","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"224",3520438,"Other and unspecified manic-depressive psychoses","N","Non-Standard","U","Invalid","613621000000102","Condition","SNOMED","Clinical Finding",1.27008e+12,1333238400000
+"225",3520439,"Unspecified manic-depressive psychoses","N","Non-Standard","U","Invalid","613631000000100","Condition","SNOMED","Clinical Finding",1.27008e+12,1333238400000
+"226",3520677,"Bipolar affective disorder, currently manic, unspecified","N","Non-Standard","U","Invalid","633731000000103","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"227",3535239,"Unspecified bipolar affective disorder, severe, with psychosis","N","Non-Standard","U","Invalid","602541000000101","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"228",3536127,"Bipolar affective disorder, currently depressed, unspecified","N","Non-Standard","U","Invalid","615941000000103","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"229",3536128,"Bipolar affective disorder, currently depressed, in partial or unspecified remission","N","Non-Standard","U","Invalid","615951000000100","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"230",3536699,"Unspecified bipolar affective disorder, NOS","N","Non-Standard","U","Invalid","623971000000101","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"231",3542121,"Other manic-depressive psychos","N","Non-Standard","U","Invalid","702251000000106","Condition","SNOMED","Clinical Finding",1.27008e+12,1333238400000
+"232",3544582,"Bipolar I disorder","N","Non-Standard","U","Invalid","790711000000100","Condition","SNOMED","Clinical Finding",0,1.3176e+12
+"233",3545071,"Bipolar I disorder","N","Non-Standard","U","Invalid","808681000000102","Observation","SNOMED","Undefined",0,1.3176e+12
+"234",3545072,"Bipolar II disorder","N","Non-Standard","U","Invalid","808691000000100","Observation","SNOMED","Undefined",0,1.3176e+12
+"235",3564769,"Unspecified bipolar affective disorder, severe, without mention of psychosis","N","Non-Standard","U","Invalid","613611000000108","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"236",3566276,"Bipolar affective disorder, currently depressed, severe, without mention of psychosis","N","Non-Standard","U","Invalid","530311000000107","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"237",3573259,"Bipolar affective disorder, currently manic, in partial or unspecified remission","N","Non-Standard","U","Invalid","615921000000105","Condition","SNOMED","Clinical Finding",1.27008e+12,1.301616e+12
+"238",4000165,"Severe bipolar II disorder, most recent episode major depressive with psychotic features, mood-congruent","S","Standard","V","Valid","19300006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"239",4001733,"Chronic bipolar II disorder, most recent episode major depressive","S","Standard","V","Valid","1196001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"240",4009648,"Mixed bipolar I disorder in full remission","S","Standard","V","Valid","111485001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"241",4028027,"Mild bipolar disorder","S","Standard","V","Valid","13313007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"242",4030102,"Severe bipolar I disorder, single manic episode with psychotic features, mood-congruent","S","Standard","V","Valid","13581000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"243",4030856,"Severe bipolar I disorder, single manic episode without psychotic features","S","Standard","V","Valid","14495005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"244",4031928,"Severe mixed bipolar I disorder with psychotic features, mood-incongruent","S","Standard","V","Valid","10875004","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"245",4033390,"Bipolar I disorder, single manic episode with postpartum onset","S","Standard","V","Valid","1499003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"246",4037669,"Bipolar II disorder, most recent episode major depressive","S","Standard","V","Valid","16295005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"247",4045263,"Severe bipolar II disorder, most recent episode major depressive, in full remission","S","Standard","V","Valid","12969000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"248",4051448,"Severe bipolar II disorder, most recent episode major depressive with psychotic features, mood-incongruent","S","Standard","V","Valid","20960007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"249",4071442,"Bipolar I disorder, most recent episode depressed with catatonic features","S","Standard","V","Valid","21900002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"250",4073401,"Bipolar I disorder, most recent episode manic with catatonic features","S","Standard","V","Valid","17782008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"251",4094507,"Severe depressed bipolar I disorder with psychotic features, mood-incongruent","S","Standard","V","Valid","26203008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"252",4098303,"Bipolar affective disorder, currently manic, unspecified","N","Non-Standard","U","Invalid","191619004","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"253",4098304,"Bipolar affective disorder, currently manic, in partial or unspecified remission","N","Non-Standard","U","Invalid","191624001","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"254",4098305,"Bipolar affective disorder, currently manic, NOS","N","Non-Standard","U","Invalid","191626004","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"255",4098306,"Bipolar affective disorder, currently depressed, in partial or unspecified remission","N","Non-Standard","U","Invalid","191633004","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"256",4098307,"Unspecified bipolar affective disorder","N","Non-Standard","U","Invalid","191646009","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"257",4100372,"Mixed bipolar affective disorder, unspecified","N","Non-Standard","U","Invalid","191637003","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"258",4100374,"Unspecified bipolar affective disorder, mild","N","Non-Standard","U","Invalid","191648005","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"259",4100375,"Unspecified bipolar affective disorder, moderate","N","Non-Standard","U","Invalid","191649002","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"260",4100376,"Unspecified bipolar affective disorder, severe, without mention of psychosis","N","Non-Standard","U","Invalid","191650002","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"261",4100377,"Unspecified bipolar affective disorder, in partial or unspecified remission","N","Non-Standard","U","Invalid","191652005","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"262",4100378,"Unspecified manic-depressive psychoses","N","Non-Standard","U","Invalid","191657004","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"263",4100379,"Other mixed manic-depressive psychoses","N","Non-Standard","U","Invalid","191660006","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"264",4102603,"Severe manic bipolar I disorder with psychotic features","S","Standard","V","Valid","28663008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"265",4102666,"Mixed bipolar affective disorder, NOS","N","Non-Standard","U","Invalid","191644007","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"266",4102667,"Unspecified bipolar affective disorder, unspecified","N","Non-Standard","U","Invalid","191647000","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"267",4102668,"Unspecified bipolar affective disorder, severe, with psychosis","N","Non-Standard","U","Invalid","191651003","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"268",4102669,"Other and unspecified manic-depressive psychoses","N","Non-Standard","U","Invalid","191656008","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"269",4103261,"Bipolar affective disorder, currently depressed, unspecified","N","Non-Standard","U","Invalid","191628003","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"270",4103262,"Bipolar affective disorder, currently depressed, NOS","N","Non-Standard","U","Invalid","191635006","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"271",4103263,"Mixed bipolar affective disorder, in partial or unspecified remission","N","Non-Standard","U","Invalid","191642006","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"272",4103264,"Unspecified bipolar affective disorder, in full remission","N","Non-Standard","U","Invalid","191653000","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"273",4103265,"Unspecified bipolar affective disorder, NOS","N","Non-Standard","U","Invalid","191654006","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"274",4103266,"Other and unspecified manic-depressive psychoses NOS","N","Non-Standard","U","Invalid","191661005","Condition","SNOMED","Clinical Finding",1012435200000,1643241600000
+"275",4107538,"Bipolar I disorder, most recent episode depressed with atypical features","S","Standard","V","Valid","29929003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"276",4131027,"Severe bipolar disorder with psychotic features, mood-incongruent","S","Standard","V","Valid","26530004","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"277",4141603,"Severe manic bipolar I disorder with psychotic features, mood-incongruent","S","Standard","V","Valid","33380008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"278",4144175,"Other manic-depressive psychos","N","Non-Standard","U","Invalid","307525004","Condition","SNOMED","Clinical Finding",1012435200000,1.264896e+12
+"279",4144519,"Bipolar II disorder, most recent episode major depressive with melancholic features","S","Standard","V","Valid","34315001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"280",4147991,"Severe bipolar II disorder, most recent episode major depressive with psychotic features","S","Standard","V","Valid","30520009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"281",4148842,"Bipolar I disorder, single manic episode, in full remission","S","Standard","V","Valid","3530005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"282",4148934,"Bipolar II disorder, most recent episode major depressive with postpartum onset","S","Standard","V","Valid","30687003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"283",4150985,"Bipolar I disorder, most recent episode hypomanic","S","Standard","V","Valid","31446002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"284",4154283,"Severe bipolar I disorder","S","Standard","V","Valid","371599001","Condition","SNOMED","Clinical Finding",1028073600000,4102358400000
+"285",4155798,"Severe bipolar disorder","S","Standard","V","Valid","371600003","Condition","SNOMED","Clinical Finding",1028073600000,4102358400000
+"286",4161200,"Severe bipolar II disorder","S","Standard","V","Valid","371604007","Condition","SNOMED","Clinical Finding",1028073600000,4102358400000
+"287",4166701,"Manic bipolar I disorder in remission","S","Standard","V","Valid","45479006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"288",4172156,"Bipolar II disorder, most recent episode hypomanic","S","Standard","V","Valid","48937005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"289",4177651,"Depressed bipolar I disorder in partial remission","S","Standard","V","Valid","49512000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"290",4182998,"Severe depressed bipolar I disorder with psychotic features, mood-congruent","S","Standard","V","Valid","54761006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"291",4185096,"Bipolar II disorder, most recent episode major depressive with atypical features","S","Standard","V","Valid","43568002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"292",4192865,"Bipolar I disorder, most recent episode depressed with melancholic features","S","Standard","V","Valid","75752004","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"293",4194222,"Moderate bipolar disorder","S","Standard","V","Valid","79584002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"294",4195158,"Severe bipolar disorder with psychotic features","S","Standard","V","Valid","4441000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"295",4197669,"Chronic bipolar I disorder, most recent episode depressed","S","Standard","V","Valid","51637008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"296",4200385,"Severe bipolar disorder without psychotic features","S","Standard","V","Valid","53049002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"297",4201739,"Depressed bipolar I disorder in remission","S","Standard","V","Valid","53607008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"298",4210024,"Bipolar I disorder, most recent episode manic with postpartum onset","S","Standard","V","Valid","55516002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"299",4215917,"Mild manic bipolar I disorder","S","Standard","V","Valid","71984005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"300",4217940,"Severe bipolar II disorder, most recent episode major depressive without psychotic features","S","Standard","V","Valid","81319007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"301",4220617,"Severe bipolar I disorder, single manic episode with psychotic features","S","Standard","V","Valid","41832009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"302",4220618,"Bipolar disorder in full remission","S","Standard","V","Valid","41836007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"303",4244078,"Schizoaffective disorder, bipolar type","S","Standard","V","Valid","38368003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"304",4251178,"Bipolar I disorder, most recent episode mixed with catatonic features","S","Standard","V","Valid","73471000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"305",4262111,"Moderate bipolar II disorder, most recent episode major depressive","S","Standard","V","Valid","35846004","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"306",4262272,"Severe bipolar II disorder, most recent episode major depressive, in remission","S","Standard","V","Valid","35722002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"307",4274957,"Bipolar I disorder, most recent episode mixed with postpartum onset","S","Standard","V","Valid","65042007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"308",4276670,"Severe mixed bipolar I disorder with psychotic features, mood-congruent","S","Standard","V","Valid","64731001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"309",4280361,"Moderate depressed bipolar I disorder","S","Standard","V","Valid","66631006","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"310",4283219,"Severe bipolar II disorder, most recent episode major depressive, in partial remission","S","Standard","V","Valid","67002003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"311",4287544,"Manic bipolar I disorder","S","Standard","V","Valid","68569003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"312",4301106,"Bipolar I disorder, single manic episode, in partial remission","S","Standard","V","Valid","78269000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"313",4307804,"Moderate manic bipolar I disorder","S","Standard","V","Valid","82998009","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"314",4307956,"Bipolar II disorder","S","Standard","V","Valid","83225003","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"315",4310821,"Bipolar disorder in remission","S","Standard","V","Valid","85248005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"316",4312736,"Severe bipolar I disorder, single manic episode with psychotic features, mood-incongruent","S","Standard","V","Valid","86058007","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"317",4322477,"Severe bipolar disorder with psychotic features, mood-congruent","S","Standard","V","Valid","70546001","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"318",4324945,"Mild bipolar II disorder, most recent episode major depressive","S","Standard","V","Valid","71294008","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"319",4327669,"Bipolar I disorder, single manic episode, in remission","S","Standard","V","Valid","75360000","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"320",4330846,"Bipolar II disorder, most recent episode major depressive with catatonic features","S","Standard","V","Valid","22407005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"321",4333670,"Organic bipolar disorder","S","Standard","V","Valid","231444002","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"322",4336405,"Bipolar I disorder, most recent episode depressed with postpartum onset","S","Standard","V","Valid","87203005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"323",4338812,"Bipolar I disorder, single manic episode with catatonic features","S","Standard","V","Valid","87950005","Condition","SNOMED","Clinical Finding",1012435200000,4102358400000
+"324",35207136,"Schizoaffective disorder, bipolar type","N","Non-Standard","V","Valid","F25.0","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"325",35207145,"Bipolar disorder, current episode hypomanic","N","Non-Standard","V","Valid","F31.0","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"326",35207146,"Bipolar disorder, current episode manic severe with psychotic features","N","Non-Standard","V","Valid","F31.2","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"327",35207147,"Bipolar disorder, current episode depressed, severe, without psychotic features","N","Non-Standard","V","Valid","F31.4","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"328",35207148,"Bipolar disorder, current episode depressed, severe, with psychotic features","N","Non-Standard","V","Valid","F31.5","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"329",35207149,"Bipolar disorder, unspecified","N","Non-Standard","V","Valid","F31.9","Condition","ICD10CM","4-char billing code",1167609600000,4102358400000
+"330",35622934,"Psychosis and severe depression co-occurrent and due to bipolar affective disorder","S","Standard","V","Valid","765176007","Condition","SNOMED","Clinical Finding",1532995200000,4102358400000
+"331",35624743,"Bipolar disorder, most recent episode depression","S","Standard","V","Valid","767631007","Condition","SNOMED","Clinical Finding",1532995200000,4102358400000
+"332",35624744,"Bipolar disorder, most recent episode manic","S","Standard","V","Valid","767632000","Condition","SNOMED","Clinical Finding",1532995200000,4102358400000
+"333",35624745,"Bipolar affective disorder, most recent episode mixed","S","Standard","V","Valid","767633005","Condition","SNOMED","Clinical Finding",1532995200000,4102358400000
+"334",35624747,"Bipolar I disorder, most recent episode manic","S","Standard","V","Valid","767635003","Condition","SNOMED","Clinical Finding",1532995200000,4102358400000
+"335",35624748,"Bipolar I disorder, most recent episode depression","S","Standard","V","Valid","767636002","Condition","SNOMED","Clinical Finding",1532995200000,4102358400000
+"336",37109940,"Bipolar type I disorder currently in full remission","S","Standard","V","Valid","723903001","Condition","SNOMED","Clinical Finding",1501459200000,4102358400000
+"337",37117177,"Bipolar type II disorder currently in full remission","S","Standard","V","Valid","723905008","Condition","SNOMED","Clinical Finding",1501459200000,4102358400000
+"338",37209504,"Bipolar disorder caused by drug","S","Standard","V","Valid","16238741000119105","Condition","SNOMED","Clinical Finding",1564531200000,4102358400000
+"339",37312578,"Rapid cycling bipolar II disorder","S","Standard","V","Valid","789061003","Condition","SNOMED","Clinical Finding",1580428800000,4102358400000
+"340",40321769,"Other manic-depressive psychos","N","Non-Standard","U","Invalid","154874009","Condition","SNOMED","Clinical Finding",0,1012435200000
+"341",40356767,"Affective psychoses: [manic depressive] or [involutional melancholia]","N","Non-Standard","D","Invalid","268749008","Condition","SNOMED","Clinical Finding",0,1012435200000
+"342",40388256,"Bipolar disorder","N","Non-Standard","U","Invalid","192355004","Condition","SNOMED","Clinical Finding",0,1012435200000
+"343",40388263,"Bipolar affective disorder, currently depressed, severe, with psychosis","N","Non-Standard","D","Invalid","192361001","Condition","SNOMED","Clinical Finding",0,1012435200000
+"344",40433642,"Bipolar II disorder","N","Non-Standard","U","Invalid","231497008","Condition","SNOMED","Clinical Finding",0,1012435200000
+"345",42486671,"Bipolar affective disorder","N","Non-Standard","V","Valid","F31","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"346",42486672,"Bipolar affective disorder, current episode hypomanic","N","Non-Standard","V","Valid","F31.0","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"347",42486673,"Bipolar affective disorder, current episode manic without psychotic symptoms","N","Non-Standard","V","Valid","F31.1","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"348",42486674,"Bipolar affective disorder, current episode manic with psychotic symptoms","N","Non-Standard","V","Valid","F31.2","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"349",42486675,"Bipolar affective disorder, current episode mild or moderate depression","N","Non-Standard","V","Valid","F31.3","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"350",42486676,"Bipolar affective disorder, current episode severe depression without psychotic symptoms","N","Non-Standard","V","Valid","F31.4","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"351",42486677,"Bipolar affective disorder, current episode severe depression with psychotic symptoms","N","Non-Standard","V","Valid","F31.5","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"352",42486678,"Bipolar affective disorder, current episode mixed","N","Non-Standard","V","Valid","F31.6","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"353",42486679,"Bipolar affective disorder, currently in remission","N","Non-Standard","V","Valid","F31.7","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"354",42486680,"Other bipolar affective disorders","N","Non-Standard","V","Valid","F31.8","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"355",42486681,"Bipolar affective disorder, unspecified","N","Non-Standard","V","Valid","F31.9","Condition","KCD7","KCD7 code",1498867200000,4102358400000
+"356",42872412,"Severe mixed bipolar I disorder","S","Standard","V","Valid","271000119101","Condition","SNOMED","Clinical Finding",1343692800000,4102358400000
+"357",42872413,"Severe depressed bipolar I disorder","S","Standard","V","Valid","261000119107","Condition","SNOMED","Clinical Finding",1343692800000,4102358400000
+"358",43020451,"Severe manic bipolar I disorder","S","Standard","V","Valid","23741000119105","Condition","SNOMED","Clinical Finding",1359590400000,4102358400000
+"359",43021820,"Bipolar II disorder, most recent episode rapid cycling","N","Non-Standard","U","Invalid","61771000119106","Condition","SNOMED","Clinical Finding",1359590400000,1532995200000
+"360",43021847,"Rapid cycling bipolar I disorder","S","Standard","V","Valid","133091000119105","Condition","SNOMED","Clinical Finding",1359590400000,4102358400000
+"361",44796057,"[X]Bipolar affective disorder, unspecified","N","Non-Standard","U","Invalid","417731000000103","Condition","SNOMED","Clinical Finding",1.238544e+12,1427846400000
+"362",44797155,"[X]Other bipolar affective disorders","N","Non-Standard","U","Invalid","426091000000108","Condition","SNOMED","Clinical Finding",1.238544e+12,1427846400000
+"363",44797461,"[X]Bipolar affective disorder, current episode manic with psychotic symptoms","N","Non-Standard","U","Invalid","431661000000104","Condition","SNOMED","Clinical Finding",1.238544e+12,1427846400000
+"364",44798271,"[X]Bipolar affective disorder, current episode manic without psychotic symptoms","N","Non-Standard","U","Invalid","443561000000100","Condition","SNOMED","Clinical Finding",1.238544e+12,1.47528e+12
+"365",44799926,"[X]Bipolar affective disorder, currently in remission","N","Non-Standard","U","Invalid","454161000000105","Condition","SNOMED","Clinical Finding",1.238544e+12,1427846400000
+"366",44801136,"[X]Bipolar affective disorder, current episode mild or moderate depression","N","Non-Standard","U","Invalid","467121000000100","Condition","SNOMED","Clinical Finding",1.238544e+12,1427846400000
+"367",44804961,"Mixed bipolar affective disorder, in partial remission","S","Standard","V","Valid","760721000000109","Condition","SNOMED","Clinical Finding",1.301616e+12,4102358400000
+"368",44805540,"Mixed bipolar affective disorder, severe","S","Standard","V","Valid","764591000000108","Condition","SNOMED","Clinical Finding",1.301616e+12,4102358400000
+"369",44813514,"[X]Bipolar affective disorder, current episode severe depression without psychotic symptoms","N","Non-Standard","U","Invalid","465911000000102","Condition","SNOMED","Clinical Finding",1.238544e+12,1427846400000
+"370",44819539,"Bipolar I disorder, single manic episode, severe, without mention of psychotic behavior","N","Non-Standard","V","Valid","296.03","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"371",44819542,"Bipolar I disorder, most recent episode (or current) mixed, in partial or unspecified remission","N","Non-Standard","V","Valid","296.65","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"372",44820718,"Bipolar I disorder, most recent episode (or current) manic, mild","N","Non-Standard","V","Valid","296.41","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"373",44820719,"Bipolar I disorder, most recent episode (or current) manic, severe, without mention of psychotic behavior","N","Non-Standard","V","Valid","296.43","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"374",44820720,"Bipolar I disorder, most recent episode (or current) depressed, severe, specified as with psychotic behavior","N","Non-Standard","V","Valid","296.54","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"375",44820721,"Bipolar I disorder, most recent episode (or current) depressed, in partial or unspecified remission","N","Non-Standard","V","Valid","296.55","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"376",44820722,"Bipolar I disorder, most recent episode (or current) mixed, unspecified","N","Non-Standard","V","Valid","296.60","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"377",44822972,"Bipolar I disorder, single manic episode, in partial or unspecified remission","N","Non-Standard","V","Valid","296.05","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"378",44822973,"Bipolar I disorder, single manic episode, in full remission","N","Non-Standard","V","Valid","296.06","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"379",44822977,"Bipolar I disorder, most recent episode (or current) depressed, in full remission","N","Non-Standard","V","Valid","296.56","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"380",44822978,"Bipolar I disorder, most recent episode (or current) mixed, moderate","N","Non-Standard","V","Valid","296.62","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"381",44822979,"Bipolar I disorder, most recent episode (or current) mixed, severe, without mention of psychotic behavior","N","Non-Standard","V","Valid","296.63","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"382",44822980,"Other and unspecified bipolar disorders","N","Non-Standard","V","Valid","296.8","Condition","ICD9CM","4-dig nonbill code",0,4102358400000
+"383",44822981,"Bipolar disorder, unspecified","N","Non-Standard","V","Valid","296.80","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"384",44824115,"Bipolar I disorder, most recent episode (or current) manic, unspecified","N","Non-Standard","V","Valid","296.40","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"385",44824116,"Bipolar I disorder, most recent episode (or current) manic, severe, specified as with psychotic behavior","N","Non-Standard","V","Valid","296.44","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"386",44824117,"Bipolar I disorder, most recent episode (or current) mixed, severe, specified as with psychotic behavior","N","Non-Standard","V","Valid","296.64","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"387",44826499,"Bipolar I disorder, most recent episode (or current) manic, moderate","N","Non-Standard","V","Valid","296.42","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"388",44826500,"Bipolar I disorder, most recent episode (or current) depressed, mild","N","Non-Standard","V","Valid","296.51","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"389",44827657,"Bipolar I disorder, most recent episode (or current) unspecified","N","Non-Standard","V","Valid","296.7","Condition","ICD9CM","4-dig billing code",0,4102358400000
+"390",44828830,"Bipolar I disorder, single manic episode","N","Non-Standard","V","Valid","296.0","Condition","ICD9CM","4-dig nonbill code",0,4102358400000
+"391",44828831,"Bipolar I disorder, most recent episode (or current) mixed","N","Non-Standard","V","Valid","296.6","Condition","ICD9CM","4-dig nonbill code",0,4102358400000
+"392",44829922,"Bipolar I disorder, single manic episode, moderate","N","Non-Standard","V","Valid","296.02","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"393",44829924,"Bipolar I disorder, most recent episode (or current) manic, in full remission","N","Non-Standard","V","Valid","296.46","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"394",44829925,"Other bipolar disorders","N","Non-Standard","V","Valid","296.89","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"395",44831087,"Bipolar I disorder, single manic episode, severe, specified as with psychotic behavior","N","Non-Standard","V","Valid","296.04","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"396",44831091,"Bipolar I disorder, most recent episode (or current) manic","N","Non-Standard","V","Valid","296.4","Condition","ICD9CM","4-dig nonbill code",0,4102358400000
+"397",44831092,"Bipolar I disorder, most recent episode (or current) depressed, severe, without mention of psychotic behavior","N","Non-Standard","V","Valid","296.53","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"398",44832233,"Bipolar I disorder, most recent episode (or current) manic, in partial or unspecified remission","N","Non-Standard","V","Valid","296.45","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"399",44832234,"Bipolar I disorder, most recent episode (or current) mixed, in full remission","N","Non-Standard","V","Valid","296.66","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"400",44833400,"Bipolar I disorder, single manic episode, mild","N","Non-Standard","V","Valid","296.01","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"401",44834590,"Bipolar I disorder, most recent episode (or current) depressed","N","Non-Standard","V","Valid","296.5","Condition","ICD9CM","4-dig nonbill code",0,4102358400000
+"402",44835786,"Bipolar I disorder, most recent episode (or current) depressed, moderate","N","Non-Standard","V","Valid","296.52","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"403",44836964,"Bipolar I disorder, single manic episode, unspecified","N","Non-Standard","V","Valid","296.00","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"404",44836965,"Bipolar I disorder, most recent episode (or current) depressed, unspecified","N","Non-Standard","V","Valid","296.50","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"405",44836966,"Bipolar I disorder, most recent episode (or current) mixed, mild","N","Non-Standard","V","Valid","296.61","Condition","ICD9CM","5-dig billing code",0,4102358400000
+"406",45420224,"[X]Bipolar affective disorder type II","N","Non-Standard","V","Valid","Eu31900","Condition","Read","Read",1396310400000,4102358400000
+"407",45423366,"Bipolar affective disorder, currently depressed, in partial or unspecified remission","N","Non-Standard","V","Valid","E115500","Condition","Read","Read",0,4102358400000
+"408",45426630,"Bipolar affective disorder, currently manic","N","Non-Standard","V","Valid","E114.00","Condition","Read","Read",0,4102358400000
+"409",45426631,"Bipolar affective disorder, currently depressed, mild","N","Non-Standard","V","Valid","E115100","Condition","Read","Read",0,4102358400000
+"410",45426673,"[X]Mixed affective episode","N","Non-Standard","V","Valid","Eu3y011","Condition","Read","Read",0,4102358400000
+"411",45429982,"Bipolar affective disorder, currently depressed","N","Non-Standard","V","Valid","E115.00","Condition","Read","Read",0,4102358400000
+"412",45433265,"Bipolar affective disorder, currently depressed, NOS","N","Non-Standard","V","Valid","E115z00","Condition","Read","Read",0,4102358400000
+"413",45436598,"Mixed bipolar affective disorder, in full remission","N","Non-Standard","V","Valid","E116600","Condition","Read","Read",0,4102358400000
+"414",45443163,"Mixed bipolar affective disorder, severe, with psychosis","N","Non-Standard","V","Valid","E116400","Condition","Read","Read",0,4102358400000
+"415",45443164,"Unspecified bipolar affective disorder, in full remission","N","Non-Standard","V","Valid","E117600","Condition","Read","Read",0,4102358400000
+"416",45443202,"[X]Manic-depressive psychosis, depressed type with psychotic symptoms","N","Non-Standard","V","Valid","Eu33312","Condition","Read","Read",0,4102358400000
+"417",45446523,"Unspecified bipolar affective disorder, severe, without mention of psychosis","N","Non-Standard","V","Valid","E117300","Condition","Read","Read",0,4102358400000
+"418",45446524,"Other and unspecified manic-depressive psychoses NOS","N","Non-Standard","V","Valid","E11yz00","Condition","Read","Read",0,4102358400000
+"419",45446559,"[X]Manic-depressive illness","N","Non-Standard","V","Valid","Eu31.11","Condition","Read","Read",0,4102358400000
+"420",45446560,"[X]Bipolar affective disorder, current episode mixed","N","Non-Standard","V","Valid","Eu31600","Condition","Read","Read",0,4102358400000
+"421",45449847,"Bipolar affective disorder, currently depressed, unspecified","N","Non-Standard","V","Valid","E115000","Condition","Read","Read",0,4102358400000
+"422",45449848,"Mixed bipolar affective disorder, severe, without mention of psychosis","N","Non-Standard","V","Valid","E116300","Condition","Read","Read",0,4102358400000
+"423",45449879,"[X]Bipolar affective disorder, currently in remission","N","Non-Standard","V","Valid","Eu31700","Condition","Read","Read",0,4102358400000
+"424",45449880,"[X]Bipolar II disorder","N","Non-Standard","V","Valid","Eu31y11","Condition","Read","Read",0,4102358400000
+"425",45453177,"Mixed bipolar affective disorder, mild","N","Non-Standard","V","Valid","E116100","Condition","Read","Read",0,4102358400000
+"426",45453178,"Unspecified bipolar affective disorder, severe, with psychosis","N","Non-Standard","V","Valid","E117400","Condition","Read","Read",0,4102358400000
+"427",45453207,"[X]Manic-depressive reaction","N","Non-Standard","V","Valid","Eu31.13","Condition","Read","Read",0,4102358400000
+"428",45456549,"Bipolar affective disorder, currently manic, in full remission","N","Non-Standard","V","Valid","E114600","Condition","Read","Read",0,4102358400000
+"429",45456550,"Bipolar affective disorder, currently depressed, severe, without mention of psychosis","N","Non-Standard","V","Valid","E115300","Condition","Read","Read",0,4102358400000
+"430",45456551,"Bipolar affective disorder, currently depressed, in full remission","N","Non-Standard","V","Valid","E115600","Condition","Read","Read",0,4102358400000
+"431",45456552,"Mixed bipolar affective disorder, NOS","N","Non-Standard","V","Valid","E116z00","Condition","Read","Read",0,4102358400000
+"432",45456580,"[X]Other bipolar affective disorders","N","Non-Standard","V","Valid","Eu31y00","Condition","Read","Read",0,4102358400000
+"433",45459886,"Other and unspecified manic-depressive psychoses","N","Non-Standard","V","Valid","E11y.00","Condition","Read","Read",0,4102358400000
+"434",45459918,"[X]Bipolar II disorder","N","Non-Standard","V","Valid","Eu31911","Condition","Read","Read",1396310400000,4102358400000
+"435",45463322,"Bipolar affective disorder, currently manic, severe, with psychosis","N","Non-Standard","V","Valid","E114400","Condition","Read","Read",0,4102358400000
+"436",45463323,"Unspecified bipolar affective disorder","N","Non-Standard","V","Valid","E117.00","Condition","Read","Read",0,4102358400000
+"437",45466670,"Unspecified bipolar affective disorder, mild","N","Non-Standard","V","Valid","E117100","Condition","Read","Read",0,4102358400000
+"438",45466671,"Unspecified bipolar affective disorder, moderate","N","Non-Standard","V","Valid","E117200","Condition","Read","Read",0,4102358400000
+"439",45466672,"Unspecified bipolar affective disorder, in partial or unspecified remission","N","Non-Standard","V","Valid","E117500","Condition","Read","Read",0,4102358400000
+"440",45466714,"[X]Bipolar affective disorder, current episode mild or moderate depression","N","Non-Standard","V","Valid","Eu31300","Condition","Read","Read",0,4102358400000
+"441",45466715,"[X]Bipolar affective disorder type I","N","Non-Standard","V","Valid","Eu31800","Condition","Read","Read",1396310400000,4102358400000
+"442",45470112,"Bipolar psychoses","N","Non-Standard","V","Valid","E11..11","Condition","Read","Read",0,4102358400000
+"443",45470115,"Unspecified bipolar affective disorder, unspecified","N","Non-Standard","V","Valid","E117000","Condition","Read","Read",0,4102358400000
+"444",45473406,"Mixed bipolar affective disorder, in partial or unspecified remission","N","Non-Standard","V","Valid","E116500","Condition","Read","Read",0,4102358400000
+"445",45476789,"Bipolar affective disorder, currently manic, in partial or unspecified remission","N","Non-Standard","V","Valid","E114500","Condition","Read","Read",0,4102358400000
+"446",45476827,"[X]Bipolar affective disorder, current episode severe depression without psychotic symptoms","N","Non-Standard","V","Valid","Eu31400","Condition","Read","Read",0,4102358400000
+"447",45483381,"Bipolar affective disorder, currently manic, mild","N","Non-Standard","V","Valid","E114100","Condition","Read","Read",0,4102358400000
+"448",45483382,"Bipolar affective disorder, currently manic, severe, without mention of psychosis","N","Non-Standard","V","Valid","E114300","Condition","Read","Read",0,4102358400000
+"449",45483383,"Bipolar affective disorder, currently depressed, severe, with psychosis","N","Non-Standard","V","Valid","E115400","Condition","Read","Read",0,4102358400000
+"450",45483384,"Unspecified manic-depressive psychoses","N","Non-Standard","V","Valid","E11y000","Condition","Read","Read",0,4102358400000
+"451",45483385,"Other mixed manic-depressive psychoses","N","Non-Standard","V","Valid","E11y300","Condition","Read","Read",0,4102358400000
+"452",45486742,"Manic-depressive - now manic","N","Non-Standard","V","Valid","E114.11","Condition","Read","Read",0,4102358400000
+"453",45486743,"Unspecified bipolar affective disorder, NOS","N","Non-Standard","V","Valid","E117z00","Condition","Read","Read",0,4102358400000
+"454",45486779,"[X]Manic-depressive psychosis","N","Non-Standard","V","Valid","Eu31.12","Condition","Read","Read",0,4102358400000
+"455",45490035,"Bipolar affective disorder, currently manic, moderate","N","Non-Standard","V","Valid","E114200","Condition","Read","Read",0,4102358400000
+"456",45490036,"Mixed bipolar affective disorder","N","Non-Standard","V","Valid","E116.00","Condition","Read","Read",0,4102358400000
+"457",45493313,"Bipolar affective disorder, currently depressed, moderate","N","Non-Standard","V","Valid","E115200","Condition","Read","Read",0,4102358400000
+"458",45499963,"[X]Bipolar affective disorder, current episode severe depression with psychotic symptoms","N","Non-Standard","V","Valid","Eu31500","Condition","Read","Read",0,4102358400000
+"459",45499964,"[X]Bipolar affective disorder, unspecified","N","Non-Standard","V","Valid","Eu31z00","Condition","Read","Read",0,4102358400000
+"460",45503246,"Bipolar affective disorder, currently manic, unspecified","N","Non-Standard","V","Valid","E114000","Condition","Read","Read",0,4102358400000
+"461",45509876,"Mixed bipolar affective disorder, moderate","N","Non-Standard","V","Valid","E116200","Condition","Read","Read",0,4102358400000
+"462",45509918,"[X]Bipolar affective disorder, current episode manic without psychotic symptoms","N","Non-Standard","V","Valid","Eu31100","Condition","Read","Read",0,4102358400000
+"463",45513273,"Mixed bipolar affective disorder, unspecified","N","Non-Standard","V","Valid","E116000","Condition","Read","Read",0,4102358400000
+"464",45513304,"[X]Bipolar affective disorder","N","Non-Standard","V","Valid","Eu31.00","Condition","Read","Read",0,4102358400000
+"465",45516681,"Bipolar affective disorder, currently manic, NOS","N","Non-Standard","V","Valid","E114z00","Condition","Read","Read",0,4102358400000
+"466",45519948,"[X]Bipolar affective disorder, current episode hypomanic","N","Non-Standard","V","Valid","Eu31000","Condition","Read","Read",0,4102358400000
+"467",45519949,"[X]Bipolar affective disorder, current episode manic with psychotic symptoms","N","Non-Standard","V","Valid","Eu31200","Condition","Read","Read",0,4102358400000
+"468",45523217,"Manic-depressive - now depressed","N","Non-Standard","V","Valid","E115.11","Condition","Read","Read",0,4102358400000
+"469",45531923,"PSYCHOSIS MANIC-DEPRESSIVE","N","Non-Standard","V","Valid","2969M","Condition","OXMIS","OXMIS",0,4102358400000
+"470",45538061,"Bipolar disorder, current episode manic without psychotic features, severe","N","Non-Standard","V","Valid","F31.13","Condition","ICD10CM","5-char billing code",0,4102358400000
+"471",45538062,"Bipolar disorder, current episode depressed, moderate","N","Non-Standard","V","Valid","F31.32","Condition","ICD10CM","5-char billing code",0,4102358400000
+"472",45538063,"Bipolar disorder, in full remission, most recent episode mixed","N","Non-Standard","V","Valid","F31.78","Condition","ICD10CM","5-char billing code",0,4102358400000
+"473",45538064,"Other bipolar disorder","N","Non-Standard","V","Valid","F31.89","Condition","ICD10CM","5-char billing code",0,4102358400000
+"474",45542840,"Bipolar affective disorder, current episode hypomanic","N","Non-Standard","V","Valid","F31.0","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"475",45542841,"Bipolar disorder, current episode mixed, mild","N","Non-Standard","V","Valid","F31.61","Condition","ICD10CM","5-char billing code",0,4102358400000
+"476",45542842,"Bipolar disorder, in full remission, most recent episode depressed","N","Non-Standard","V","Valid","F31.76","Condition","ICD10CM","5-char billing code",0,4102358400000
+"477",45542843,"Bipolar disorder, in partial remission, most recent episode mixed","N","Non-Standard","V","Valid","F31.77","Condition","ICD10CM","5-char billing code",0,4102358400000
+"478",45542844,"Bipolar II disorder","N","Non-Standard","V","Valid","F31.81","Condition","ICD10CM","5-char billing code",0,4102358400000
+"479",45547703,"Bipolar disorder, current episode mixed, severe, with psychotic features","N","Non-Standard","V","Valid","F31.64","Condition","ICD10CM","5-char billing code",0,4102358400000
+"480",45552477,"Bipolar disorder, current episode manic without psychotic features, unspecified","N","Non-Standard","V","Valid","F31.10","Condition","ICD10CM","5-char billing code",0,4102358400000
+"481",45557201,"Bipolar disorder, in partial remission, most recent episode depressed","N","Non-Standard","V","Valid","F31.75","Condition","ICD10CM","5-char billing code",0,4102358400000
+"482",45566839,"Bipolar disorder, current episode depressed, mild","N","Non-Standard","V","Valid","F31.31","Condition","ICD10CM","5-char billing code",0,4102358400000
+"483",45566840,"Bipolar disorder, currently in remission, most recent episode unspecified","N","Non-Standard","V","Valid","F31.70","Condition","ICD10CM","5-char billing code",0,4102358400000
+"484",45566841,"Bipolar disorder, in partial remission, most recent episode hypomanic","N","Non-Standard","V","Valid","F31.71","Condition","ICD10CM","5-char billing code",0,4102358400000
+"485",45571753,"Bipolar disorder, current episode manic without psychotic features, moderate","N","Non-Standard","V","Valid","F31.12","Condition","ICD10CM","5-char billing code",0,4102358400000
+"486",45571754,"Bipolar affective disorder, current episode manic with psychotic symptoms","N","Non-Standard","V","Valid","F31.2","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"487",45571755,"Bipolar affective disorder, current episode mild or moderate depression","N","Non-Standard","V","Valid","F31.3","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"488",45571756,"Bipolar disorder, current episode depressed, mild or moderate severity, unspecified","N","Non-Standard","V","Valid","F31.30","Condition","ICD10CM","5-char billing code",0,4102358400000
+"489",45571757,"Bipolar affective disorder, current episode mixed","N","Non-Standard","V","Valid","F31.6","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"490",45571758,"Bipolar affective disorder, unspecified","N","Non-Standard","V","Valid","F31.9","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"491",45576537,"Bipolar affective disorder, current episode manic without psychotic symptoms","N","Non-Standard","V","Valid","F31.1","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"492",45576538,"Bipolar disorder, current episode mixed, unspecified","N","Non-Standard","V","Valid","F31.60","Condition","ICD10CM","5-char billing code",0,4102358400000
+"493",45576539,"Bipolar disorder, current episode mixed, severe, without psychotic features","N","Non-Standard","V","Valid","F31.63","Condition","ICD10CM","5-char billing code",0,4102358400000
+"494",45576540,"Bipolar disorder, in full remission, most recent episode manic","N","Non-Standard","V","Valid","F31.74","Condition","ICD10CM","5-char billing code",0,4102358400000
+"495",45581456,"Bipolar affective disorder, current episode severe depression without psychotic symptoms","N","Non-Standard","V","Valid","F31.4","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"496",45581457,"Bipolar affective disorder, currently in remission","N","Non-Standard","V","Valid","F31.7","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"497",45586236,"Bipolar affective disorder, current episode severe depression with psychotic symptoms","N","Non-Standard","V","Valid","F31.5","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"498",45586237,"Other bipolar affective disorders","N","Non-Standard","V","Valid","F31.8","Condition","ICD10","ICD10 code",6.4152e+11,4102358400000
+"499",45591134,"Bipolar disorder, current episode manic without psychotic features, mild","N","Non-Standard","V","Valid","F31.11","Condition","ICD10CM","5-char billing code",0,4102358400000
+"500",45591135,"Bipolar disorder, current episode mixed, moderate","N","Non-Standard","V","Valid","F31.62","Condition","ICD10CM","5-char billing code",0,4102358400000
+"501",45591136,"Bipolar disorder, in full remission, most recent episode hypomanic","N","Non-Standard","V","Valid","F31.72","Condition","ICD10CM","5-char billing code",0,4102358400000
+"502",45595902,"Bipolar affective disorder","N","Non-Standard","V","Valid","F31","Condition","ICD10","ICD10 Hierarchy",6.4152e+11,4102358400000
+"503",45595903,"Bipolar disorder, in partial remission, most recent episode manic","N","Non-Standard","V","Valid","F31.73","Condition","ICD10CM","5-char billing code",0,4102358400000
+"504",45618865,"Bipolar Disorder","N","Non-Standard","V","Valid","D001714","Condition","MeSH","Main Heading",0,4102358400000
