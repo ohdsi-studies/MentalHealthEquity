@@ -8,7 +8,7 @@ usethis.description <- list(
         Language = "en",
 	Package = "MentalHealthEquity",
 	Title = "Assessing Health Equity in Mental Healthcare Delivery Using a Federated Network Research Model",
-	Version = "0.0.2",
+	Version = "0.1.0",
 	Description = "This is a network research package which assesses health disparities in populations with chronic mental illness. There are two components in this package: a feasibility component (to assess site feasibility) and a study component (to generate statistics of interest at each site)."
 )
 
