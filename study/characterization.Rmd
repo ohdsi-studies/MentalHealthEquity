@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-*Date:* 2022-11-02
+*Date:* 2023-02-20
 
 *Summary:* Characterization to assess prevalence of Bipolar Disorder, Depresssion, and Suicidality
 
@@ -38,7 +38,6 @@ pkg$activate("STUDY", shared = TRUE)
 juliaImport("OMOPCDMDatabaseConnector")
 
 dbi <- juliaImport("DBInterface")
-lq <- juliaImport("LibPQ")
 occ <- juliaImport("OMOPCDMCohortCreator")
 ```
 
@@ -50,17 +49,20 @@ Here, we need to set-up connection to the OMOP CDM database we will
 assess. To do so, we need to define some constants that will be used for
 the connection. The following list of constants:
 
--   dbms - the database management system that is used to host your
+- `dbms` - the database management system that is used to host your
     database; common options include (see all options
     [here](http://ohdsi.github.io/DatabaseConnector/reference/createConnectionDetails.html))
-    -   `"postgresql"`
-    -   `"sqlserver"`
--   server - name of the server; could be localhost, an address like
-    123.0.1.5, etc.
--   user - your username to access the server
--   password - the password you use to access the server
--   port - the port where the database is hosted
--   schema - name of the database schema used
+  - mysql
+  - postgresql
+  - redshift
+  - sqlite
+  - sqlserver
+- `server` - name of the server; could be `localhost`, an address like
+    `123.0.1.5`, etc.
+- `user` - your username to access the server
+- `password` - the password you use to access the server
+- `port` - the port where the database is hosted
+- `schema` - name of the database schema used
 
 Must be defined in this code block:
 
@@ -76,7 +78,11 @@ schema <- "Fill in here"
 Now, we can define our connection string here using the defined constants: 
 
 ```{r, eval = F}
-connectionString <- sprintf("host=%s port=%s user=%s password=%s", server, port, user, password)
+connectionString <- sprintf("host=%s port=%s user=%s password=%s", 
+			    server, 
+			    port, 
+			    user, 
+			    password)
 ```
 
 With the connection string, we can create the connection to the
@@ -86,13 +92,17 @@ database:
 conn <- dbi$connect(lq$Connection, connectionString)
 ```
 
+NOTE: 
+
+lq <- juliaImport("LibPQ")
+
 #### Example Connection
 
 If any of this was confusing, here is an example of how to fill out the
 above connection information, activate our environment, and create a connection:
 
 ```{r, eval = F}
-dbms <- "postgresql"
+dbms <- ":postgresql"
 server <- "test.data.americus.edu/mimic_omop"
 user <- "mimic"
 password <- "omoprocks"
