@@ -1,7 +1,7 @@
 Package: MentalHealthEquity
 Title: Assessing Health Equity in Mental Healthcare Delivery Using a
     Federated Network Research Model
-Version: 0.0.2
+Version: 0.1.0
 Authors@R: 
     person("Jacob", "Zelko", , "jacobszelko@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4531-1614"))

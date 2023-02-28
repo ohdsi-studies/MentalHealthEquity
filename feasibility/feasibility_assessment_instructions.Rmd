@@ -133,8 +133,8 @@ And here is the code block needed to update:
 ```{r, eval = FALSE}
 site_name <- "Fill in here"
 
-site_path <- paste("../data/", site_name, sep = ""), row.names = FALSE
-dir.create(path = site_name)
+site_path <- paste("../data/", site_name, sep = "")
+dir.create(path = site_path)
 ```
 
 #### Stratified Person Query 
