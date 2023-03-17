@@ -2,7 +2,8 @@ db_year_range_sql <- render(
         'SELECT
   MIN("observation_period_1"."observation_period_end_date") AS "first_year",
   MAX("observation_period_1"."observation_period_end_date") AS "last_year"
-FROM @schema."observation_period" AS "observation_period_1";',
+FROM @schema."observation_period" AS "observation_period_1"
+WHERE "observation_period_1"."observation_period_end_date" <= GETDATE();',
         schema = schema
 )
 db_year_range_sql <- translate(sql = db_year_range_sql, targetDialect = dbms)
